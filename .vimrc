@@ -63,28 +63,28 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-Bundle "scrooloose/nerdtree"
-Bundle "scrooloose/syntastic"
-Bundle "Shougo/neocomplete"
-Bundle "chrisbra/SudoEdit.vim"
-Bundle "evidex/vim-puppet"
-Bundle "garbas/vim-snipmate"
-Bundle "godlygeek/tabular"
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "honza/vim-snippets"
-Bundle "ghewgill/vim-scmdiff"
-Bundle "0rca/vim-mikrotik"
-Bundle "vim-airline/vim-airline"
-Bundle "bling/vim-bufferline"
-Bundle "darfink/vim-plist"
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'Shougo/neocomplete'
+Plugin 'chrisbra/SudoEdit.vim'
+Plugin 'evidex/vim-puppet'
+Plugin 'garbas/vim-snipmate'
+Plugin 'godlygeek/tabular'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'honza/vim-snippets'
+Plugin 'ghewgill/vim-scmdiff'
+Plugin '0rca/vim-mikrotik'
+Plugin 'vim-airline/vim-airline'
+Plugin 'bling/vim-bufferline'
+Plugin 'darfink/vim-plist'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomtom/tlib_vim'
-Bundle "Gundo"
-Bundle "TaskList.vim"
-Bundle "Rename"
+Bundle 'Gundo'
+Bundle 'TaskList.vim'
+Bundle 'Rename'
 
 call vundle#end()
 filetype plugin indent on
