@@ -1,0 +1,69 @@
+## Save this as ~/.mutt/.localprofile - this file will be sourced upon load
+## It must contain machine-specific and private data, see below for example
+## Can (and should!) be encrypted with GPG:
+# gpg -r your_gpg_id -e ~/.mutt/.localprofile
+# mv ~/.mutt/.localprofile.gpg ~/.mutt/.localprofile
+
+# If you don't like full profile encrypton, at least encrypt your passwords:
+# create ~/.mutt/pwd file with set imap_pass = "pass" and set smtp_pass = "pass"
+# gpg -r id -e ~/.mutt/pwd
+# mv ~/.mutt/pwd.gpg ~/.mutt/pwd
+# add that line to .localprofile - source "gpg -d ~/.mutt/pwd |"
+# replace "source "gpg -d ~/.mutt/.localprofile |"" with "source ~/.mutt/.localprofile"
+
+# Setup GPG if needed
+#for classic GPG encryption
+#source ~/.mutt/.gpgrc
+#if your mutt supports gpgme (you can check with "mutt -v | grep gpgme")
+#source ~/.mutt/.gpgme
+
+## IMAP example (gmail)
+#set from = "user@example.org"
+#set realname = "John Doe"
+#set imap_user = "user@example.org"
+#set imap_pass = "password"
+#set folder = "imaps://imap.gmail.com:993"
+#set spoolfile = "+INBOX"
+#set postponed ="+[Gmail]/Drafts"
+#set trash = "imaps://imap.gmail.com/[Gmail]/Trash"
+#set smtp_url = "smtp://user@example.org@smtp.gmail.com:587/"
+#set smtp_pass = "password"
+## end 
+
+## IMAP example (fastmail)
+#set from = "user@example.com"
+#set realname = "John Doe"
+#set imap_user = "johndoe@fastmail.com"
+#set folder = "imaps://imap.fastmail.com:993/"
+#set smtp_url = "smtps://johndoe@fastmail.com@smtp.fastmail.com:465/"
+#set ssl_starttls = yes
+#set delete = yes
+#set spoolfile = "=Inbox"
+#set postponed = "=Drafts"
+#set trash = "=Trash
+#set record = "=Sent"
+## end
+
+## Local mailbox example (in maildir format)
+#set mbox_type=Maildir
+#set spoolfile="~/Maildir/"
+#set folder="~/Maildir/"
+#set mask="!^\\.[^.]"
+#set record="+.Sent"
+#set postponed="+.Drafts"
+#mailboxes `echo -n "+ "; find ~/Maildir -maxdepth 1 -type d -name ".*" -printf "+'%f' "`
+#macro index c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+#macro pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+## end
+
+##caching settings, you can redirect it to /dev/null for example
+#set header_cache = "~/.mutt/.cache"
+#set message_cachedir = "~/.mutt/.cache"
+
+##GPG default key
+#set pgp_sign_as=0x0000000000000000
+
+## Custom headers example
+#my_hdr X-Homepage: http://example.org
+#my_hdr X-PGP-Key: http://example.org/pubinfo/user.asc
+#hdr_order Date From To Cc

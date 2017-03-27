@@ -1,0 +1,4 @@
+echo -e "I am: "$(whoami) on $(hostname);
+echo -e "ID: "$(id);
+echo -e "Sysinfo:" $(uname) - "Kernel" $(uname -r)
+echo -e "Status:" $(uptime)

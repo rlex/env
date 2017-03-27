@@ -1,0 +1,165 @@
+# tag a directory in a command to come to it later
+tag() {
+  alias $1="cd $PWD";
+}
+
+bu() {
+  for f in "$@"; do
+    cp -a $f ~/.backup/${f}-$(date +%Y%m%d%H%M).backup ;
+  done
+}
+
+pk() {
+  if [[ $1 ]]; then
+    case $1 in
+      tbz) tar cjvf $2.tar.bz2 $2 ;;
+      tgz) tar czvf $2.tar.gz  $2 ;;
+      tar) tar cpvf $2.tar  $2 ;;
+      bz2) bzip $2 ;;
+      gz)  gzip -c -9 -n $2 > $2.gz ;;
+      zip) zip -r $2.zip $2 ;;
+      7z)  7z a $2.7z $2 ;;
+      *)   echo "'$1' cannot be packed via pk()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file";
+  fi
+}
+
+digg() {
+  case $1 in
+    bind) dig +nocmd $2 any +multiline +noall +answer ;;
+    *) dig -t $1 $2 +noall +answer +nocmd ;;
+  esac
+}
+
+grab() {
+  sudo chown -R ${USER} ${1:-.};
+}
+
+calc() {
+  gawk -v CONVFMT="%12.2f" -v OFMT="%.9g"  "BEGIN { print $* ; }";
+}
+
+ssh-send-id() {
+  if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+    echo "Usage: ssh-send-id pubkey_name machine"
+    return 1
+  fi
+  cat ~/.ssh/keys/id_${1}.pub | ssh $2 'mkdir -p ~/.ssh; cat >> .ssh/authorized_keys'
+  return $?
+}
+
+if hash certutil 2>/dev/null; then
+  nss-manage() {
+    case "$1" in
+      list)    certutil -d sql:$HOME/.pki/nssdb -L ;;
+      details) certutil -d sql:$HOME/.pki/nssdb -L -n "$2" ;;
+      add-ca)  certutil -d sql:$HOME/.pki/nssdb -A -t "$2" -n "$3" -i "$4" ;;
+      add)     pk12util -d sql:$HOME/.pki/nssdb -i "$2" ;;
+      del)     certutil -d sql:$HOME/.pki/nssdb -D -n "$2" ;;
+      *)
+        echo "Usage list|details|add-ca|add|del"
+        echo " \"details\" requires <nickname>"
+        echo " \"add-ca\" requires <trustargs> <nickname> <certificate filename>"
+        echo " \"add\" requires <filename>"
+        echo " \"del\" requires <nickname>"
+      ;;
+    esac
+  }
+fi
+
+if hash docker-machine 2>/dev/null; then
+  dma() {
+    case "$1" in
+      create)  docker-machine create ${2} --driver ${3} ;;
+      start)   docker-machine start ${2} ;;
+      stop)    docker-machine stop ${2} ;;
+      destroy) docker-machine rm ${2} ;;
+      eval)    eval $(docker-machine env ${2}) ;;
+      ls)      docker-machine ls ;;
+      *)       echo "Usage create|start|stop|destory|eval" ;;
+    esac
+  }
+fi
+
+ram() {
+  local sum
+  local items
+  local app="$1"
+  if [[ -z "$app" ]]; then
+    echo "First argument - pattern to grep from processes"
+  else
+    sum=0
+    for i in $(ps aux | grep -i "$app" | grep -v "grep" | awk '{print $6}'); do
+      sum=$(($i + $sum))
+    done
+    sum=$(echo "scale=2; $sum / 1024.0" | bc)
+    if [[ $sum != "0" ]]; then
+      echo "${fg[blue]}${app}${reset_color} uses ${fg[green]}${sum}${reset_color} MBs of RAM."
+    else
+      echo "There are no processes with pattern '${fg[blue]}${app}${reset_color}' are running."
+    fi
+  fi
+}
+
+#TODO: move all OS-specific functions to one block
+if [[ "$OSTYPE" =~ ^linux ]]; then
+  swapusage() {
+    sum=0
+    overall=0
+    for dir in $(find /proc/ -maxdepth 1 -type d -regex "^/proc/[0-9]+")
+    do
+      pid=$(echo $dir | cut -d / -f 3)
+      progname=$(ps -p $pid -o comm --no-headers)
+      for swap in $(grep VmSwap $dir/status 2>/dev/null | awk '{ print $2 }'); do
+        let sum=$sum+$swap
+      done
+      if (( $sum > 0 )); then
+        echo "PID=$pid swapped $sum KB ($progname)"
+      fi
+      let overall=$overall+$sum
+      sum=0
+  done
+  echo "Overall swap used: $overall KB"
+  }
+
+  fdusage() {
+    for x in $(ps -eF | awk '{ print $2 }');
+    do echo $(sudo ls /proc/$x/fd 2> /dev/null | wc -l) $x $(sudo cat /proc/$x/cmdline 2> /dev/null);
+    done | sort -n -r | head -n 20
+  }
+
+  straceall() {
+    sudo strace $(pidof "${1}" | sed 's/\([0-9]*\)/-p \1/g')
+  }
+
+fi
+
+retry() {
+  echo Retrying "$@"
+  $@
+  sleep 1
+  retry $@
+}
+
+sshk() {
+  if [[ "$1" = "load" ]]; then
+    ssh_keys=($(find ~/.ssh/keys -type f -depth 1 \( -iname "id_*" ! -iname "*.pub" \)))
+    for ssh_key in ${ssh_keys[@]}; do
+      ssh-add $ssh_key
+    done
+  elif [[ "$1" = "unload" ]]; then
+    ssh-add -D
+  elif [[ -z $1 ]]; then
+    echo "Loaded keys:"
+    ssh-add -l | awk {'print $3'}
+  fi
+}
+
+# Tmux
+tm() {
+  if hash tmux 2>/dev/null >/dev/null; then
+    test -z "$TMUX" && (tmux attach || tmux new-session)
+  fi
+}

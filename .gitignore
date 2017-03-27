@@ -1,0 +1,25 @@
+### VIM ###
+.vim/swap/undodir/*
+.vim/swap/*
+.vim/backup/*
+.vim/.netrwhist
+.vim/bundle/vundle/.netrwhist
+.vim/bundle/*
+
+### MUTT ###
+.mutt/.localprofile
+.mutt/certificates
+.mutt/*.gpg
+.mutt/cache
+
+### MC ###
+.config/mc/panels.ini
+
+### Envmgr ###
+.bin/envmgr
+
+### AWESOME AUTORUN ###
+.config/awesome/autorun/*
+
+### LOCAL SHELL ENV ###
+sh.d/S99_local

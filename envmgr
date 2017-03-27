@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+
+# Simple shell script for symlinking all files from .rc dir to home directory
+# Also upgrades, cleanups homebrew and similar stuff in single command
+# Actually absurdly ugly, but hey, it works! Somehow.
+
+#source config
+source ~/.rc/envmgr.conf
+
+# Function to symlink dotfiles
+# Checking if OS is Linux (GNU coreutils), if not, we assume OS uses BSD utils
+symlink() {
+  if [[ $(uname) == "Linux" ]]; then
+    ln -sfvn $1 $2
+  else
+    ln -sfvh $1 $2
+  fi
+}
+
+# Another ugly function for installing/updating py/nod/rb-envs. Still counts!
+langenv() {
+  if [[ -d ~/.$2 ]]; then
+    echo "Updating ~/.$2"
+    cd ~/.$2 && git pull
+  else
+    echo "Installing ~/.$2"
+    git clone $1 ~/.$2
+  fi
+}
+
+case "$1" in
+
+  env)
+    echo "Deploying environment"
+    cd ~/.rc
+    echo "Deploying dotfiles from `pwd` to ${HOME}"
+    if [[ "$OSTYPE" =~ ^linux ]]; then
+      dotdirs=( .config .local/share )
+      for dir in ${dotdirs[@]}; do
+        if [[ ! -d ~/${dir} ]]; then
+          mkdir -p ~/${dir}
+        fi
+      done
+      dotfiles=("${dotfiles[@]}" "${linuxenv[@]}")
+    fi
+    for file in ${dotfiles[@]}; do
+      symlink ~/.rc/.${file} ~/.${file}
+    done
+    symlink ~/.rc/envmgr ~/.rc/.bin/envmgr
+    cd - >&/dev/null
+    echo "Finished!"
+    echo "Installing vim plugins"
+    if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
+      mkdir -p ~/.vim/bundle
+      git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    fi
+    vim +BundleInstall +qall
+    echo "Finished!"
+  ;;
+
+  # Install rb/py/node-env. Used just one time.
+  # I can do that manually in 5m, but i'm too lazy.
+  devenv)
+    if [[ "$OSTYPE" =~ ^linux ]]; then
+      echo "Make sure that following packages are installed:"
+      echo "libssl-dev libreadline-dev zlib1g-dev libsqlite3-dev libbz2-dev"
+    fi
+    #install envs
+    for target in "${!langenvs[@]}"; do
+      langenv ${langenvs[$target]} $target
+    done
+    for target in "${!langenvs_plugins[@]}"; do
+      langenv ${langenvs_plugins[$target]} $target
+    done
+    #init envs
+    source ~/.rc/sh.d/S01_env
+    #setup default packages
+    for gem in ${gems[@]}; do
+      grep -sq ${gem} ~/.rbenv/default-gems || echo ${gem} >> ~/.rbenv/default-gems
+    done
+    for egg in ${eggs[@]}; do
+      grep -sq ${egg} ~/.pyenv/default-packages || echo ${egg} >> ~/.pyenv/default-packages
+    done
+    for npm_package in ${npms[@]}; do
+      grep -sq ${npm_package} ~/.nodenv/default-packages || echo ${npm_package} >> ~/.nodenv/default-packages
+    done
+    #install latest versions of node and ruby
+    for devenv in nodenv rbenv; do
+      latest_version=$(${devenv} install -l | sed 's/^  //' | grep -e '[0-9].[0-9].[0-9]' | grep -v - | tail -1)
+      ${devenv} install -s ${latest_version}
+      ${devenv} global ${latest_version}
+    done
+    #pyenv is a little bit more tricky, since some apps still works only on 2.x.
+    python_versions=( $(pyenv install -l | grep -e '2.[0-9].[0-9]' | grep -v - | grep --invert-match 'dev\|a\|b\|rc' |tail -1)
+                      $(pyenv install -l | grep -e '3.[0-9].[0-9]' | grep -v - | grep --invert-match 'dev\|a\|b\|rc' |tail -1) )
+    for python in ${python_versions[@]}; do
+      pyenv install -s $python
+    done
+    #defaults to 3.x
+    pyenv global ${python_versions[1]}
+  ;;
+
+  homebrew)
+    echo "Installing homebrew and favourite packages"
+    #probably i should migrate to manual install.
+    #Running (even respected) scripts from interwebs is stupid.
+    if hash brew 2>/dev/null; then
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+    for tap in ${brewtaps[@]}; do
+      brew tap ${tap}
+    done
+    for keg in ${brewkegs[@]}; do
+      brew install ${keg}
+    done
+    for cask_keg in ${caskkegs[@]}; do
+      brew cask install ${cask_keg}
+    done
+  ;;
+
+  nuke)
+    echo "Cleaning up env"
+    echo "Removing dotfiles"
+    for file in ${dotfiles[@]}; do
+      rm -vf ~/.${file}
+    done
+    echo "Cleaning up devenv"
+    rm -rvf ~/.pyenv
+    rm -rvf ~/.rbenv
+    rm -rvf ~/.nodenv
+    echo "Removing history"
+    rm -vf ~/.zsh-history
+    rm -vf ~/.bash_history
+    echo "Removing dotfiles directory"
+    rm -rf ~/.rc
+  ;;
+
+  maid)
+    echo "Updating dotfiles repo"
+    git -C ~/.rc pull
+    echo "Cleaning up outdated symlinks"
+    find -L $HOME -maxdepth 1 -type l -exec rm -i {} +
+    if hash brew 2>/dev/null; then
+      echo "Updating & cleaning up homebrew"
+      brew update
+      brew upgrade
+      brew cleanup
+      brew prune
+      echo "Updating homebrew casks"
+      for app in $(brew cask list); do
+        cver="$(brew cask info "${app}" | head -n 1 | cut -d " " -f 2)";
+        ivers=$(ls -1 "/usr/local/Caskroom/${app}/.metadata/" | tr '\n' ' ' | sed -e 's/ $//');
+        aivers=(${ivers});
+        nvers=$(echo ${#aivers[@]});
+        if [[ ${nvers} -eq 1 ]]; then
+          echo "${ivers}" | grep -q "^${cver}$" && { continue; };
+        fi;
+        echo "Updating ${app} from ${ivers} to ${cver} ...";
+        brew cask uninstall "${app}" --force;
+        brew cask install "${app}";
+    done
+    brew cask cleanup
+    echo "Done"
+    fi
+    # Update all langenvs
+    for target in "${!langenvs[@]}"; do
+      if [[ -d ~/.${target} ]]; then
+        langenv ${langenvs[$target]} ${target}
+      fi
+    done
+    for target in "${!langenvs_plugins[@]}"; do
+      if [[ -d ~/.${target} ]]; then
+        langenv ${langenvs_plugins[$target]} ${target}
+      fi
+    done
+    if hash atom 2>/dev/null; then
+      echo "Updating atom plugins"
+      apm upgrade -c false
+    fi
+    if hash vim 2>/dev/null; then
+      echo "Upgrading vim bundles"
+      vim +BundleInstall +qall
+    fi
+  ;;
+
+  *)
+    echo "Command list:"
+    echo "env - symlink dotfiles"
+    echo "devenv - install pyenv + rbenv + nodenv"
+    echo "homebrew - install homebrew and favourite packages"
+    echo "nuke - remove (almost) everything installed by envmgr"
+    echo "maid - upgrade homebrew and devenv"
+esac
