@@ -11,8 +11,8 @@ set scrolljump=7                    " Jump with scroll
 set scrolloff=7                     " Scroll when near screen edge
 set novisualbell                    " Disable bell
 set t_vb=                           " Really disable
-set backupdir=~/.rc/.vim/swap/      " Backup dir
-set directory=~/.rc/.vim/swap/      " Another backup dir
+set backupdir=~/.rc/.vim/backup//   " Backup directory, gitignored
+set directory=~/.rc/.vim/swap//     " Swap directory, gitignored
 set hidden                          " Enable unsaved buffer
 set ch=1                            " Command line - one line high
 set mousehide                       " Hide mouse cursor
