@@ -179,7 +179,7 @@ case "$1" in
     fi
     if hash vim 2>/dev/null; then
       echo "Upgrading vim bundles"
-      vim +BundleInstall +qall
+      vim +BundleUpdate +qall
     fi
   ;;
 
