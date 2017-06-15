@@ -32,22 +32,22 @@ case "$1" in
 
   env)
     echo "Deploying environment"
-    cd ~/.rc
+    cd ~/.rc || exit
     echo "Deploying dotfiles from `pwd` to ${HOME}"
     if [[ "$OSTYPE" =~ ^linux ]]; then
       dotdirs=( .config .local/share )
-      for dir in ${dotdirs[@]}; do
+      for dir in "${dotdirs[@]}"; do
         if [[ ! -d ~/${dir} ]]; then
           mkdir -p ~/${dir}
         fi
       done
       dotfiles=("${dotfiles[@]}" "${linuxenv[@]}")
     fi
-    for file in ${dotfiles[@]}; do
+    for file in "${dotfiles[@]}"; do
       symlink ~/.rc/.${file} ~/.${file}
     done
     symlink ~/.rc/envmgr ~/.rc/.bin/envmgr
-    cd - >&/dev/null
+    cd - >&/dev/null || exit 1
     echo "Finished!"
     echo "Installing vim plugins"
     if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
@@ -75,13 +75,13 @@ case "$1" in
     #init envs
     source ~/.rc/sh.d/S01_env
     #setup default packages
-    for gem in ${gems[@]}; do
+    for gem in "${gems[@]}"; do
       grep -sq ${gem} ~/.rbenv/default-gems || echo ${gem} >> ~/.rbenv/default-gems
     done
-    for egg in ${eggs[@]}; do
+    for egg in "${eggs[@]}"; do
       grep -sq ${egg} ~/.pyenv/default-packages || echo ${egg} >> ~/.pyenv/default-packages
     done
-    for npm_package in ${npms[@]}; do
+    for npm_package in "${npms[@]}"; do
       grep -sq ${npm_package} ~/.nodenv/default-packages || echo ${npm_package} >> ~/.nodenv/default-packages
     done
     #install latest versions of node and ruby
@@ -93,7 +93,7 @@ case "$1" in
     #pyenv is a little bit more tricky, since some apps still works only on 2.x.
     python_versions=( $(pyenv install -l | grep -E '2.\d{1,2}.\d{1,2}' | grep -v - | grep --invert-match 'dev\|a\|b\|rc' |tail -1)
                       $(pyenv install -l | grep -E '3.\d{1,2}.\d{1,2}' | grep -v - | grep --invert-match 'dev\|a\|b\|rc' |tail -1) )
-    for python in ${python_versions[@]}; do
+    for python in "${python_versions[@]}"; do
       pyenv install -s $python
     done
     #defaults to 3.x
@@ -107,13 +107,13 @@ case "$1" in
     if hash brew 2>/dev/null; then
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
-    for tap in ${brewtaps[@]}; do
+    for tap in "${brewtaps[@]}"; do
       brew tap ${tap}
     done
-    for keg in ${brewkegs[@]}; do
+    for keg in "${brewkegs[@]}"; do
       brew install ${keg}
     done
-    for cask_keg in ${caskkegs[@]}; do
+    for cask_keg in "${caskkegs[@]}"; do
       brew cask install ${cask_keg}
     done
   ;;
@@ -121,7 +121,7 @@ case "$1" in
   nuke)
     echo "Cleaning up env"
     echo "Removing dotfiles"
-    for file in ${dotfiles[@]}; do
+    for file in "${dotfiles[@]}"; do
       rm -vf ~/.${file}
     done
     echo "Cleaning up devenv"

@@ -5,7 +5,7 @@ tag() {
 
 bu() {
   for f in "$@"; do
-    cp -a $f ~/.backup/${f}-$(date +%Y%m%d%H%M).backup ;
+    cp -a $f ~/.backup/${f}-"$(date +%Y%m%d%H%M)".backup ;
   done
 }
 
@@ -97,7 +97,7 @@ if hash docker-machine 2>/dev/null; then
       start)   docker-machine start ${2} ;;
       stop)    docker-machine stop ${2} ;;
       destroy) docker-machine rm ${2} ;;
-      eval)    eval $(docker-machine env ${2}) ;;
+      eval)    eval "$(docker-machine env ${2})" ;;
       ls)      docker-machine ls ;;
       *)       echo "Usage create|start|stop|destory|eval" ;;
     esac
@@ -106,7 +106,6 @@ fi
 
 ram() {
   local sum
-  local items
   local app="$1"
   if [[ -z "$app" ]]; then
     echo "First argument - pattern to grep from processes"
@@ -147,26 +146,26 @@ if [[ "$OSTYPE" =~ ^linux ]]; then
 
   fdusage() {
     for x in $(ps -eF | awk '{ print $2 }');
-    do echo $(sudo ls /proc/$x/fd 2> /dev/null | wc -l) $x $(sudo cat /proc/$x/cmdline 2> /dev/null);
+    do echo "$(sudo ls /proc/$x/fd 2> /dev/null | wc -l)" $x "$(sudo cat /proc/$x/cmdline 2> /dev/null)";
     done | sort -n -r | head -n 20
   }
 
   straceall() {
-    sudo strace $(pidof "${1}" | sed 's/\([0-9]*\)/-p \1/g')
+    sudo strace "$(pidof "${1}" | sed 's/\([0-9]*\)/-p \1/g')"
   }
 fi
 
 retry() {
   echo Retrying "$@"
-  $@
+  "$@"
   sleep 1
-  retry $@
+  retry "$@"
 }
 
 sshk() {
   if [[ "$1" = "load" ]]; then
     ssh_keys=($(find ~/.ssh/keys -type f -depth 1 \( -iname "id_*" ! -iname "*.pub" \)))
-    for ssh_key in ${ssh_keys[@]}; do
+    for ssh_key in "${ssh_keys[@]}"; do
       ssh-add $ssh_key
     done
   elif [[ "$1" = "unload" ]]; then

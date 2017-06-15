@@ -24,7 +24,7 @@ autoload -U edit-command-line
 # compatible with both linux (gnu coreutils)
 # and mac os x / BSD (bsd coreutils)
 if whence dircolors >/dev/null; then
-  eval `dircolors ~/.dircolors -b`
+  eval "$(dircolors ~/.dircolors -b)"
 else
   export CLICOLOR=1
 fi
@@ -169,7 +169,7 @@ for envfile in ~/.rc/sh.d/[SZ][0-9][0-9]*[^~] ; do
 done
 
 #use fancy fonts only on proper terminal
-if [[ $TERM =~ "(256color)" ]]; then
+if [[ $TERM =~ (256color) ]]; then
   prompt_symbol="❯"
   ssh_symbol=" ⇣⇡"
 else
