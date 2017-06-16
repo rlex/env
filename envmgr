@@ -100,7 +100,7 @@ case "$1" in
     pyenv global ${python_versions[1]}
   ;;
 
-  homebrew)
+  osx)
     echo "Installing homebrew and favourite packages"
     #probably i should migrate to manual install.
     #Running (even respected) scripts from interwebs is stupid.
@@ -115,6 +115,9 @@ case "$1" in
     done
     for cask_keg in "${caskkegs[@]}"; do
       brew cask install ${cask_keg}
+    done
+    for mas_package in "${maspkgs[@]}"; do
+      mas install ${mas_package}
     done
   ;;
 
@@ -173,6 +176,10 @@ case "$1" in
         langenv ${langenvs_plugins[$target]} ${target}
       fi
     done
+    if hash mas 2>/dev/null; then
+      echo "Updating mac app store apps"
+      mas upgrade
+    fi
     if hash atom 2>/dev/null; then
       echo "Updating atom plugins"
       apm upgrade -c false
