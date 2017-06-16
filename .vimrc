@@ -84,9 +84,9 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomtom/tlib_vim'
 Plugin 'editorconfig/editorconfig-vim'
-Bundle 'Gundo'
-Bundle 'TaskList.vim'
-Bundle 'Rename'
+Plugin 'Gundo'
+Plugin 'TaskList.vim'
+Plugin 'Rename'
 
 call vundle#end()
 filetype plugin indent on

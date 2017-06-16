@@ -54,7 +54,7 @@ case "$1" in
       mkdir -p ~/.vim/bundle
       git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
     fi
-    vim +BundleInstall +qall
+    vim +PluginInstall +qall
     echo "Finished!"
   ;;
 
@@ -179,7 +179,7 @@ case "$1" in
     fi
     if hash vim 2>/dev/null; then
       echo "Upgrading vim bundles"
-      vim +BundleUpdate +qall
+      vim +PluginUpdate +qall
     fi
   ;;
 
