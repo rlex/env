@@ -149,21 +149,12 @@ case "$1" in
       brew upgrade
       brew cleanup
       brew prune
-      echo "Updating homebrew casks"
-      for app in $(brew cask list); do
-        cver="$(brew cask info "${app}" | head -n 1 | cut -d " " -f 2)";
-        ivers=$(ls -1 "/usr/local/Caskroom/${app}/.metadata/" | tr '\n' ' ' | sed -e 's/ $//');
-        aivers=(${ivers});
-        nvers=$(echo ${#aivers[@]});
-        if [[ ${nvers} -eq 1 ]]; then
-          echo "${ivers}" | grep -q "^${cver}$" && { continue; };
-        fi;
-        echo "Updating ${app} from ${ivers} to ${cver} ...";
-        brew cask uninstall "${app}" --force;
-        brew cask install "${app}";
-    done
-    brew cask cleanup
-    echo "Done"
+      if [[ $(brew cask outdated) ]]; then
+        echo "Updating homebrew casks"
+        brew cask reinstall $(brew cask outdated)
+        brew cask cleanup
+      fi
+      echo "Done"
     fi
     # Update all langenvs
     for target in "${!langenvs[@]}"; do
