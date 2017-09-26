@@ -116,6 +116,9 @@ case "$1" in
     for cask_keg in "${caskkegs[@]}"; do
       brew cask install ${cask_keg}
     done
+    for font_keg in "${fontkegs[@]}"; do
+      brew cask install ${font_keg}
+    done
     for mas_package in "${maspkgs[@]}"; do
       mas install ${mas_package}
     done
