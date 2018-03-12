@@ -23,6 +23,7 @@
   editor = vim
   pager = less -JFRSX
   excludesfile = ~/.gitignore_global
+  quotePath = false
 [color "branch"]
   current = green
   local = yellow
@@ -77,3 +78,5 @@
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   required = true
+[commit]
+  gpgSign = true
