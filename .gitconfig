@@ -69,7 +69,7 @@
 [user]
   name = Lex Rivera
   email = me@lex.io
-  signingkey = 453AF56C
+  signingkey = E7ED7B6B453AF56C
 [push]
   default = matching
 [help]
