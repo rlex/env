@@ -11,30 +11,30 @@ source ~/.rc/envmgr.conf
 # Checking if OS is Linux (GNU coreutils), if not, we assume OS uses BSD utils
 symlink() {
   if [[ $(uname) == "Linux" ]]; then
-    ln -sfvn $1 $2
+    ln -sfvn ${1} ${2}
   else
-    ln -sfvh $1 $2
+    ln -sfvh ${1} ${2}
   fi
 }
 
 # Another ugly function for installing/updating py/nod/rb-envs. Still counts!
 langenv() {
-  if [[ -d ~/.$2 ]]; then
-    echo "Updating ~/.$2"
-    cd ~/.$2 && git pull
+  if [[ -d ~/.${2} ]]; then
+    echo "Updating ~/.${2}"
+    cd ~/.${2} && git pull
   else
-    echo "Installing ~/.$2"
-    git clone $1 ~/.$2
+    echo "Installing ~/.${2}"
+    git clone ${1} ~/.${2}
   fi
 }
 
-case "$1" in
+case "${1}" in
 
   env)
     echo "Deploying environment"
     cd ~/.rc || exit
-    echo "Deploying dotfiles from `pwd` to ${HOME}"
-    if [[ "$OSTYPE" =~ ^linux ]]; then
+    echo "Deploying dotfiles from $(pwd) to ${HOME}"
+    if [[ "${OSTYPE}" =~ ^linux ]]; then
       dotdirs=( .config .local/share )
       for dir in "${dotdirs[@]}"; do
         if [[ ! -d ~/${dir} ]]; then
@@ -60,6 +60,7 @@ case "$1" in
 
   # Install rb/py/node-env. Used just one time.
   # I can do that manually in 5m, but i'm too lazy.
+  # TODO: add cleanup of old versions, maybe as separate func
   devenv)
     if [[ "$OSTYPE" =~ ^linux ]]; then
       echo "Make sure that following packages are installed:"
