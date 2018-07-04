@@ -87,7 +87,7 @@ case "${1}" in
     done
     #install latest versions of node and ruby
     for devenv in nodenv rbenv; do
-      latest_version=$(${devenv} install -l | sed 's/^  //' | grep -E '\d.\d{1,2}.\d{1,2}' | grep -v - | tail -1)
+      latest_version=$(${devenv} install -l | sed 's/^  //' | grep -E '\d{1,2}.\d{1,2}.\d{1,2}' | sort -V | grep -v - | tail -1)
       ${devenv} install -s ${latest_version}
       ${devenv} global ${latest_version}
     done
