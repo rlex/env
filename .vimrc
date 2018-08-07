@@ -55,6 +55,16 @@ set statusline=File:%F%m%r%h%w\ Enc:%{strlen(&fenc)?&fenc:'none'}\ Line:%{&ff}\ 
 set laststatus=2
 set fo+=cr " Fix enter for comment
 set sessionoptions=curdir,buffers,tabpages
+
+" Sane line joins
+if v:version > 703 || v:version == 703 && has('patch541')
+  set formatoptions+=j
+endif
+
+" Trailing whitespace & 120+c warning
+match ErrorMsg '\%>120v.\+'
+match ErrorMsg '\s\+$'
+
 "}}}
 
 " {{{ Vundle
@@ -84,6 +94,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomtom/tlib_vim'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'wincent/terminus'
 Plugin 'Gundo'
 Plugin 'TaskList.vim'
 Plugin 'Rename'
