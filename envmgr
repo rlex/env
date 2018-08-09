@@ -171,10 +171,6 @@ case "${1}" in
       echo "Updating mac app store apps"
       mas upgrade
     fi
-    if hash atom 2>/dev/null; then
-      echo "Updating atom plugins"
-      apm upgrade -c false
-    fi
     if hash vim 2>/dev/null; then
       echo "Upgrading vim bundles"
       vim +PlugUpdate +PlugUpgrade +PlugClean +qall
