@@ -90,14 +90,14 @@ Plugin 'bling/vim-bufferline'
 Plugin 'darfink/vim-plist'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-eunuch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomtom/tlib_vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'wincent/terminus'
-Plugin 'Gundo'
-Plugin 'TaskList.vim'
-Plugin 'Rename'
+Plugin 'jontrainor/TaskList.vim'
+Plugin 'sjl/gundo.vim'
 
 call vundle#end()
 filetype plugin indent on
