@@ -67,40 +67,36 @@ match ErrorMsg '\s\+$'
 
 "}}}
 
-" {{{ Vundle
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" {{{ Plugins
 
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'Shougo/neocomplete'
-Plugin 'chrisbra/SudoEdit.vim'
-Plugin 'evidex/vim-puppet'
-Plugin 'garbas/vim-snipmate'
-Plugin 'godlygeek/tabular'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'honza/vim-snippets'
-Plugin 'ghewgill/vim-scmdiff'
-Plugin 'zainin/vim-mikrotik'
-Plugin 'vim-airline/vim-airline'
-Plugin 'bling/vim-bufferline'
-Plugin 'darfink/vim-plist'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-eunuch'
-Plugin 'kien/ctrlp.vim'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tomtom/tlib_vim'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'wincent/terminus'
-Plugin 'jontrainor/TaskList.vim'
-Plugin 'sjl/gundo.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'Shougo/neocomplete'
+Plug 'chrisbra/SudoEdit.vim'
+Plug 'evidex/vim-puppet'
+Plug 'garbas/vim-snipmate'
+Plug 'godlygeek/tabular'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'honza/vim-snippets'
+Plug 'ghewgill/vim-scmdiff'
+Plug 'zainin/vim-mikrotik'
+Plug 'vim-airline/vim-airline'
+Plug 'bling/vim-bufferline'
+Plug 'darfink/vim-plist'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-eunuch'
+Plug 'kien/ctrlp.vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tomtom/tlib_vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'wincent/terminus'
+Plug 'jontrainor/TaskList.vim'
+Plug 'sjl/gundo.vim'
 
-call vundle#end()
-filetype plugin indent on
+call plug#end()
 
 " }}}
 

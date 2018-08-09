@@ -5,6 +5,7 @@
 .vim/.netrwhist
 .vim/bundle/vundle/.netrwhist
 .vim/bundle/*
+.vim/plugged/*
 
 ### MUTT ###
 .mutt/.localprofile

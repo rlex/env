@@ -50,11 +50,7 @@ case "${1}" in
     cd - >&/dev/null || exit 1
     echo "Finished!"
     echo "Installing vim plugins"
-    if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
-      mkdir -p ~/.vim/bundle
-      git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    fi
-    vim +PluginInstall +qall
+    vim +PlugInstall +qall
     echo "Finished!"
   ;;
 
@@ -181,7 +177,7 @@ case "${1}" in
     fi
     if hash vim 2>/dev/null; then
       echo "Upgrading vim bundles"
-      vim +PluginUpdate +qall
+      vim +PlugUpdate +PlugUpgrade +PlugClean +qall
     fi
   ;;
 
