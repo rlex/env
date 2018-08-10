@@ -98,27 +98,14 @@ case "${1}" in
   ;;
 
   osx)
+    cd ~/.rc || exit
     echo "Installing homebrew and favourite packages"
     #probably i should migrate to manual install.
     #Running (even respected) scripts from interwebs is stupid.
     if hash brew 2>/dev/null; then
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
-    for tap in "${brewtaps[@]}"; do
-      brew tap ${tap}
-    done
-    for keg in "${brewkegs[@]}"; do
-      brew install ${keg}
-    done
-    for cask_keg in "${caskkegs[@]}"; do
-      brew cask install ${cask_keg}
-    done
-    for font_keg in "${fontkegs[@]}"; do
-      brew cask install ${font_keg}
-    done
-    for mas_package in "${maspkgs[@]}"; do
-      mas install ${mas_package}
-    done
+    brew bundle
   ;;
 
   nuke)
