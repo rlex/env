@@ -154,7 +154,7 @@ case "${1}" in
         langenv ${langenvs_plugins[$target]} ${target}
       fi
     done
-    if hash mas 2>/dev/null; then
+    if hash mas 2>/dev/null && [ $(sw_vers | grep ProductVersion | cut -c20-21) -lt 13 ]; then
       echo "Updating mac app store apps"
       mas upgrade
     fi
