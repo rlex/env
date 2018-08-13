@@ -17,17 +17,6 @@ symlink() {
   fi
 }
 
-# Another ugly function for installing/updating py/nod/rb-envs. Still counts!
-langenv() {
-  if [[ -d ~/.${2} ]]; then
-    echo "Updating ~/.${2}"
-    cd ~/.${2} && git pull
-  else
-    echo "Installing ~/.${2}"
-    git clone ${1} ~/.${2}
-  fi
-}
-
 case "${1}" in
 
   env)
@@ -58,43 +47,36 @@ case "${1}" in
   # I can do that manually in 5m, but i'm too lazy.
   # TODO: add cleanup of old versions, maybe as separate func
   devenv)
-    if [[ "$OSTYPE" =~ ^linux ]]; then
-      echo "Make sure that following packages are installed:"
-      echo "libssl-dev libreadline-dev zlib1g-dev libsqlite3-dev libbz2-dev"
+    #install asdf
+    if [[ ! -d "$HOME/.asdf" ]]; then
+      git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+    else
+      cd ~/.asdf && git pull
     fi
-    #install envs
-    for target in "${!langenvs[@]}"; do
-      langenv ${langenvs[$target]} $target
-    done
-    for target in "${!langenvs_plugins[@]}"; do
-      langenv ${langenvs_plugins[$target]} $target
-    done
-    #init envs
+    #init asdf
     source ~/.rc/sh.d/S01_env
+    #install plugins
+    for lang in "${asdf_plugins[@]}"; do
+      asdf plugin-add ${lang}
+    done
     #setup default packages
     for gem in "${gems[@]}"; do
-      grep -sq ${gem} ~/.rbenv/default-gems || echo ${gem} >> ~/.rbenv/default-gems
+      grep -sq ${gem} ~/.default-gems || echo ${gem} >> ~/.default-gems
     done
     for egg in "${eggs[@]}"; do
-      grep -sq ${egg} ~/.pyenv/default-packages || echo ${egg} >> ~/.pyenv/default-packages
+      grep -sq ${egg} ~/.default-eggs || echo ${egg} >> ~/.default-eggs
     done
     for npm_package in "${npms[@]}"; do
-      grep -sq ${npm_package} ~/.nodenv/default-packages || echo ${npm_package} >> ~/.nodenv/default-packages
+      grep -sq ${npm_package} ~/.default-npm-packages || echo ${npm_package} >> ~/.default-npm-packages
     done
-    #install latest versions of node and ruby
-    for devenv in nodenv rbenv; do
-      latest_version=$(${devenv} install -l | sort -V | grep -v '[a-z]' | tail -1)
-      ${devenv} install -s ${latest_version}
-      ${devenv} global ${latest_version}
+    #install latest versions of langs
+    #nodejs verifies signatures, assuming trusted environment
+    #FIXME: support GPG verification for nodejs and python
+    for lang in "${asdf_plugins[@]}"; do
+      latest_version=$(asdf list-all ${lang} install -l | sort -V | grep -v '[a-z]' | tail -1)
+      NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
+      asdf global ${lang} ${latest_version}
     done
-    #pyenv is a little bit more tricky, since some apps still works only on 2.x.
-    python_versions=( $(pyenv install -l | grep "^  2" | grep -v '[a-z]' | tail -1)
-                      $(pyenv install -l | grep "^  3" | grep -v '[a-z]' | tail -1) )
-    for python in "${python_versions[@]}"; do
-      pyenv install -s $python
-    done
-    #defaults to 3.x
-    pyenv global ${python_versions[1]}
   ;;
 
   osx)
@@ -115,9 +97,7 @@ case "${1}" in
       rm -vf ~/.${file}
     done
     echo "Cleaning up devenv"
-    rm -rvf ~/.pyenv
-    rm -rvf ~/.rbenv
-    rm -rvf ~/.nodenv
+    rm -rvf ~/.asdf
     echo "Removing history"
     rm -vf ~/.zsh-history
     rm -vf ~/.bash_history
@@ -143,17 +123,11 @@ case "${1}" in
       fi
       echo "Done"
     fi
-    # Update all langenvs
-    for target in "${!langenvs[@]}"; do
-      if [[ -d ~/.${target} ]]; then
-        langenv ${langenvs[$target]} ${target}
-      fi
-    done
-    for target in "${!langenvs_plugins[@]}"; do
-      if [[ -d ~/.${target} ]]; then
-        langenv ${langenvs_plugins[$target]} ${target}
-      fi
-    done
+    # Update asdf
+    if [[ -d ~/.asdf ]]; then
+      asdf update
+      asdf plugin-update --all
+    fi
     if hash mas 2>/dev/null && [ $(sw_vers | grep ProductVersion | cut -c20-21) -lt 13 ]; then
       echo "Updating mac app store apps"
       mas upgrade

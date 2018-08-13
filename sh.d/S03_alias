@@ -29,7 +29,7 @@ alias fuck="sudo !!"
 alias watchip="ping -i 60 -a "
 alias flushssh="ps aux | grep ssh | grep -v grep | grep -v ssh-agent | awk {'print \$2'} | xargs kill"
 #ugly fix for pyenv
-if hash brew 2>/dev/null; then
-  alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
-fi
+#if hash brew 2>/dev/null; then
+#  alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
+#fi
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
