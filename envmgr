@@ -119,14 +119,12 @@ case "${1}" in
       echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
       brew update
       brew upgrade
-      brew cleanup
-      brew prune
       if [[ $(brew cask outdated) ]]; then
         echo -e "\\e[32mUpdating and cleaning up homebrew casks\\e[39m"
-        brew cask reinstall $(brew cask outdated)
-        brew cask cleanup
+        brew cask upgrade
       fi
-      echo "Done"
+      brew cleanup
+      brew prune
     fi
     # Update asdf
     echo -e "\\e[32mUpdating asdf and asdf plugins\\e[39m"
