@@ -77,6 +77,7 @@ case "${1}" in
     echo -e "\\e[32mInstalling languages with asdf\\e[39m"
     for lang in "${asdf_plugins[@]}"; do
       latest_version=$(asdf list-all ${lang} install -l | sort -V | grep -v '[a-z]' | tail -1)
+      echo "Latest ${lang} => ${latest_version}"
       NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
       asdf global ${lang} ${latest_version}
     done
@@ -146,7 +147,7 @@ case "${1}" in
   *)
     echo "Command list:"
     echo "env - symlink dotfiles"
-    echo "devenv - install pyenv + rbenv + nodenv"
+    echo "devenv - install asdf with plugins"
     echo "homebrew - install homebrew and favourite packages"
     echo "nuke - remove (almost) everything installed by envmgr"
     echo "maid - upgrade homebrew and devenv"
