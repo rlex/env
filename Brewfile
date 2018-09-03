@@ -8,6 +8,7 @@ tap "homebrew/dupes"
 tap "homebrew/services"
 tap "homebrew/versions"
 tap "wallix/awless"
+tap "mas-cli/tap", pin: true
 #Brews
 brew "ack"
 brew "arping"
