@@ -133,7 +133,7 @@ case "${1}" in
       asdf update
       asdf plugin-update --all
     fi
-    if hash mas 2>/dev/null && [ $(sw_vers | grep ProductVersion | cut -c20-21) -lt 13 ]; then
+    if hash mas 2>/dev/null; then
       echo -e "\\e[32mUpdating mac app store apps\\e[39m"
       mas upgrade
     fi
