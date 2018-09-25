@@ -66,7 +66,7 @@ case "${1}" in
       grep -sq ${gem} ~/.default-gems || echo ${gem} >> ~/.default-gems
     done
     for egg in "${eggs[@]}"; do
-      grep -sq ${egg} ~/.default-eggs || echo ${egg} >> ~/.default-eggs
+      grep -sq ${egg} ~/.default-python-packages || echo ${egg} >> ~/.default-python-packages
     done
     for npm_package in "${npms[@]}"; do
       grep -sq ${npm_package} ~/.default-npm-packages || echo ${npm_package} >> ~/.default-npm-packages
