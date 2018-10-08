@@ -65,6 +65,7 @@
   unstage = reset HEAD --
   amend = commit --amend -C HEAD
   today = !git log --since=midnight --author=\"$(git config user.name)\" --oneline
+  update-submodules = submodule update --remote --recursive
   aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort
 [user]
   name = Lex Rivera
