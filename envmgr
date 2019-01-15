@@ -125,7 +125,6 @@ case "${1}" in
         brew cask upgrade
       fi
       brew cleanup
-      brew prune
     fi
     # Update asdf
     echo -e "\\e[32mUpdating asdf and asdf plugins\\e[39m"
