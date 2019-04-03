@@ -152,14 +152,14 @@ cask "font-iosevka"
 cask "font-source-code-pro"
 cask "font-terminus"
 #MAS
-#mas "1Password", id: 443987910
-#mas "Airmail 3", id: 918858936
-#mas "Amphetamine", id: 937984704
-#mas "Droplr", id: 498672703
-#mas "ForkLift", id: 412448059
-#mas "Microsoft Remote Desktop", id: 1295203466
-#mas "Monosnap", id: 540348655
-#mas "Pixelmator", id: 407963104
-#mas "Telegram", id: 747648890
-#mas "Textual", id: 896450579
-#mas "Tweetbot", id: 1384080005
+mas "1Password", id: 443987910
+mas "Airmail 3", id: 918858936
+mas "Amphetamine", id: 937984704
+mas "Droplr", id: 498672703
+mas "ForkLift", id: 412448059
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Monosnap", id: 540348655
+mas "Pixelmator", id: 407963104
+mas "Telegram", id: 747648890
+mas "Textual", id: 896450579
+mas "Tweetbot", id: 1384080005
