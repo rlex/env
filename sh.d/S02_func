@@ -183,19 +183,22 @@ tm() {
   fi
 }
 
-wirelive() {
-  if [[ -z "$1" ]]; then
-    echo -e "Usage: $(basename $0) <host[:port]> <interface> [filters]"
-    return
-  fi
-  ssh_host=$(echo $1 | cut -d: -f1)
-  ssh_port=$(echo $1 | cut -s -d: -f2)
-  [[ -z "$ssh_port" ]] && ssh_port=22
-  [[ -z "$2" ]] && tcpdump_interface="any" || tcpdump_interface="$2"
-  [[ ! -z "$3" ]] && tcpdump_filters="and \($3\)"
+# only local aliases, unsuitable for usage on remote hosts
+if [[ -z "$SSH_CLIENT" ]]; then
+  wirelive() {
+    if [[ -z "$1" ]]; then
+      echo -e "Usage: $(basename $0) <host[:port]> <interface> [filters]"
+      return
+    fi
+    ssh_host=$(echo $1 | cut -d: -f1)
+    ssh_port=$(echo $1 | cut -s -d: -f2)
+    [[ -z "$ssh_port" ]] && ssh_port=22
+    [[ -z "$2" ]] && tcpdump_interface="any" || tcpdump_interface="$2"
+    [[ ! -z "$3" ]] && tcpdump_filters="and \($3\)"
 
-  ssh root@${ssh_host} -p ${ssh_port} \
-      tcpdump -U -s0 "not port ${ssh_port} ${tcpdump_filters}" -i ${tcpdump_interface} -w - \
-      | wireshark -k -i -
+    ssh root@${ssh_host} -p ${ssh_port} \
+        tcpdump -U -s0 "not port ${ssh_port} ${tcpdump_filters}" -i ${tcpdump_interface} -w - \
+        | wireshark -k -i -
 
-}
+  }
+fi
