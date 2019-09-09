@@ -138,6 +138,7 @@ cask "spectacle"
 cask "spotify"
 cask "teamspeak-client"
 cask "teamviewer"
+cask "telegram"
 cask "tower"
 cask "transmission"
 cask "transmission-remote-gui"
@@ -169,6 +170,5 @@ mas "ForkLift", id: 412448059
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Monosnap", id: 540348655
 mas "Pixelmator", id: 407963104
-mas "Telegram", id: 747648890
 mas "Textual", id: 896450579
 mas "Tweetbot", id: 1384080005
