@@ -76,7 +76,7 @@ case "${1}" in
     #FIXME: support GPG verification for nodejs and python
     echo -e "\\e[32mInstalling languages with asdf\\e[39m"
     for lang in "${asdf_plugins[@]}"; do
-      latest_version=$(asdf list-all ${lang} install -l | sort -V | grep -v '[a-z]' | tail -1)
+      latest_version=$(asdf list-all ${lang} | sort -V | grep -v '[a-z]' | tail -1)
       echo "Latest ${lang} => ${latest_version}"
       NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
       asdf global ${lang} ${latest_version}
