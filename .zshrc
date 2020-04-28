@@ -71,10 +71,6 @@ if [ -d /usr/local/share/zsh-completions ]; then
   fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
-# add custom completion scripts
-autoload -U compinit && compinit
-zmodload -i zsh/complist
-
 # man zshcontrib
 zstyle ':vcs_info:*' actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
 zstyle ':vcs_info:*' formats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
@@ -167,6 +163,10 @@ zle -N zle-line-finish
 for envfile in ~/.rc/sh.d/[SZ][0-9][0-9]*[^~] ; do
   source $envfile
 done
+
+# add custom completion scripts
+autoload -U compinit && compinit
+zmodload -i zsh/complist
 
 #use fancy fonts only on proper terminal
 if [[ $TERM =~ (256color) ]]; then
