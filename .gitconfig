@@ -82,7 +82,7 @@
   process = git-lfs filter-process
 [commit]
   gpgSign = true
-[submodule]
-  recurse = true
+#[submodule]
+#  recurse = true
 [pull]
   rebase = true
