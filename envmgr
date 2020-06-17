@@ -104,7 +104,7 @@ case "${1}" in
 
   nuke)
     echo "Cleaning up env"
-    echo "Removing dotfiles"
+    echo "Removing dotfiles symlinks"
     for file in "${dotfiles[@]}"; do
       rm -vf ~/.${file}
     done
@@ -113,6 +113,8 @@ case "${1}" in
     echo "Removing history"
     rm -vf ~/.zsh-history
     rm -vf ~/.bash_history
+    echo "Removing linuxbrew"
+    rm -rf ~/.linuxbrew
     echo "Removing dotfiles directory"
     rm -rf ~/.rc
   ;;
@@ -154,7 +156,7 @@ case "${1}" in
     echo "Command list:"
     echo "env - symlink dotfiles"
     echo "devenv - install asdf with plugins"
-    echo "homebrew - install homebrew and favourite packages"
+    echo "brew - install homebrew and packages from bundle"
     echo "nuke - remove (almost) everything installed by envmgr"
     echo "maid - upgrade homebrew and devenv"
 esac
