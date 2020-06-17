@@ -10,7 +10,7 @@ source ~/.rc/envmgr.conf
 # Function to symlink dotfiles
 # Checking if OS is Linux (GNU coreutils), if not, we assume OS uses BSD utils
 symlink() {
-  if [[ $(uname) == "Linux" ]]; then
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     ln -sfvn ${1} ${2}
   else
     ln -sfvh ${1} ${2}
@@ -23,7 +23,7 @@ case "${1}" in
     echo -e "\\e[32mDeploying environment\\e[39m"
     cd ~/.rc || exit
     echo -e "\\e[32mDeploying dotfiles from $(pwd) to ${HOME}\\e[39m"
-    if [[ "${OSTYPE}" =~ ^linux ]]; then
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       dotdirs=( .config .local/share )
       for dir in "${dotdirs[@]}"; do
         if [[ ! -d ~/${dir} ]]; then
@@ -87,8 +87,6 @@ case "${1}" in
   brew)
     cd ~/.rc || exit
     echo -e "\\e[32mInstalling homebrew and favourite packages\\e[39m"
-    #probably i should migrate to manual install.
-    #Running (even respected) scripts from interwebs is stupid.
     if hash brew 2>/dev/null; then
       if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
@@ -96,6 +94,8 @@ case "${1}" in
         ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
         eval $(~/.linuxbrew/bin/brew shellenv)
       elif [[ "$OSTYPE" == "darwin"* ]]; then
+        #probably i should migrate to manual install.
+        #Running (even respected) scripts from interwebs is stupid.
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       fi
     fi
@@ -129,7 +129,7 @@ case "${1}" in
       echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
       brew update
       brew upgrade
-      if [[ $(brew cask outdated) ]]; then
+      if [[ $(brew cask outdated) && "$OSTYPE" == "darwin"* ]]; then
         echo -e "\\e[32mUpdating and cleaning up homebrew casks\\e[39m"
         brew cask upgrade
       fi
