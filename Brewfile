@@ -1,4 +1,4 @@
-#this installs on OSX only
+#Installs on OSX only
 if OS.mac?
   tap "homebrew/bundle"
   tap "homebrew/cask"
@@ -8,7 +8,6 @@ if OS.mac?
   tap "homebrew/cask-drivers"
   tap "wallix/awless"
   tap "mas-cli/tap", pin: true
-  tap "derailed/k9s"
   #some apps requires java, sshfs requires fuse
   cask "java"
   cask "adoptopenjdk"
@@ -53,7 +52,6 @@ if OS.mac?
   brew "grep"
   brew "hadoop"
   brew "hashpump"
-  brew "helm"
   brew "hopenpgp-tools"
   brew "htop"
   brew "httperf"
@@ -66,9 +64,6 @@ if OS.mac?
   brew "iperf3"
   brew "ipmitool"
   brew "john-jumbo"
-  brew "k9s"
-  brew "krew"
-  brew "kubectl"
   brew "lazygit"
   brew "lzo"
   brew "m-cli"
@@ -80,7 +75,6 @@ if OS.mac?
   brew "mtr"
   brew "mutt"
   brew "nmap"
-  brew "octant"
   brew "openssh"
   brew "p7zip"
   brew "pigz"
@@ -91,8 +85,6 @@ if OS.mac?
   brew "qemu"
   brew "recon-ng"
   brew "screen"
-  brew "shellcheck"
-  brew "shfmt"
   brew "sipcalc"
   brew "smartmontools"
   brew "socat"
@@ -112,7 +104,6 @@ if OS.mac?
   brew "upx"
   brew "util-linux"
   brew "vagrant-completion"
-  brew "velero"
   brew "vim"
   brew "wakeonlan"
   brew "wget"
@@ -182,20 +173,19 @@ if OS.mac?
   mas "Pixelmator", id: 407963104
   mas "Textual", id: 896450579
   mas "Tweetbot", id: 1384080005
-#and this on both osx & linux
-elsif OS.Linux?
-  tap "derailed/k9s"
-  #kubernetes stuff
-  brew "velero"
-  brew "k9s"
-  brew "krew"
-  brew "kubectl"
-  brew "octant"
-  brew "calicoctl"
-  brew "helm"
-  brew "istioctl"
-  #misc stuff
-  brew "shellcheck"
-  brew "shfmt"
-  brew "certigo"
 end
+
+#Installs on both linux & osx
+tap "derailed/k9s"
+#kubernetes stuff
+brew "velero"
+brew "k9s"
+brew "krew"
+brew "kubectl"
+brew "octant"
+brew "calicoctl"
+brew "helm"
+brew "istioctl"
+#misc stuff
+brew "shellcheck"
+brew "shfmt"
