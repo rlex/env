@@ -129,7 +129,7 @@ case "${1}" in
       echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
       brew update
       brew upgrade
-      if [[ $(brew cask outdated) && "$OSTYPE" == "darwin"* ]]; then
+      if [[ "$OSTYPE" == "darwin"* && $(brew cask outdated) ]]; then
         echo -e "\\e[32mUpdating and cleaning up homebrew casks\\e[39m"
         brew cask upgrade
       fi
