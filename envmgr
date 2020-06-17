@@ -84,13 +84,20 @@ case "${1}" in
     echo -e "\\e[32mFinished installing asdf\\e[39m"
   ;;
 
-  osx)
+  brew)
     cd ~/.rc || exit
     echo -e "\\e[32mInstalling homebrew and favourite packages\\e[39m"
     #probably i should migrate to manual install.
     #Running (even respected) scripts from interwebs is stupid.
     if hash brew 2>/dev/null; then
-      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+        mkdir ~/.linuxbrew/bin
+        ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+        eval $(~/.linuxbrew/bin/brew shellenv)
+      elif [[ "$OSTYPE" == "darwin"* ]]; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      fi
     fi
     brew bundle
   ;;

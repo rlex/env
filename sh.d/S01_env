@@ -11,6 +11,10 @@ if [[ -d "$HOME/.asdf" ]]; then
   . $HOME/.asdf/asdf.sh
 fi
 
+if [[ -d "$HOME/.linuxbrew" ]]; then
+  eval $(~/.linuxbrew/bin/brew shellenv)
+fi
+
 #Locales
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
