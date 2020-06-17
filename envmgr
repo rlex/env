@@ -17,77 +17,80 @@ symlink() {
   fi
 }
 
-case "${1}" in
-
-  env)
-    echo -e "\\e[32mDeploying environment\\e[39m"
-    cd ~/.rc || exit
-    echo -e "\\e[32mDeploying dotfiles from $(pwd) to ${HOME}\\e[39m"
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-      dotdirs=( .config .local/share )
-      for dir in "${dotdirs[@]}"; do
-        if [[ ! -d ~/${dir} ]]; then
-          mkdir -p ~/${dir}
-        fi
-      done
-      dotfiles=("${dotfiles[@]}" "${linuxenv[@]}")
-    fi
-    for file in "${dotfiles[@]}"; do
-      symlink ~/.rc/.${file} ~/.${file}
+#Symlink dotfiles and envmgr from ~/.rc to ~
+install_env() {
+  echo -e "\\e[32mDeploying environment\\e[39m"
+  cd ~/.rc || exit
+  echo -e "\\e[32mDeploying dotfiles from $(pwd) to ${HOME}\\e[39m"
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    dotdirs=( .config .local/share )
+    for dir in "${dotdirs[@]}"; do
+      if [[ ! -d ~/${dir} ]]; then
+        mkdir -p ~/${dir}
+      fi
     done
-    symlink ~/.rc/envmgr ~/.rc/.bin/envmgr
-    cd - >&/dev/null || exit 1
-    echo -e "\\e[32mFinished deploying dotfiles\\e[39m"
-    echo -e "\\e[32mInstalling vim plugins\\e[39m"
-    vim +PlugInstall +qall
-    echo -e "\\e[32mFinished installing vim plugins\\e[39m"
-  ;;
+    dotfiles=("${dotfiles[@]}" "${linuxenv[@]}")
+  fi
+  for file in "${dotfiles[@]}"; do
+    symlink ~/.rc/.${file} ~/.${file}
+  done
+  symlink ~/.rc/envmgr ~/.rc/.bin/envmgr
+  cd - >&/dev/null || exit 1
+  echo -e "\\e[32mFinished deploying dotfiles\\e[39m"
+  echo -e "\\e[32mInstalling vim plugins\\e[39m"
+  vim +PlugInstall +qall
+  echo -e "\\e[32mFinished installing vim plugins\\e[39m"
+}
 
-  # Install rb/py/node-env. Used just one time.
-  # I can do that manually in 5m, but i'm too lazy.
-  # TODO: add cleanup of old versions, maybe as separate func
-  devenv)
-    #install asdf
-    echo -e "\\e[32mInstalling asdf\\e[39m"
-    if [[ ! -d "$HOME/.asdf" ]]; then
-      git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+# Install asdf and plugins (ruby, python, nodejs, golang)
+# Plugins listed in envmgr.conf in asdf_plugins array
+# TODO: add cleanup of old versions, maybe as separate func
+install_devenv() {
+  #install asdf
+  echo -e "\\e[32mInstalling asdf\\e[39m"
+  if [[ ! -d "$HOME/.asdf" ]]; then
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+  else
+    cd ~/.asdf && git pull
+  fi
+  #init asdf
+  source ~/.rc/sh.d/S01_env
+  #install plugins
+  echo -e "\\e[32mInstalling asdf plugins\\e[39m"
+  for lang in "${asdf_plugins[@]}"; do
+    asdf plugin-add ${lang}
+  done
+  #setup default packages
+  for gem in "${gems[@]}"; do
+    grep -sq ${gem} ~/.default-gems || echo ${gem} >> ~/.default-gems
+  done
+  for egg in "${eggs[@]}"; do
+    grep -sq ${egg} ~/.default-python-packages || echo ${egg} >> ~/.default-python-packages
+  done
+  for npm_package in "${npms[@]}"; do
+    grep -sq ${npm_package} ~/.default-npm-packages || echo ${npm_package} >> ~/.default-npm-packages
+  done
+  #install latest versions of langs
+  #nodejs verifies signatures, assuming trusted environment
+  #FIXME: support GPG verification for nodejs and python
+  echo -e "\\e[32mInstalling languages with asdf\\e[39m"
+  for lang in "${asdf_plugins[@]}"; do
+    latest_version=$(asdf list-all ${lang} | sort -V | grep -v '[a-z]' | tail -1)
+    echo "Latest ${lang} => ${latest_version}"
+    NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
+    asdf global ${lang} ${latest_version}
+  done
+  echo -e "\\e[32mFinished installing asdf\\e[39m"
+}
+
+#Installs homebrew on os x (global, script) and linux (manual, homedir)
+#Also installs apps from ~/.rc/Brewfile
+install_homebrew() {
+  cd ~/.rc || exit
+  echo -e "\\e[32mInstalling homebrew and favourite packages\\e[39m"
+  if hash brew 2>/dev/null; then
+    echo "Brew is already installed!"
     else
-      cd ~/.asdf && git pull
-    fi
-    #init asdf
-    source ~/.rc/sh.d/S01_env
-    #install plugins
-    echo -e "\\e[32mInstalling asdf plugins\\e[39m"
-    for lang in "${asdf_plugins[@]}"; do
-      asdf plugin-add ${lang}
-    done
-    #setup default packages
-    for gem in "${gems[@]}"; do
-      grep -sq ${gem} ~/.default-gems || echo ${gem} >> ~/.default-gems
-    done
-    for egg in "${eggs[@]}"; do
-      grep -sq ${egg} ~/.default-python-packages || echo ${egg} >> ~/.default-python-packages
-    done
-    for npm_package in "${npms[@]}"; do
-      grep -sq ${npm_package} ~/.default-npm-packages || echo ${npm_package} >> ~/.default-npm-packages
-    done
-    #install latest versions of langs
-    #nodejs verifies signatures, assuming trusted environment
-    #FIXME: support GPG verification for nodejs and python
-    echo -e "\\e[32mInstalling languages with asdf\\e[39m"
-    for lang in "${asdf_plugins[@]}"; do
-      latest_version=$(asdf list-all ${lang} | sort -V | grep -v '[a-z]' | tail -1)
-      echo "Latest ${lang} => ${latest_version}"
-      NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
-      asdf global ${lang} ${latest_version}
-    done
-    echo -e "\\e[32mFinished installing asdf\\e[39m"
-  ;;
-
-  brew)
-    cd ~/.rc || exit
-    echo -e "\\e[32mInstalling homebrew and favourite packages\\e[39m"
-    if hash brew 2>/dev/null; then
       if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
         mkdir ~/.linuxbrew/bin
@@ -98,65 +101,77 @@ case "${1}" in
         #Running (even respected) scripts from interwebs is stupid.
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       fi
-    fi
-    brew bundle
-  ;;
+  fi
+  brew bundle
+}
 
-  nuke)
-    echo "Cleaning up env"
-    echo "Removing dotfiles symlinks"
-    for file in "${dotfiles[@]}"; do
-      rm -vf ~/.${file}
-    done
-    echo "Cleaning up devenv"
-    rm -rvf ~/.asdf
-    echo "Removing history"
-    rm -vf ~/.zsh-history
-    rm -vf ~/.bash_history
-    echo "Removing linuxbrew"
-    rm -rf ~/.linuxbrew
-    echo "Removing dotfiles directory"
-    rm -rf ~/.rc
-  ;;
+#Nukes whole dotfiles setup
+#TODO: Maybe use shred instead of rm?
+env_nuke() {
+  echo "Cleaning up env"
+  echo "Removing dotfiles symlinks"
+  for file in "${dotfiles[@]}"; do
+    rm -vf ~/.${file}
+  done
+  echo "Cleaning up devenv"
+  rm -rvf ~/.asdf
+  echo "Removing history"
+  rm -vf ~/.zsh-history
+  rm -vf ~/.bash_history
+  echo "Removing linuxbrew"
+  rm -rf ~/.linuxbrew
+  echo "Removing dotfiles directory"
+  rm -rf ~/.rc
+}
 
-  maid)
-    echo -e "\\e[32mStarted housekeeping\\e[39m"
-    echo -e "\\e[32mUpdating dotfiles repo\\e[39m"
-    git -C ~/.rc pull
-    echo -e "\\e[32mCleaning up outdated symlinks\\e[39m"
-    find -L $HOME -maxdepth 1 -type l -exec rm -i {} +
-    if hash brew 2>/dev/null; then
-      echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
-      brew update
-      brew upgrade
-      if [[ "$OSTYPE" == "darwin"* && $(brew cask outdated) ]]; then
-        echo -e "\\e[32mUpdating and cleaning up homebrew casks\\e[39m"
-        brew cask upgrade
-      fi
-      brew cleanup
+#Checks for updates in env, homebrew, vim plugins and mac app store
+env_housekeeper() {
+  echo -e "\\e[32mStarted housekeeping\\e[39m"
+  echo -e "\\e[32mUpdating dotfiles repo\\e[39m"
+  git -C ~/.rc pull
+  echo -e "\\e[32mCleaning up outdated symlinks\\e[39m"
+  find -L $HOME -maxdepth 1 -type l -exec rm -i {} +
+  if hash brew 2>/dev/null; then
+    echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
+    brew update
+    brew upgrade
+    if [[ "$OSTYPE" == "darwin"* && $(brew cask outdated) ]]; then
+      echo -e "\\e[32mUpdating and cleaning up homebrew casks\\e[39m"
+      brew cask upgrade
     fi
-    # Update asdf
-    echo -e "\\e[32mUpdating asdf and asdf plugins\\e[39m"
-    if [[ -d ~/.asdf ]]; then
-      asdf update
-      asdf plugin-update --all
-    fi
-    if hash mas 2>/dev/null; then
-      echo -e "\\e[32mUpdating mac app store apps\\e[39m"
-      mas upgrade
-    fi
-    if hash vim 2>/dev/null; then
-      echo -e "\\e[32mUpdating vim plugins\\e[39m"
-      vim +PlugUpdate +PlugUpgrade +PlugClean +qall
-    fi
-    echo -e "\\e[32mHousekeeping finished\\e[39m"
-  ;;
+    brew cleanup
+  fi
+  # Update asdf
+  echo -e "\\e[32mUpdating asdf and asdf plugins\\e[39m"
+  if hash asdf 2>/dev/null; then
+    asdf update
+    asdf plugin-update --all
+  fi
+  if hash mas 2>/dev/null; then
+    echo -e "\\e[32mUpdating mac app store apps\\e[39m"
+    mas upgrade
+  fi
+  if hash vim 2>/dev/null; then
+    echo -e "\\e[32mUpdating vim plugins\\e[39m"
+    vim +PlugUpdate +PlugUpgrade +PlugClean +qall
+  fi
+  echo -e "\\e[32mHousekeeping finished\\e[39m"
+}
 
+#Arguments parsing
+case "${1}" in
+  env) install_env ;;
+  devenv) install_devenv ;;
+  brew) install_homebrew ;;
+  fullenv) install_env && install_devenv && install_homebrew ;;
+  nuke) env_nuke ;;
+  maid) env_housekeeper ;;
   *)
     echo "Command list:"
     echo "env - symlink dotfiles"
     echo "devenv - install asdf with plugins"
     echo "brew - install homebrew and packages from bundle"
+    echo "fullenv - env, devenv and brew combined"
     echo "nuke - remove (almost) everything installed by envmgr"
-    echo "maid - upgrade homebrew and devenv"
+    echo "maid - upgrade stuff installed by envmgr"
 esac
