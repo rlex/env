@@ -422,3 +422,7 @@ endif
 " {{{ Syntastic plugin
 let g:syntastic_enable_signs=1
 " }}}
+
+" {{{
+let g:snipMate = { 'snippet_version' : 1 }
+" }}}
