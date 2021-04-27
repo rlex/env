@@ -6,7 +6,6 @@ if OS.mac?
   tap "homebrew/core"
   tap "homebrew/services"
   tap "homebrew/cask-drivers"
-  tap "wallix/awless"
   tap "mas-cli/tap", pin: true
   #some apps requires java, sshfs requires fuse
   cask "java"
@@ -15,7 +14,6 @@ if OS.mac?
   #Brews
   brew "ack"
   brew "arping"
-  brew "awless"
   brew "aws-shell"
   brew "awscli"
   brew "bash"
