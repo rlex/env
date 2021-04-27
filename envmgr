@@ -135,10 +135,6 @@ env_housekeeper() {
     echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
     brew update
     brew upgrade
-    if [[ "$OSTYPE" == "darwin"* && $(brew outdated --cask) ]]; then
-      echo -e "\\e[32mUpdating and cleaning up homebrew casks\\e[39m"
-      brew cask upgrade
-    fi
     brew cleanup
   fi
   # Update asdf
