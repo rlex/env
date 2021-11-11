@@ -105,6 +105,22 @@ install_homebrew() {
   brew bundle
 }
 
+install_kubectl_plugins() {
+  cd ~/.rc || exit
+  echo -e "\\e[32mInstalling kubectl plugins\\e[39m"
+  if hash kubectl-krew 2>/dev/null; then
+    kubectl krew install "${kubectl_plugins}"
+  fi
+}
+
+install_helm_plugins() {
+  cd ~/.rc || exit
+  echo -e "\\e[32mInstalling helm plugins\\e[39m"
+  if hash helm 2>/dev/null; then
+    helm plugin install "${helm_plugins}"
+  fi
+}
+
 #Nukes whole dotfiles setup
 #TODO: Maybe use shred instead of rm?
 env_nuke() {
@@ -143,6 +159,16 @@ env_housekeeper() {
     asdf update
     asdf plugin-update --all
   fi
+  if hash kubectl-krew 2>/dev/null; then
+    kubectl krew upgrade
+  fi
+# helm doesn't have any checks for versions, so will always run. Disable for now
+#  if hash helm 2>/dev/null; then
+#    helm_installed_plugins=$(helm plugin list | tail -n +2 | awk '{print $1}')
+#    for plugin in $helm_installed_plugins; do
+#      helm plugin update $plugin
+#    done
+#  fi
   if hash mas 2>/dev/null; then
     echo -e "\\e[32mUpdating mac app store apps\\e[39m"
     mas upgrade
@@ -159,7 +185,7 @@ case "${1}" in
   env) install_env ;;
   devenv) install_devenv ;;
   brew) install_homebrew ;;
-  fullenv) install_env && install_devenv && install_homebrew ;;
+  fullenv) install_env && install_devenv && install_homebrew && install_kubectl_plugins && install_helm_plugins ;;
   nuke) env_nuke ;;
   maid) env_housekeeper ;;
   *)

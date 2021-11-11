@@ -4,7 +4,7 @@ if [[ -x /etc/profile ]]; then
 fi
 
 #main PATH
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.rc/.bin:$PATH"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.rc/.bin:${HOME}/.krew/bin:$PATH"
 
 #init asdf
 if [[ -d "$HOME/.asdf" ]]; then
