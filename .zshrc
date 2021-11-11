@@ -183,7 +183,7 @@ if [[ -z "$SSH_CLIENT" ]]; then
 fi
 
 # Right prompt
-RPS1='$(git_prompt_string)'
+RPS1='$(kube_ps1)$(git_prompt_string)'
 
 # Left prompt settings
 function precmd {
