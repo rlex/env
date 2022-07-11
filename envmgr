@@ -4,6 +4,10 @@
 # Also upgrades, cleanups homebrew and similar stuff in single command
 # Actually absurdly ugly, but hey, it works! Somehow.
 
+#colors
+COLOR_RESET="$(tput sgr0)"
+COLOR_GREEN="$(tput setaf 2)"
+
 #source config
 source ~/.rc/envmgr.conf
 
@@ -19,9 +23,9 @@ symlink() {
 
 #Symlink dotfiles and envmgr from ~/.rc to ~
 install_env() {
-  echo -e "\\e[32mDeploying environment\\e[39m"
+  echo -e "${COLOR_GREEN}Deploying environment${COLOR_RESET}"
   cd ~/.rc || exit
-  echo -e "\\e[32mDeploying dotfiles from $(pwd) to ${HOME}\\e[39m"
+  echo -e "${COLOR_GREEN}Deploying dotfiles from $(pwd) to ${HOME}${COLOR_RESET}"
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     dotdirs=( .config .local/share )
     for dir in "${dotdirs[@]}"; do
@@ -36,10 +40,10 @@ install_env() {
   done
   symlink ~/.rc/envmgr ~/.rc/.bin/envmgr
   cd - >&/dev/null || exit 1
-  echo -e "\\e[32mFinished deploying dotfiles\\e[39m"
-  echo -e "\\e[32mInstalling vim plugins\\e[39m"
+  echo -e "${COLOR_GREEN}Finished deploying dotfiles${COLOR_RESET}"
+  echo -e "${COLOR_GREEN}Installing vim plugins${COLOR_RESET}"
   vim +PlugInstall +qall
-  echo -e "\\e[32mFinished installing vim plugins\\e[39m"
+  echo -e "${COLOR_GREEN}Finished installing vim plugins${COLOR_RESET}"
 }
 
 # Install asdf and plugins (ruby, python, nodejs, golang)
@@ -47,7 +51,7 @@ install_env() {
 # TODO: add cleanup of old versions, maybe as separate func
 install_devenv() {
   #install asdf
-  echo -e "\\e[32mInstalling asdf\\e[39m"
+  echo -e "${COLOR_GREEN}Installing asdf${COLOR_RESET}"
   if [[ ! -d "$HOME/.asdf" ]]; then
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf
   else
@@ -56,7 +60,7 @@ install_devenv() {
   #init asdf
   source ~/.rc/sh.d/S01_env
   #install plugins
-  echo -e "\\e[32mInstalling asdf plugins\\e[39m"
+  echo -e "${COLOR_GREEN}Installing asdf plugins${COLOR_RESET}"
   for lang in "${asdf_plugins[@]}"; do
     asdf plugin-add ${lang}
   done
@@ -73,21 +77,21 @@ install_devenv() {
   #install latest versions of langs
   #nodejs verifies signatures, assuming trusted environment
   #FIXME: support GPG verification for nodejs and python
-  echo -e "\\e[32mInstalling languages with asdf\\e[39m"
+  echo -e "${COLOR_GREEN}Installing languages with asdf${COLOR_RESET}"
   for lang in "${asdf_plugins[@]}"; do
     latest_version=$(asdf list-all ${lang} | sort -V | grep -v '[a-z]' | tail -1)
     echo "Latest ${lang} => ${latest_version}"
     NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
     asdf global ${lang} ${latest_version}
   done
-  echo -e "\\e[32mFinished installing asdf\\e[39m"
+  echo -e "${COLOR_GREEN}Finished installing asdf${COLOR_RESET}"
 }
 
 #Installs homebrew on os x (global, script) and linux (manual, homedir)
 #Also installs apps from ~/.rc/Brewfile
 install_homebrew() {
   cd ~/.rc || exit
-  echo -e "\\e[32mInstalling homebrew and favourite packages\\e[39m"
+  echo -e "${COLOR_GREEN}Installing homebrew and favourite packages${COLOR_RESET}"
   if hash brew 2>/dev/null; then
     echo "Brew is already installed!"
     else
@@ -107,7 +111,7 @@ install_homebrew() {
 
 install_kubectl_plugins() {
   cd ~/.rc || exit
-  echo -e "\\e[32mInstalling kubectl plugins\\e[39m"
+  echo -e "${COLOR_GREEN}Installing kubectl plugins${COLOR_RESET}"
   if hash kubectl-krew 2>/dev/null; then
     kubectl krew install "${kubectl_plugins}"
   fi
@@ -115,7 +119,7 @@ install_kubectl_plugins() {
 
 install_helm_plugins() {
   cd ~/.rc || exit
-  echo -e "\\e[32mInstalling helm plugins\\e[39m"
+  echo -e "${COLOR_GREEN}Installing helm plugins${COLOR_RESET}"
   if hash helm 2>/dev/null; then
     helm plugin install "${helm_plugins}"
   fi
@@ -142,19 +146,19 @@ env_nuke() {
 
 #Checks for updates in env, homebrew, vim plugins and mac app store
 env_housekeeper() {
-  echo -e "\\e[32mStarted housekeeping\\e[39m"
-  echo -e "\\e[32mUpdating dotfiles repo\\e[39m"
+  echo -e "${COLOR_GREEN}Started housekeeping${COLOR_RESET}"
+  echo -e "${COLOR_GREEN}Updating dotfiles repo${COLOR_RESET}"
   git -C ~/.rc pull
-  echo -e "\\e[32mCleaning up outdated symlinks\\e[39m"
+  echo -e "${COLOR_GREEN}Cleaning up outdated symlinks${COLOR_RESET}"
   find -L $HOME -maxdepth 1 -type l -exec rm -i {} +
   if hash brew 2>/dev/null; then
-    echo -e "\\e[32mUpdating and cleaning up homebrew\\e[39m"
+    echo -e "${COLOR_GREEN}Updating and cleaning up homebrew${COLOR_RESET}"
     brew update
     brew upgrade
     brew cleanup
   fi
   # Update asdf
-  echo -e "\\e[32mUpdating asdf and asdf plugins\\e[39m"
+  echo -e "${COLOR_GREEN}Updating asdf and asdf plugins${COLOR_RESET}"
   if hash asdf 2>/dev/null; then
     asdf update
     asdf plugin-update --all
@@ -170,14 +174,14 @@ env_housekeeper() {
 #    done
 #  fi
   if hash mas 2>/dev/null; then
-    echo -e "\\e[32mUpdating mac app store apps\\e[39m"
+    echo -e "${COLOR_GREEN}Updating mac app store apps${COLOR_RESET}"
     mas upgrade
   fi
   if hash vim 2>/dev/null; then
-    echo -e "\\e[32mUpdating vim plugins\\e[39m"
+    echo -e "${COLOR_GREEN}Updating vim plugins${COLOR_RESET}"
     vim +PlugUpdate +PlugUpgrade +PlugClean +qall
   fi
-  echo -e "\\e[32mHousekeeping finished\\e[39m"
+  echo -e "${COLOR_GREEN}Housekeeping finished${COLOR_RESET}"
 }
 
 #Arguments parsing
