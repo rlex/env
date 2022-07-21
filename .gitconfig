@@ -72,7 +72,7 @@
   email = me@lex.io
   signingkey = E7ED7B6B453AF56C
 [push]
-  default = matching
+  default = current
 [help]
   autocorrect = 1
 [filter "lfs"]
