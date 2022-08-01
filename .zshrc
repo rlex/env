@@ -67,8 +67,8 @@ if [ -d /usr/local/share/zsh/site-functions ]; then
 fi
 
 #Homebrew zsh-only completions
-if [ -d /usr/local/share/zsh-completions ]; then
-  fpath=(/usr/local/share/zsh-completions $fpath)
+if [ -d /opt/homebrew/share/zsh-completions ]; then
+  fpath=(/opt/homebrew/share/zsh-completions $fpath)
 fi
 
 # man zshcontrib

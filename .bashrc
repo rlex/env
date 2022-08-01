@@ -9,8 +9,8 @@ if [[ -f /etc/bash_completion.d ]]; then
 fi
 
 #homebrew bash completion
-if [[ -f /usr/local/etc/bash_completion.d ]]; then
-  source /usr/local/etc/bash_completion.d
+if [[ -f /opt/homebrew/etc/bash_completion.d ]]; then
+  source /opt/homebrew/etc/bash_completion.d
 fi
 
 # user preferences
