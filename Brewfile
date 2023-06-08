@@ -7,9 +7,7 @@ if OS.mac?
   tap "homebrew/services"
   tap "homebrew/cask-drivers"
   tap "mas-cli/tap"
-  #some apps requires java, sshfs requires fuse
-  cask "java"
-  cask "adoptopenjdk"
+  tap "norwoodj/tap"
   #Brews
   brew "ack"
   brew "arping"
@@ -24,9 +22,6 @@ if OS.mac?
   brew "dhcping"
   brew "dnsperf"
   brew "dnstracer"
-#  brew "docker"
-#  brew "docker-compose"
-#  brew "docker-machine"
   brew "dos2unix"
   brew "elinks"
   brew "ettercap"
@@ -41,7 +36,6 @@ if OS.mac?
   brew "git-extras"
   brew "git-lfs"
   brew "git-secret"
-  brew "git-secrets"
   brew "gnu-sed"
   brew "gnupg2"
   brew "go"
@@ -65,9 +59,7 @@ if OS.mac?
   brew "lzo"
   brew "m-cli"
   brew "mas"
-  brew "midnight-commander"
   brew "mitmproxy"
-  brew "mobile-shell"
   brew "moreutils"
   brew "mtr"
   brew "mutt"
@@ -96,8 +88,6 @@ if OS.mac?
   brew "tig"
   brew "tmux"
   brew "tree"
-  brew "unrar"
-  brew "upx"
   brew "util-linux"
   brew "vagrant-completion"
   brew "vim"
@@ -113,43 +103,31 @@ if OS.mac?
   cask "alfred"
   cask "android-platform-tools"
   cask "apache-directory-studio"
-  cask "bettertouchtool"
   cask "charles"
   cask "commander-one"
-  cask "docker"
-#  cask "dropbox"
-  cask "freesmug-chromium"
   cask "gns3"
-  cask "google-chrome"
+  cask "firefox"
   cask "iterm2"
-  cask "java"
-  cask "keybase"
-  cask "lens"
+  cask "openlens"
   cask "netspot"
   cask "openvisualtraceroute"
   cask "plexamp"
   cask "plex-media-player"
+  cask "rar"
   cask "royal-tsx"
-  cask "sequel-pro"
-  cask "skype"
   cask "spectacle"
   cask "spotify"
   cask "teamspeak-client"
   cask "teamviewer"
   cask "telegram"
-  cask "tower"
-  cask "transmission"
   cask "transmission-remote-gui"
-  cask "tuntap"
   cask "vagrant"
   cask "viscosity"
   cask "visual-studio-code"
   cask "visualvm"
   cask "vlc"
-  cask "vmware-fusion"
   cask "nrlquaker-winbox"
   cask "wireshark"
-  cask "xca"
   cask "xquartz"
   #Fonts
   cask "font-anonymous-pro"
@@ -160,16 +138,13 @@ if OS.mac?
   cask "font-source-code-pro"
   cask "font-terminus"
   #MAS
-  mas "1Password", id: 443987910
   mas "Airmail 3", id: 918858936
   mas "Amphetamine", id: 937984704
   mas "Droplr", id: 498672703
   mas "ForkLift", id: 412448059
   mas "Microsoft Remote Desktop", id: 1295203466
-  mas "Monosnap", id: 540348655
   mas "Pixelmator", id: 407963104
-  mas "Textual", id: 896450579
-  mas "Tweetbot", id: 1384080005
+  mas "Wireguard", id: 1451685025
 end
 
 #Installs on both linux & osx
@@ -179,10 +154,10 @@ brew "velero"
 brew "k9s"
 brew "krew"
 brew "kubectl"
-brew "octant"
 brew "calicoctl"
 brew "helm"
 brew "helmfile"
+brew "helm-docs"
 brew "istioctl"
 brew "kubectx"
 brew "cilium-cli"
