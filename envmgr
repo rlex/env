@@ -104,6 +104,7 @@ install_homebrew() {
         #probably i should migrate to manual install.
         #Running (even respected) scripts from interwebs is stupid.
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+        eval "$(/opt/homebrew/bin/brew shellenv)"
       fi
   fi
   brew bundle

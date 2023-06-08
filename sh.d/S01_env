@@ -15,6 +15,10 @@ if [[ -d "$HOME/.linuxbrew" ]]; then
   eval $(~/.linuxbrew/bin/brew shellenv)
 fi
 
+if [[ -d "/opt/homebrew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 #Locales
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
