@@ -8,6 +8,7 @@ if OS.mac?
   tap "homebrew/cask-drivers"
   tap "mas-cli/tap"
   tap "norwoodj/tap"
+  tap "altinity/clickhouse"
   #Brews
   brew "ack"
   brew "arping"
@@ -16,6 +17,7 @@ if OS.mac?
   brew "bash"
   brew "bash-completion"
   brew "certigo"
+  brew "clickhouse-client"
   brew "coreutils"
   brew "curl"
   brew "dhcpdump"
@@ -55,6 +57,7 @@ if OS.mac?
   brew "iperf3"
   brew "ipmitool"
   brew "john-jumbo"
+  brew "jq"
   brew "lazygit"
   brew "lzo"
   brew "m-cli"
@@ -138,7 +141,6 @@ if OS.mac?
   cask "font-source-code-pro"
   cask "font-terminus"
   #MAS
-  mas "Airmail 3", id: 918858936
   mas "Amphetamine", id: 937984704
   mas "Droplr", id: 498672703
   mas "ForkLift", id: 412448059
