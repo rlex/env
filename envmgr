@@ -74,6 +74,9 @@ install_devenv() {
   for npm_package in "${npms[@]}"; do
     grep -sq ${npm_package} ~/.default-npm-packages || echo ${npm_package} >> ~/.default-npm-packages
   done
+  for go_pkg in "${gopkgs[@]}"; do
+    grep -sq ${go_pkg} ~/.default-golang-pkgs || echo ${go_pkg} >> ~/.default-golang-pkgs
+  done
   #install latest versions of langs
   #nodejs verifies signatures, assuming trusted environment
   #FIXME: support GPG verification for nodejs and python
