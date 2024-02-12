@@ -73,6 +73,7 @@
   signingkey = E7ED7B6B453AF56C
 [push]
   default = current
+  followTags = true
 [help]
   autocorrect = 1
 [filter "lfs"]
@@ -82,7 +83,7 @@
   process = git-lfs filter-process
 [commit]
   gpgSign = true
-#[submodule]
-#  recurse = true
+[submodule]
+  recurse = true
 [pull]
   rebase = true
