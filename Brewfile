@@ -1,7 +1,6 @@
 #Installs on OSX only
 if OS.mac?
   tap "homebrew/bundle"
-  tap "homebrew/cask-fonts"
   tap "homebrew/services"
   tap "mas-cli/tap"
   tap "norwoodj/tap"
