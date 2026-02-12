@@ -46,24 +46,36 @@ install_env() {
   echo -e "${COLOR_GREEN}Finished installing vim plugins${COLOR_RESET}"
 }
 
-# Install asdf and plugins (ruby, python, nodejs, golang)
-# Plugins listed in envmgr.conf in asdf_plugins array
-# TODO: add cleanup of old versions, maybe as separate func
+# Install mise and tools (python, node, ruby, golang)
+# TODO: detect last version automatically
+# TODO: verify downloaded binary against shasum
 install_devenv() {
-  #install asdf
-  echo -e "${COLOR_GREEN}Installing asdf${COLOR_RESET}"
-  if [[ ! -d "$HOME/.asdf" ]]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+  #install mise
+  echo -e "${COLOR_GREEN}Installing mise${COLOR_RESET}"
+  #detect if it's already installed, if yes, just do self-update
+  if [[ -f ~/.local/bin/mise ]]; then
+    mise self-update
   else
-    cd ~/.asdf && git pull
+    #if not, download
+    #detect os
+    case ${OSTYPE} in
+        "linux-gnu"*) mise_system="linux" ;;
+        "darwin"*) mise_system="macos" ;;
+        *) echo "FAIL" ;;
+    esac
+    #detect arch since naming is non-standard
+    case $(uname -m) in
+        "x86_64"*) mise_architecture="x64" ;;
+        "arm64"*) mise_architecture="arm64" ;;
+        *) echo "FAIL" ;;
+    esac
+    mise_download_url=https://github.com/jdx/mise/releases/download/v2026.2.10/mise-v2026.2.10-"${mise_system}"-"${mise_architecture}"
+    echo -e "${COLOR_GREEN}Downloading mise from $mise_download_url${COLOR_RESET}"
+    curl -L ${mise_download_url} > ~/.local/bin/mise
+    chmod +x ~/.local/bin/mise
+    #init mise
+    eval "$(~/.local/bin/mise activate bash)"
   fi
-  #init asdf
-  source ~/.rc/sh.d/S01_env
-  #install plugins
-  echo -e "${COLOR_GREEN}Installing asdf plugins${COLOR_RESET}"
-  for lang in "${asdf_plugins[@]}"; do
-    asdf plugin-add ${lang}
-  done
   #setup default packages
   for gem in "${gems[@]}"; do
     grep -sq ${gem} ~/.default-gems || echo ${gem} >> ~/.default-gems
@@ -77,17 +89,13 @@ install_devenv() {
   for go_pkg in "${gopkgs[@]}"; do
     grep -sq ${go_pkg} ~/.default-golang-pkgs || echo ${go_pkg} >> ~/.default-golang-pkgs
   done
-  #install latest versions of langs
-  #nodejs verifies signatures, assuming trusted environment
-  #FIXME: support GPG verification for nodejs and python
-  echo -e "${COLOR_GREEN}Installing languages with asdf${COLOR_RESET}"
-  for lang in "${asdf_plugins[@]}"; do
-    latest_version=$(asdf list-all ${lang} | sort -V | grep -v '[a-z]' | tail -1)
-    echo "Latest ${lang} => ${latest_version}"
-    NODEJS_CHECK_SIGNATURES=no asdf install ${lang} ${latest_version}
-    asdf global ${lang} ${latest_version}
+  #install default tools
+  echo -e "${COLOR_GREEN}Installing default tools${COLOR_RESET}"
+  for mise_tool in "${mise_tools[@]}"; do
+    mise install "${mise_tool}"
+    mise use "${mise_tool}"
   done
-  echo -e "${COLOR_GREEN}Finished installing asdf${COLOR_RESET}"
+  echo -e "${COLOR_GREEN}Finished installing mise${COLOR_RESET}"
 }
 
 #Installs homebrew on os x (global, script) and linux (manual, homedir)
@@ -138,7 +146,11 @@ env_nuke() {
     rm -vf ~/.${file}
   done
   echo "Cleaning up devenv"
+  #for backwards compatibility
   rm -rvf ~/.asdf
+  rm -rvf ~/.local/bin/mise
+  rm -rvf ~/.local/share/mise
+  rm -rvf ~/.local/state/mise
   echo "Removing history"
   rm -vf ~/.zsh-history
   rm -vf ~/.bash_history
@@ -161,11 +173,11 @@ env_housekeeper() {
     brew upgrade
     brew cleanup
   fi
-  # Update asdf
-  echo -e "${COLOR_GREEN}Updating asdf and asdf plugins${COLOR_RESET}"
-  if hash asdf 2>/dev/null; then
-    asdf update
-    asdf plugin-update --all
+  # Update mise
+  echo -e "${COLOR_GREEN}Updating mise and mise plugins${COLOR_RESET}"
+  if hash mise 2>/dev/null; then
+    mise self-update
+    mise upgrade --bump
   fi
   if hash kubectl-krew 2>/dev/null; then
     kubectl krew upgrade
@@ -199,7 +211,7 @@ case "${1}" in
   *)
     echo "Command list:"
     echo "env - symlink dotfiles"
-    echo "devenv - install asdf with plugins"
+    echo "devenv - install mise with plugins"
     echo "brew - install homebrew and packages from bundle"
     echo "fullenv - env, devenv and brew combined"
     echo "nuke - remove (almost) everything installed by envmgr"
