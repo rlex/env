@@ -1,155 +1,155 @@
-#Installs on OSX only
+# Installs on OSX only
 if OS.mac?
-  tap "mas-cli/tap"
-  tap "norwoodj/tap"
-  #Brews
-  brew "ack"
-  brew "arping"
-  brew "aws-shell"
-  brew "awscli"
-  brew "bash"
-  brew "bash-completion"
-  brew "certigo"
-  brew "coreutils"
-  brew "curl"
-  brew "dhcpdump"
-  brew "dhcping"
-  brew "dnsperf"
-  brew "dnstracer"
-  brew "dos2unix"
-  brew "ettercap"
-  brew "ffmpeg"
-  brew "findutils"
-  brew "flowgrind"
-  brew "fping"
-  brew "foremost"
-  brew "gawk"
-  brew "git"
-  brew "git-extras"
-  brew "git-lfs"
-  brew "git-secret"
-  brew "gnu-sed"
-  brew "gnupg2"
-  brew "go"
-  brew "graphicsmagick"
-  brew "grep"
-  brew "hadoop"
-  brew "hopenpgp-tools"
-  brew "htop"
-  brew "httperf"
-  brew "httpie"
-  brew "httping"
-  brew "httpry"
-  brew "httpstat"
-  brew "hub"
-  brew "imagemagick"
-  brew "iperf3"
-  brew "ipmitool"
-  brew "john-jumbo"
-  brew "jq"
-  brew "lazygit"
-  brew "lzo"
-  brew "m-cli"
-  brew "mas"
-  brew "moreutils"
-  brew "mtr"
-  brew "mutt"
-  brew "nmap"
-  brew "ollama", start_service: true
-  brew "openssh"
-  brew "p7zip"
-  brew "pigz"
-  brew "pngcheck"
-  brew "pngcrush"
-  brew "privoxy"
-  brew "pwgen"
-  brew "qemu"
-  brew "recon-ng"
-  brew "screen"
-  brew "sipcalc"
-  brew "smartmontools"
-  brew "socat"
-  brew "sqlite"
-  brew "sqlmap"
-  brew "ssh-audit"
-  brew "sslscan"
-  brew "sysdig"
-  brew "tcpreplay"
-  brew "tcptrace"
-  brew "telnet"
-  brew "tig"
-  brew "tmux"
-  brew "tree"
-  brew "util-linux"
-#  brew "vagrant-completion"
-  brew "vim"
-  brew "wakeonlan"
-  brew "wget"
-  brew "whois"
-  brew "xz"
-  brew "zsh"
-  brew "zsh-completions"
-  #Casks
-  cask "alfred"
-  cask "android-platform-tools"
-  cask "apache-directory-studio"
-  cask "charles"
-  cask "gns3"
-  cask "firefox"
-  cask "iterm2"
-  cask "orbstack"
-  cask "mitmproxy"
-  cask "netspot"
-  cask "openvisualtraceroute"
-  cask "plexamp"
-  cask "rar"
-  cask "rectangle"
-  cask "royal-tsx"
-  cask "spotify"
-  cask "stats"
-  cask "teamspeak-client"
-  cask "telegram"
-  cask "transmission-remote-gui"
-#  cask "vagrant"
-  cask "viscosity"
-  cask "visual-studio-code"
-  cask "visualvm"
-  cask "vlc"
-  cask "nrlquaker-winbox"
-  cask "wireshark-app"
-  cask "xquartz"
-  #Fonts
-  cask "font-anonymous-pro"
-  cask "font-fira-code"
-  cask "font-hack"
-  cask "font-input"
-  cask "font-iosevka"
-  cask "font-source-code-pro"
-  cask "font-terminus"
-  #MAS
-  mas "Amphetamine", id: 937984704
-  mas "Droplr", id: 498672703
-  mas "ForkLift", id: 412448059
-  mas "Microsoft Remote Desktop", id: 1295203466
-  mas "Pixelmator", id: 407963104
-  mas "Wireguard", id: 1451685025
+  tap 'mas-cli/tap'
+  tap 'norwoodj/tap'
+  # Brews
+  brew 'ack'
+  brew 'arping'
+  brew 'aws-shell'
+  brew 'awscli'
+  brew 'bash'
+  brew 'bash-completion'
+  brew 'certigo'
+  brew 'coreutils'
+  brew 'curl'
+  brew 'dhcpdump'
+  brew 'dhcping'
+  brew 'dnsperf'
+  brew 'dnstracer'
+  brew 'dos2unix'
+  brew 'ettercap'
+  brew 'ffmpeg'
+  brew 'findutils'
+  brew 'flowgrind'
+  brew 'fping'
+  brew 'foremost'
+  brew 'gawk'
+  brew 'git'
+  brew 'git-extras'
+  brew 'git-lfs'
+  brew 'git-secret'
+  brew 'gnu-sed'
+  brew 'gnupg2'
+  brew 'go'
+  brew 'graphicsmagick'
+  brew 'grep'
+  brew 'hadoop'
+  brew 'hopenpgp-tools'
+  brew 'htop'
+  brew 'httperf'
+  brew 'httpie'
+  brew 'httping'
+  brew 'httpry'
+  brew 'httpstat'
+  brew 'hub'
+  brew 'imagemagick'
+  brew 'iperf3'
+  brew 'ipmitool'
+  brew 'john-jumbo'
+  brew 'jq'
+  brew 'lazygit'
+  brew 'lzo'
+  brew 'm-cli'
+  brew 'mas'
+  brew 'moreutils'
+  brew 'mtr'
+  brew 'mutt'
+  brew 'nmap'
+  brew 'ollama', start_service: true
+  brew 'openssh'
+  brew 'p7zip'
+  brew 'pigz'
+  brew 'pngcheck'
+  brew 'pngcrush'
+  brew 'privoxy'
+  brew 'pwgen'
+  brew 'qemu'
+  brew 'recon-ng'
+  brew 'screen'
+  brew 'sipcalc'
+  brew 'smartmontools'
+  brew 'socat'
+  brew 'sqlite'
+  brew 'sqlmap'
+  brew 'ssh-audit'
+  brew 'sslscan'
+  brew 'sysdig'
+  brew 'tcpreplay'
+  brew 'tcptrace'
+  brew 'telnet'
+  brew 'tig'
+  brew 'tmux'
+  brew 'tree'
+  brew 'util-linux'
+  # brew 'vagrant-completion'
+  brew 'vim'
+  brew 'wakeonlan'
+  brew 'wget'
+  brew 'whois'
+  brew 'xz'
+  brew 'zsh'
+  brew 'zsh-completions'
+  # Casks
+  cask 'alfred'
+  cask 'android-platform-tools'
+  cask 'apache-directory-studio'
+  cask 'charles'
+  cask 'gns3'
+  cask 'firefox'
+  cask 'iterm2'
+  cask 'orbstack'
+  cask 'mitmproxy'
+  cask 'netspot'
+  cask 'openvisualtraceroute'
+  cask 'plexamp'
+  cask 'rar'
+  cask 'rectangle'
+  cask 'royal-tsx'
+  cask 'spotify'
+  cask 'stats'
+  cask 'teamspeak-client'
+  cask 'telegram'
+  cask 'transmission-remote-gui'
+  # cask 'vagrant'
+  cask 'viscosity'
+  cask 'visual-studio-code'
+  cask 'visualvm'
+  cask 'vlc'
+  cask 'nrlquaker-winbox'
+  cask 'wireshark-app'
+  cask 'xquartz'
+  # Fonts
+  cask 'font-anonymous-pro'
+  cask 'font-fira-code'
+  cask 'font-hack'
+  cask 'font-input'
+  cask 'font-iosevka'
+  cask 'font-source-code-pro'
+  cask 'font-terminus'
+  # MAS
+  mas 'Amphetamine', id: 937984704
+  mas 'Droplr', id: 498672703
+  mas 'ForkLift', id: 412448059
+  mas 'Microsoft Remote Desktop', id: 1295203466
+  mas 'Pixelmator', id: 407963104
+  mas 'Wireguard', id: 1451685025
 end
 
-#Installs on both linux & osx
-tap "derailed/k9s"
-#kubernetes stuff
-brew "velero"
-brew "k9s"
-brew "krew"
-brew "kubectl"
-brew "calicoctl"
-brew "helm"
-brew "helmfile"
-brew "helm-docs"
-brew "istioctl"
-brew "kubectx"
-brew "cilium-cli"
-brew "kubeseal"
-#misc stuff
-brew "shellcheck"
-brew "shfmt"
+# Installs on both linux & osx
+tap 'derailed/k9s'
+# kubernetes stuff
+brew 'velero'
+brew 'k9s'
+brew 'krew'
+brew 'kubectl'
+brew 'calicoctl'
+brew 'helm'
+brew 'helmfile'
+brew 'helm-docs'
+brew 'istioctl'
+brew 'kubectx'
+brew 'cilium-cli'
+brew 'kubeseal'
+# misc stuff
+brew 'shellcheck'
+brew 'shfmt'
