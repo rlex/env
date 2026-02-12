@@ -1,10 +1,7 @@
 #Installs on OSX only
 if OS.mac?
-  tap "homebrew/bundle"
-  tap "homebrew/services"
   tap "mas-cli/tap"
   tap "norwoodj/tap"
-  tap "altinity/clickhouse"
   #Brews
   brew "ack"
   brew "arping"
@@ -13,7 +10,6 @@ if OS.mac?
   brew "bash"
   brew "bash-completion"
   brew "certigo"
-  brew "clickhouse"
   brew "coreutils"
   brew "curl"
   brew "dhcpdump"
@@ -126,7 +122,7 @@ if OS.mac?
   cask "visualvm"
   cask "vlc"
   cask "nrlquaker-winbox"
-  cask "wireshark"
+  cask "wireshark-app"
   cask "xquartz"
   #Fonts
   cask "font-anonymous-pro"
