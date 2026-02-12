@@ -70,7 +70,11 @@ install_devenv() {
         "arm64"*) mise_architecture="arm64" ;;
         *) echo "Unable to detect supported architecture" || die ;;
     esac
-    mise_download_url=https://github.com/jdx/mise/releases/download/v2026.2.10/mise-v2026.2.10-"${mise_system}"-"${mise_architecture}"
+    # if we have jq available, parse latest version, otherwise use one from configs
+    if hash jq 2>/dev/null; then
+      mise_version=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/jdx/mise/releases | jq -r '.[0].tag_name')
+    fi
+    mise_download_url=https://github.com/jdx/mise/releases/download/"${mise_version}"/mise-"${mise_version}"-"${mise_system}"-"${mise_architecture}"
     echo -e "${COLOR_GREEN}Downloading mise from ${mise_download_url}${COLOR_RESET}"
     curl -L "${mise_download_url}" > "${HOME}/.local/bin/mise"
     chmod +x "${HOME}/.local/bin/mise"
