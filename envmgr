@@ -4,41 +4,42 @@
 # Also upgrades, cleanups homebrew and similar stuff in single command
 # Actually absurdly ugly, but hey, it works! Somehow.
 
-#colors
+# colors
 COLOR_RESET="$(tput sgr0)"
 COLOR_GREEN="$(tput setaf 2)"
 
-#source config
-source ~/.rc/envmgr.conf
+# source config
+# shellcheck disable=SC1091
+source "${HOME}/.rc/envmgr.conf"
 
 # Function to symlink dotfiles
 # Checking if OS is Linux (GNU coreutils), if not, we assume OS uses BSD utils
 symlink() {
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    ln -sfvn ${1} ${2}
+  if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
+    ln -sfvn "${1}" "${2}"
   else
-    ln -sfvh ${1} ${2}
+    ln -sfvh "${1}" "${2}"
   fi
 }
 
-#Symlink dotfiles and envmgr from ~/.rc to ~
+# Symlink dotfiles and envmgr from ${HOME}/.rc to ~
 install_env() {
   echo -e "${COLOR_GREEN}Deploying environment${COLOR_RESET}"
-  cd ~/.rc || exit
-  echo -e "${COLOR_GREEN}Deploying dotfiles from $(pwd) to ${HOME}${COLOR_RESET}"
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  cd "${HOME}/.rc" || exit
+  echo -e "${COLOR_GREEN}Deploying dotfiles from $(pwd || true) to ${HOME}${COLOR_RESET}"
+  if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
     dotdirs=( .config .local/share )
     for dir in "${dotdirs[@]}"; do
-      if [[ ! -d ~/${dir} ]]; then
-        mkdir -p ~/${dir}
+      if [[ ! -d ${HOME}/${dir} ]]; then
+        mkdir -p "${HOME}/${dir}"
       fi
     done
     dotfiles=("${dotfiles[@]}" "${linuxenv[@]}")
   fi
   for file in "${dotfiles[@]}"; do
-    symlink ~/.rc/.${file} ~/.${file}
+    symlink "${HOME}/.rc/.${file}" "${HOME}/.${file}"
   done
-  symlink ~/.rc/envmgr ~/.rc/.bin/envmgr
+  symlink "${HOME}/.rc/envmgr" "${HOME}/.rc/.bin/envmgr"
   cd - >&/dev/null || exit 1
   echo -e "${COLOR_GREEN}Finished deploying dotfiles${COLOR_RESET}"
   echo -e "${COLOR_GREEN}Installing vim plugins${COLOR_RESET}"
@@ -50,46 +51,46 @@ install_env() {
 # TODO: detect last version automatically
 # TODO: verify downloaded binary against shasum
 install_devenv() {
-  #install mise
+  # install mise
   echo -e "${COLOR_GREEN}Installing mise${COLOR_RESET}"
-  #detect if it's already installed, if yes, just do self-update
-  if [[ -f ~/.local/bin/mise ]]; then
+  # detect if it's already installed, if yes, just do self-update
+  if [[ -f ${HOME}/.local/bin/mise ]]; then
     mise self-update
   else
-    #if not, download
-    #detect os
+    # if not, download
+    # detect os
     case ${OSTYPE} in
         "linux-gnu"*) mise_system="linux" ;;
         "darwin"*) mise_system="macos" ;;
-        *) echo "FAIL" ;;
+        *) echo "Unable to detect supported operating system" || die ;;
     esac
-    #detect arch since naming is non-standard
+    # detect arch since naming is non-standard
     case $(uname -m) in
         "x86_64"*) mise_architecture="x64" ;;
         "arm64"*) mise_architecture="arm64" ;;
-        *) echo "FAIL" ;;
+        *) echo "Unable to detect supported architecture" || die ;;
     esac
     mise_download_url=https://github.com/jdx/mise/releases/download/v2026.2.10/mise-v2026.2.10-"${mise_system}"-"${mise_architecture}"
-    echo -e "${COLOR_GREEN}Downloading mise from $mise_download_url${COLOR_RESET}"
-    curl -L ${mise_download_url} > ~/.local/bin/mise
-    chmod +x ~/.local/bin/mise
-    #init mise
-    eval "$(~/.local/bin/mise activate bash)"
+    echo -e "${COLOR_GREEN}Downloading mise from ${mise_download_url}${COLOR_RESET}"
+    curl -L "${mise_download_url}" > "${HOME}/.local/bin/mise"
+    chmod +x "${HOME}/.local/bin/mise"
+    # init mise, force bash because that's what we default
+    eval "$("${HOME}"/.local/bin/mise activate bash || true)"
   fi
-  #setup default packages
+  # setup default packages
   for gem in "${gems[@]}"; do
-    grep -sq ${gem} ~/.default-gems || echo ${gem} >> ~/.default-gems
+    grep -sq "${gem}" "${HOME}/.default-gems" || echo "${gem}" >> "${HOME}/.default-gems"
   done
   for egg in "${eggs[@]}"; do
-    grep -sq ${egg} ~/.default-python-packages || echo ${egg} >> ~/.default-python-packages
+    grep -sq "${egg}" "${HOME}/.default-python-packages" || echo "${egg}" >> "${HOME}/.default-python-packages"
   done
   for npm_package in "${npms[@]}"; do
-    grep -sq ${npm_package} ~/.default-npm-packages || echo ${npm_package} >> ~/.default-npm-packages
+    grep -sq "${npm_package}" "${HOME}/.default-npm-packages" || echo "${npm_package}" >> "${HOME}/.default-npm-packages"
   done
   for go_pkg in "${gopkgs[@]}"; do
-    grep -sq ${go_pkg} ~/.default-golang-pkgs || echo ${go_pkg} >> ~/.default-golang-pkgs
+    grep -sq "${go_pkg}" "${HOME}/.default-golang-pkgs" || echo "${go_pkg}" >> "${HOME}/.default-golang-pkgs"
   done
-  #install default tools
+  # install default tools
   echo -e "${COLOR_GREEN}Installing default tools${COLOR_RESET}"
   for mise_tool in "${mise_tools[@]}"; do
     mise install "${mise_tool}"
@@ -98,31 +99,30 @@ install_devenv() {
   echo -e "${COLOR_GREEN}Finished installing mise${COLOR_RESET}"
 }
 
-#Installs homebrew on os x (global, script) and linux (manual, homedir)
-#Also installs apps from ~/.rc/Brewfile
+# Installs homebrew on os x (global, script) and linux (manual, homedir)
+# Also installs apps from ${HOME}/.rc/Brewfile
 install_homebrew() {
-  cd ~/.rc || exit
+  cd "${HOME}/.rc" || exit
   echo -e "${COLOR_GREEN}Installing homebrew and favourite packages${COLOR_RESET}"
   if hash brew 2>/dev/null; then
     echo "Brew is already installed!"
     else
-      if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
-        mkdir ~/.linuxbrew/bin
-        ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
-        eval $(~/.linuxbrew/bin/brew shellenv)
-      elif [[ "$OSTYPE" == "darwin"* ]]; then
-        #probably i should migrate to manual install.
-        #Running (even respected) scripts from interwebs is stupid.
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+      if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
+        git clone https://github.com/Homebrew/brew "${HOME}/.linuxbrew/Homebrew"
+        mkdir "${HOME}/.linuxbrew/bin"
+        ln -s "${HOME}/.linuxbrew/Homebrew/bin/brew" "${HOME}/.linuxbrew/bin"
+        eval "$("${HOME}"/.linuxbrew/bin/brew shellenv || true)"
+      elif [[ "${OSTYPE}" == "darwin"* ]]; then
+        # TODO: Migrate to manual install
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh || true)"
+        eval "$(/opt/homebrew/bin/brew shellenv || true)"
       fi
   fi
   brew bundle
 }
 
 install_kubectl_plugins() {
-  cd ~/.rc || exit
+  cd "${HOME}/.rc" || exit
   echo -e "${COLOR_GREEN}Installing kubectl plugins${COLOR_RESET}"
   if hash kubectl-krew 2>/dev/null; then
     kubectl krew install "${kubectl_plugins}"
@@ -130,43 +130,43 @@ install_kubectl_plugins() {
 }
 
 install_helm_plugins() {
-  cd ~/.rc || exit
+  cd "${HOME}/.rc" || exit
   echo -e "${COLOR_GREEN}Installing helm plugins${COLOR_RESET}"
   if hash helm 2>/dev/null; then
     helm plugin install "${helm_plugins}"
   fi
 }
 
-#Nukes whole dotfiles setup
-#TODO: Maybe use shred instead of rm?
+# Nukes whole dotfiles setup
+# TODO: Maybe use shred instead of rm?
 env_nuke() {
   echo "Cleaning up env"
   echo "Removing dotfiles symlinks"
   for file in "${dotfiles[@]}"; do
-    rm -vf ~/.${file}
+    rm -vf "${HOME}/.${file}"
   done
   echo "Cleaning up devenv"
   #for backwards compatibility
-  rm -rvf ~/.asdf
-  rm -rvf ~/.local/bin/mise
-  rm -rvf ~/.local/share/mise
-  rm -rvf ~/.local/state/mise
+  rm -rvf "${HOME}/.asdf"
+  rm -rvf "${HOME}/.local/bin/mise"
+  rm -rvf "${HOME}/.local/share/mise"
+  rm -rvf "${HOME}/.local/state/mise"
   echo "Removing history"
-  rm -vf ~/.zsh-history
-  rm -vf ~/.bash_history
+  rm -vf "${HOME}/.zsh-history"
+  rm -vf "${HOME}/.bash_history"
   echo "Removing linuxbrew"
-  rm -rf ~/.linuxbrew
+  rm -rf "${HOME}/.linuxbrew"
   echo "Removing dotfiles directory"
-  rm -rf ~/.rc
+  rm -rf "${HOME}/.rc"
 }
 
-#Checks for updates in env, homebrew, vim plugins and mac app store
+# Checks for updates in env, homebrew, vim plugins and mac app store
 env_housekeeper() {
   echo -e "${COLOR_GREEN}Started housekeeping${COLOR_RESET}"
   echo -e "${COLOR_GREEN}Updating dotfiles repo${COLOR_RESET}"
-  git -C ~/.rc pull
+  git -C "${HOME}/.rc" pull
   echo -e "${COLOR_GREEN}Cleaning up outdated symlinks${COLOR_RESET}"
-  find -L $HOME -maxdepth 1 -type l -exec rm -i {} +
+  find -L "${HOME}" -maxdepth 1 -type l -exec rm -i {} +
   if hash brew 2>/dev/null; then
     echo -e "${COLOR_GREEN}Updating and cleaning up homebrew${COLOR_RESET}"
     brew update
@@ -200,7 +200,7 @@ env_housekeeper() {
   echo -e "${COLOR_GREEN}Housekeeping finished${COLOR_RESET}"
 }
 
-#Arguments parsing
+# Arguments parsing
 case "${1}" in
   env) install_env ;;
   devenv) install_devenv ;;
