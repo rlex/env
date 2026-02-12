@@ -118,7 +118,7 @@ install_homebrew() {
         eval "$("${HOME}"/.linuxbrew/bin/brew shellenv || true)"
       elif [[ "${OSTYPE}" == "darwin"* ]]; then
         # TODO: Migrate to manual install
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh || true)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh || true)"
         eval "$(/opt/homebrew/bin/brew shellenv || true)"
       fi
   fi
