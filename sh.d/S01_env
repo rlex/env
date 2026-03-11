@@ -6,11 +6,6 @@ fi
 #main PATH
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.rc/.bin:${HOME}/.krew/bin:$PATH"
 
-#init asdf
-if [[ -f "$HOME/.local/bin/mise" ]]; then
-  eval "$(~/.local/bin/mise activate zsh)"
-fi
-
 if [[ -d "$HOME/.linuxbrew" ]]; then
   eval $(~/.linuxbrew/bin/brew shellenv)
 fi

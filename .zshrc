@@ -29,6 +29,12 @@ else
   export CLICOLOR=1
 fi
 
+# Mise
+#Mise
+if [ -f "$HOME/.local/bin/mise" ]; then
+  eval "$(~/.local/bin/mise activate zsh)"
+fi
+
 # proper formatting for shell titles
 # more info: http://www.semicomplete.com/blog/productivity/better-zsh-xterm-title-fix.html
 function title() {
