@@ -55,13 +55,13 @@ pk() {
 
 digg() {
   case $1 in
-    bind) dig +nocmd $2 any +multiline +noall +answer ;;
-    *) dig -t $1 $2 +noall +answer +nocmd ;;
+    bind) dig +nocmd "$2" any +multiline +noall +answer ;;
+    *) dig -t "$1" "$2" +noall +answer +nocmd ;;
   esac
 }
 
 grab() {
-  sudo chown -R ${USER} ${1:-.};
+  sudo chown -R "${USER}" ${1:-.};
 }
 
 calc() {
@@ -73,7 +73,7 @@ ssh-send-id() {
     echo "Usage: ssh-send-id pubkey_name machine"
     return 1
   fi
-  cat ~/.ssh/keys/id_${1}.pub | ssh $2 'mkdir -p ~/.ssh; cat >> .ssh/authorized_keys'
+  cat ~/.ssh/keys/id_"${1}".pub | ssh $2 'mkdir -p ~/.ssh; cat >> .ssh/authorized_keys'
   return $?
 }
 
