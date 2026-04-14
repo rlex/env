@@ -1,11 +1,11 @@
 # tag a directory in a command to come to it later
 tag() {
-  alias $1="cd ${PWD}";
+  alias "$1"="cd ${PWD}";
 }
 
 bu() {
   for f in "$@"; do
-    cp -a $f ~/.backup/${f}-"$(date +%Y%m%d%H%M)".backup ;
+    cp -a "${f}" ~/.backup/"${f}"-"$(date +%Y%m%d%H%M)".backup ;
   done
 }
 
@@ -31,19 +31,25 @@ ex () {
 }
 
 pk() {
-  if [[ -z $1 ]]; then
-    case $1 in
-      tbz) tar cjvf $2.tar.bz2 $2 ;;
-      tgz) tar czvf $2.tar.gz $2 ;;
-      tar) tar cpvf $2.tar $2 ;;
-      bz2) bzip $2 ;;
-      gz)  gzip -c -9 -n $2 > $2.gz ;;
-      zip) zip -r $2.zip $2 ;;
-      7z)  7z a $2.7z $2 ;;
-      *)   echo "'$1' cannot be packed via pk()" ;;
+  local file=$1
+  local type=$2
+  if [[ -n $file && -e $file ]]; then
+    case $type in
+      (tbz) tar cjvf "${file}.tar.bz2" "$file" ;;
+      (tgz) tar czvf "${file}.tar.gz"  "$file" ;;
+      (tar) tar cpvf "${file}.tar"     "$file" ;;
+      (bz2) bzip "$file" ;;
+      (gz)  gzip -c -9 -n "$file" > "${file}.gz" ;;
+      (zip) zip -r "${file}.zip" "$file" ;;
+      (7z)  7z a "${file}.7z" "$file" ;;
+      (*)   echo "'$type' is not a valid archive format" ;;
     esac
   else
-    echo "'$1' is not a valid file"
+    if [[ -z $file ]]; then
+      echo "Error: No file specified."
+    else
+      echo "Error: '$file' is not a valid file."
+    fi
   fi
 }
 

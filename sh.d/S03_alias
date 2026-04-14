@@ -1,6 +1,4 @@
-#file for short aliases
-#sudo bypass aliases
-alias sudo='sudo '
+# file for short aliases
 alias j="jobs"
 alias fixtty="stty sane && reset"
 if ls -F --color=auto >&/dev/null; then

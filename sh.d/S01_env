@@ -7,7 +7,7 @@ fi
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.rc/.bin:${HOME}/.krew/bin:$PATH"
 
 if [[ -d "$HOME/.linuxbrew" ]]; then
-  eval $(~/.linuxbrew/bin/brew shellenv)
+  eval "$(~/.linuxbrew/bin/brew shellenv)"
 fi
 
 if [[ -d "/opt/homebrew" ]]; then
