@@ -4,7 +4,7 @@ if [[ -x /etc/profile ]]; then
 fi
 
 #main PATH
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.rc/.bin:${HOME}/.krew/bin:$PATH"
+export PATH="$HOME/.rc/.bin:$HOME/.bun/bin:${HOME}/.krew/bin:$PATH"
 
 if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$(~/.linuxbrew/bin/brew shellenv)"
