@@ -1,0 +1,20 @@
+[tools]
+aube = "latest"
+bun = "latest"
+"github:dicklesworthstone/destructive_command_guard" = "latest"
+"github:gastownhall/beads" = "latest"
+node = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:@oh-my-pi/pi-coding-agent" = "latest"
+python = "latest"
+ruby = "latest"
+rust = "latest"
+
+[settings]
+minimum_release_age = "1d"
+
+[settings.npm]
+package_manager = "bun"
+
+[settings.ruby]
+compile = false
