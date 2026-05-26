@@ -56,7 +56,7 @@ if OS.mac?
   brew 'mtr'
   brew 'mutt'
   brew 'nmap'
-  brew 'ollama', start_service: true
+  brew 'ollama', start_service: false
   brew 'openssh'
   brew 'p7zip'
   brew 'pigz'
