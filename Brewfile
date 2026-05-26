@@ -16,6 +16,7 @@ if OS.mac?
   brew 'dhcping'
   brew 'dnsperf'
   brew 'dnstracer'
+  brew 'docker-language-server'
   brew 'dos2unix'
   brew 'ettercap'
   brew 'ffmpeg'
