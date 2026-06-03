@@ -29,6 +29,13 @@ else
   export CLICOLOR=1
 fi
 
+# load env (aliases, functions, etc crap)
+# Z* files for ZSH only
+# S* files for generic sh-compatible shells
+for envfile in ~/.rc/sh.d/[LSZ][0-9][0-9]*[^~] ; do
+  source $envfile
+done
+
 # Mise
 #Mise
 if [ -f "$HOME/.local/bin/mise" ]; then
@@ -162,13 +169,6 @@ function zle-line-finish () {
 }
 zle -N zle-line-init
 zle -N zle-line-finish
-
-# load env (aliases, functions, etc crap)
-# Z* files for ZSH only
-# S* files for generic sh-compatible shells
-for envfile in ~/.rc/sh.d/[SZ][0-9][0-9]*[^~] ; do
-  source $envfile
-done
 
 # add custom completion scripts
 autoload -U compinit && compinit

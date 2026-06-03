@@ -25,6 +25,7 @@
 
 ### LOCAL SHELL ENV ###
 sh.d/S99_local
+sh.d/L*
 
 ### BREW BUNDLE ###
 Brewfile.lock.json
