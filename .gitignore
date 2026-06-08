@@ -17,6 +17,9 @@
 ### MC ###
 .config/mc/panels.ini
 
+### MISE ###
+.config/mise/conf.d/l*
+
 ### Envmgr ###
 .bin/envmgr
 
