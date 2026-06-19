@@ -19,6 +19,7 @@
 "github:firecow/gitlab-ci-local" = "latest"
 "github:gastownhall/beads" = "latest"
 "github:google/osv-scanner" = "latest"
+"github:go-delve/delve" = "latest"
 "github:helmfile/helmfile" = "latest"
 "github:hmans/beans" = "latest"
 "github:istio/istio" = {
@@ -46,10 +47,31 @@
 "krew:ns" = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 bun = "latest"
+go = {
+  version = "latest",
+  postinstall = '''
+    go install golang.org/x/tools/gopls@latest
+  '''
+}
 helm = "latest"
-node = "latest"
-python = "latest"
-ruby = "latest"
+node = {
+  version = "latest",
+  postinstall = '''
+    bun install -g gts typescript-language-server bashls
+  '''
+}
+python = {
+  version = "latest",
+  postinstall = '''
+    pip install ptpython yapf pylint mycli pgcli litecli basedpyright
+  '''
+}
+ruby = {
+  version= "latest",
+  postinstall = '''
+    gem install pry rubocop solargraph
+  '''
+}
 rust = "latest"
 uv = "latest"
 

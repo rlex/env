@@ -82,26 +82,9 @@ install_devenv() {
     chmod +x "${HOME}/.local/bin/mise"
     # init mise, force bash because that's what we default
     eval "$("${HOME}"/.local/bin/mise activate bash || true)"
+    # and bootstrap it
+    mise install
   fi
-  # setup default packages
-  for gem in "${gems[@]}"; do
-    grep -sq "${gem}" "${HOME}/.default-gems" || echo "${gem}" >> "${HOME}/.default-gems"
-  done
-  for egg in "${eggs[@]}"; do
-    grep -sq "${egg}" "${HOME}/.default-python-packages" || echo "${egg}" >> "${HOME}/.default-python-packages"
-  done
-  for npm_package in "${npms[@]}"; do
-    grep -sq "${npm_package}" "${HOME}/.default-npm-packages" || echo "${npm_package}" >> "${HOME}/.default-npm-packages"
-  done
-  for go_pkg in "${gopkgs[@]}"; do
-    grep -sq "${go_pkg}" "${HOME}/.default-golang-pkgs" || echo "${go_pkg}" >> "${HOME}/.default-golang-pkgs"
-  done
-  # install default tools
-  echo -e "${COLOR_GREEN}Installing default tools${COLOR_RESET}"
-  for mise_tool in "${mise_tools[@]}"; do
-    mise install "${mise_tool}"
-    mise use "${mise_tool}"
-  done
   echo -e "${COLOR_GREEN}Finished installing mise${COLOR_RESET}"
 }
 
