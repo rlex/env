@@ -70,6 +70,8 @@ install_devenv() {
         "arm64"*) mise_architecture="arm64" ;;
         *) echo "Unable to detect supported architecture" || die ;;
     esac
+    # ensure we have directory
+    mkdir -p "${HOME}/.local/bin"
     # if we have jq available, parse latest version, otherwise use one from configs
     if hash jq 2>/dev/null; then
       mise_version=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/jdx/mise/releases | jq -r '.[0].tag_name')
