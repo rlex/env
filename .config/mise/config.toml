@@ -6,19 +6,28 @@
 "aqua:pre-commit/pre-commit" = "latest"
 "github:burntsushi/ripgrep" = "latest"
 "github:can1357/oh-my-pi" = "latest"
-"github:charmbracelet/crush" = "latest"
 "github:cilium/cilium-cli" = "latest"
+"github:databus23/helm-diff" = {
+  version = "latest",
+  bin = "diff",
+  bin_path = "diff/bin",
+  rename_exe = "helm-diff"
+  }
 "github:derailed/k9s" = "latest"
 "github:dicklesworthstone/destructive_command_guard" = "latest"
 "github:docker/docker-language-server" = "latest"
 "github:firecow/gitlab-ci-local" = "latest"
 "github:gastownhall/beads" = "latest"
 "github:google/osv-scanner" = "latest"
-"github:istio/istio" = { version = "latest", matching = "istioctl"}
 "github:helmfile/helmfile" = "latest"
 "github:hmans/beans" = "latest"
+"github:istio/istio" = {
+  version = "latest",
+  matching = "istioctl"
+  }
 "github:jdx/pitchfork" = "latest"
 "github:jesseduffield/lazygit" = "latest"
+"github:junegunn/fzf" = "latest"
 "github:koalaman/shellcheck" = "latest"
 "github:kubernetes-sigs/krew" = "latest"
 "github:mvdan/sh" = "latest"
@@ -32,6 +41,8 @@
 "krew:gadget" = "latest"
 "krew:tree" = "latest"
 "krew:volsync" = "latest"
+"krew:ctx" = "latest"
+"krew:ns" = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 bun = "latest"
 helm = "latest"
