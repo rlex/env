@@ -30,6 +30,7 @@
 "github:junegunn/fzf" = "latest"
 "github:koalaman/shellcheck" = "latest"
 "github:kubernetes-sigs/krew" = "latest"
+"github:lance0/ttl" = "latest"
 "github:mvdan/sh" = "latest"
 "github:nektos/act" = "latest"
 "github:norwoodj/helm-docs" = "latest"
