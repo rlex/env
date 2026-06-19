@@ -1,38 +1,52 @@
 [tools]
+"aqua:ahmetb/kubectx" = "latest"
+"aqua:ahmetb/kubectx/kubens" = "latest"
 "aqua:kubernetes/kubernetes/kubectl" = "latest"
+"aqua:openai/codex" = "latest"
 "aqua:pre-commit/pre-commit" = "latest"
 "github:burntsushi/ripgrep" = "latest"
 "github:can1357/oh-my-pi" = "latest"
+"github:charmbracelet/crush" = "latest"
 "github:cilium/cilium-cli" = "latest"
+"github:derailed/k9s" = "latest"
 "github:dicklesworthstone/destructive_command_guard" = "latest"
 "github:docker/docker-language-server" = "latest"
 "github:firecow/gitlab-ci-local" = "latest"
 "github:gastownhall/beads" = "latest"
+"github:google/osv-scanner" = "latest"
+"github:istio/istio" = { version = "latest", matching = "istioctl"}
 "github:helmfile/helmfile" = "latest"
 "github:hmans/beans" = "latest"
+"github:jdx/pitchfork" = "latest"
 "github:jesseduffield/lazygit" = "latest"
 "github:koalaman/shellcheck" = "latest"
+"github:kubernetes-sigs/krew" = "latest"
 "github:mvdan/sh" = "latest"
 "github:nektos/act" = "latest"
 "github:norwoodj/helm-docs" = "latest"
 "github:opentofu/opentofu" = "latest"
-"github:pre-commit/pre-commit" = "latest"
 "github:quietpublish/mardi-gras" = "latest"
 "github:tombi-toml/tombi" = "latest"
-"github:zizmorcore/zizmor" = "latest"
+"github:velero-io/velero" = "latest"
+"krew:access-matrix" = "latest"
+"krew:gadget" = "latest"
+"krew:tree" = "latest"
+"krew:volsync" = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
-aube = "latest"
 bun = "latest"
 helm = "latest"
 node = "latest"
-pitchfork = "latest"
 python = "latest"
 ruby = "latest"
 rust = "latest"
 uv = "latest"
 
+[plugins]
+krew = "https://github.com/soupglasses/mise-krew"
+
 [settings]
 minimum_release_age = "1d"
+not_found_auto_install = false
 experimental = true
 
 [settings.npm]

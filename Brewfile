@@ -1,7 +1,8 @@
 # Installs on OSX only
 if OS.mac?
-  tap 'mas-cli/tap'
-  tap 'norwoodj/tap'
+  tap 'mas-cli/tap', trusted: {
+    formula: 'mas-cli'
+  }
   # Brews
   brew 'ack'
   brew 'arping'
@@ -47,12 +48,10 @@ if OS.mac?
   brew 'john-jumbo'
   brew 'lzo'
   brew 'm-cli'
-  brew 'mas'
   brew 'moreutils'
   brew 'mtr'
   brew 'mutt'
   brew 'nmap'
-  brew 'ollama', start_service: false
   brew 'openssh'
   brew 'p7zip'
   brew 'pigz'
@@ -72,7 +71,6 @@ if OS.mac?
   brew 'sslscan'
   brew 'sysdig'
   brew 'tcpreplay'
-  brew 'tcptrace'
   brew 'telnet'
   brew 'tig'
   brew 'tmux'
@@ -86,6 +84,8 @@ if OS.mac?
   brew 'xz'
   brew 'zsh'
   brew 'zsh-completions'
+  # From taps
+  brew 'mas-cli/tap/mas'
   # Casks
   cask 'alfred'
   cask 'android-platform-tools'
@@ -97,49 +97,40 @@ if OS.mac?
   cask 'orbstack'
   cask 'mitmproxy'
   cask 'netspot'
-  cask 'openvisualtraceroute'
   cask 'plexamp'
-  cask 'rar'
   cask 'rectangle'
   cask 'royal-tsx'
   cask 'spotify'
   cask 'stats'
   cask 'teamspeak-client'
   cask 'telegram'
-  cask 'transmission-remote-gui'
   # cask 'vagrant'
   cask 'viscosity'
   cask 'visual-studio-code'
   cask 'visualvm'
   cask 'vlc'
-  cask 'nrlquaker-winbox'
   cask 'wireshark-app'
   cask 'xquartz'
   # Fonts
   cask 'font-anonymous-pro'
   cask 'font-fira-code'
   cask 'font-hack'
-  cask 'font-input'
   cask 'font-iosevka'
   cask 'font-source-code-pro'
   cask 'font-terminus'
   # MAS
-  mas 'Amphetamine', id: 937984704
   mas 'Droplr', id: 498672703
   mas 'ForkLift', id: 412448059
-  mas 'Microsoft Remote Desktop', id: 1295203466
-  mas 'Pixelmator', id: 407963104
+  mas 'Mattermost', id: 1614666244
+  mas 'Owly', id: 882812218
+  mas 'Pixelmator Pro', id: 1289583905
+  mas 'Shapr3D', id: 1091675654
+  mas 'Slack', id: 803453959
+  mas 'Windows App', id: 1295203466
   mas 'Wireguard', id: 1451685025
 end
 
 # Installs on both linux & osx
-tap 'derailed/k9s'
 # kubernetes stuff
-brew 'velero'
-brew 'k9s'
-brew 'krew'
 brew 'calicoctl'
-brew 'helm-docs'
-brew 'istioctl'
-brew 'kubectx'
 brew 'kubeseal'
