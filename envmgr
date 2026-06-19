@@ -127,22 +127,6 @@ install_homebrew() {
   brew bundle
 }
 
-install_kubectl_plugins() {
-  cd "${HOME}/.rc" || exit
-  echo -e "${COLOR_GREEN}Installing kubectl plugins${COLOR_RESET}"
-  if hash kubectl-krew 2>/dev/null; then
-    kubectl krew install "${kubectl_plugins}"
-  fi
-}
-
-install_helm_plugins() {
-  cd "${HOME}/.rc" || exit
-  echo -e "${COLOR_GREEN}Installing helm plugins${COLOR_RESET}"
-  if hash helm 2>/dev/null; then
-    helm plugin install "${helm_plugins}"
-  fi
-}
-
 # Nukes whole dotfiles setup
 # TODO: Maybe use shred instead of rm?
 env_nuke() {
