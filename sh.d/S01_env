@@ -3,8 +3,11 @@ if [[ -x /etc/profile ]]; then
     source "/etc/profile"
 fi
 
+# detech running shell
+running_shell=$(basename "${SHELL}")
+
 #main PATH
-export PATH="$HOME/.rc/.bin:$HOME/.bun/bin:${HOME}/.krew/bin:$PATH"
+export PATH="$HOME/.rc/.bin:$PATH"
 
 if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$(~/.linuxbrew/bin/brew shellenv)"
@@ -37,6 +40,12 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
+
+echo "${running_shell}"
+
+if [ -f "$HOME/.local/bin/mise" ]; then
+  eval "$(~/.local/bin/mise activate ${running_shell})"
+fi
 
 #kube-ps1 settings
 KUBE_PS1_SYMBOL_ENABLE=false

@@ -37,11 +37,6 @@ if vt=$(/bin/fgconsole 2>/dev/null); then
   (($vt > 0)) && (($vt <= 6)) && TMOUT=300
 fi
 
-# Mise
-if [ -f "$HOME/.local/bin/mise" ]; then
-  eval "$(~/.local/bin/mise activate bash)"
-fi
-
 #PS1
 prompt_command () {
   local rts=$?
