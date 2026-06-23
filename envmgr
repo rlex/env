@@ -68,6 +68,7 @@ install_devenv() {
     case $(uname -m) in
         "x86_64"*) mise_architecture="x64" ;;
         "arm64"*) mise_architecture="arm64" ;;
+        "aarch64"*) mise_architecture="arm64" ;;
         *) echo "Unable to detect supported architecture" || die ;;
     esac
     # ensure we have directory
