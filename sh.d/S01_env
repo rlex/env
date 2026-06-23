@@ -41,8 +41,6 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-echo "${running_shell}"
-
 if [ -f "$HOME/.local/bin/mise" ]; then
   eval "$(~/.local/bin/mise activate ${running_shell})"
 fi
