@@ -62,6 +62,10 @@ zstyle ':completion::complete:*' cache-path ~/.zsh/cache
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
+# Kitty fix for option + left-right
+bindkey "\e[1;3C" emacs-forward-word
+bindkey "\e[1;3D" emacs-backward-word
+
 # --- 8. Prompt Logic ---
 # Use complex fonts only on compatible terminal
 if [[ ${TERM} =~ ("256color") ]]; then
