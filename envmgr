@@ -27,16 +27,16 @@ install_env() {
   echo -e "${COLOR_GREEN}Deploying environment${COLOR_RESET}"
   cd "${HOME}/.rc" || exit
   echo -e "${COLOR_GREEN}Deploying dotfiles from $(pwd || true) to ${HOME}${COLOR_RESET}"
+  mkdir -p "${HOME}/.config" "${HOME}/.local/share"
   if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
-    dotdirs=( .config .local/share )
-    for dir in "${dotdirs[@]}"; do
-      if [[ ! -d ${HOME}/${dir} ]]; then
-        mkdir -p "${HOME}/${dir}"
-      fi
-    done
-    dotfiles=("${dotfiles[@]}" "${linuxenv[@]}")
+    dotfiles=("${genenv[@]}" "${linuxenv[@]}")
+  elif [[ "${OSTYPE}" == "darwin"* ]]; then
+    dotfiles=("${genenv[@]}" "${osxenv[@]}")
   fi
   for file in "${dotfiles[@]}"; do
+  if [[ -e "${HOME}/${file}" && ! -L "${HOME}/${file}" ]]; then
+      echo "Existing item detected at ${HOME}/${file}. Aborting" && exit 1
+  fi
     symlink "${HOME}/.rc/.${file}" "${HOME}/.${file}"
   done
   symlink "${HOME}/.rc/envmgr" "${HOME}/.rc/.bin/envmgr"
