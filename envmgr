@@ -62,14 +62,14 @@ install_devenv() {
     case ${OSTYPE} in
         "linux-gnu"*) mise_system="linux" ;;
         "darwin"*) mise_system="macos" ;;
-        *) echo "Unable to detect supported operating system" || die ;;
+        *) echo "Unable to detect supported operating system" && exit 1 ;;
     esac
     # detect arch since naming is non-standard
     case $(uname -m) in
         "x86_64"*) mise_architecture="x64" ;;
         "arm64"*) mise_architecture="arm64" ;;
         "aarch64"*) mise_architecture="arm64" ;;
-        *) echo "Unable to detect supported architecture" || die ;;
+        *) echo "Unable to detect supported architecture" && exit 1 ;;
     esac
     # ensure we have directory
     mkdir -p "${HOME}/.local/bin"
