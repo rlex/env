@@ -28,3 +28,7 @@ alias watchip="ping -i 60 -a "
 alias flushssh="ps aux | grep ssh | grep -v grep | grep -v ssh-agent | awk {'print \$2'} | xargs kill"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias omps="nono run --profile omp-lex -- omp"
+# kitty-specific overrides
+if [[ -n "${KITTY_INSTALLATION_DIR}" ]]; then
+  alias ssh="kitten ssh $*"
+fi

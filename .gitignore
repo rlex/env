@@ -32,3 +32,6 @@ sh.d/L*
 
 ### BREW BUNDLE ###
 Brewfile.lock.json
+
+### KITTY ###
+.config/kitty/kitty.conf.bak
