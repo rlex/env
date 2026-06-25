@@ -33,22 +33,22 @@ ex () {
 pk() {
   local file=$1
   local type=$2
-  if [[ -n $file && -e $file ]]; then
-    case $type in
-      (tbz) tar cjvf "${file}.tar.bz2" "$file" ;;
-      (tgz) tar czvf "${file}.tar.gz"  "$file" ;;
-      (tar) tar cpvf "${file}.tar"     "$file" ;;
-      (bz2) bzip "$file" ;;
-      (gz)  gzip -c -9 -n "$file" > "${file}.gz" ;;
-      (zip) zip -r "${file}.zip" "$file" ;;
-      (7z)  7z a "${file}.7z" "$file" ;;
-      (*)   echo "'$type' is not a valid archive format" ;;
+  if [[ -n ${file} && -e ${file} ]]; then
+    case ${type} in
+      (tbz) tar cjvf "${file}.tar.bz2" "${file}" ;;
+      (tgz) tar czvf "${file}.tar.gz"  "${file}" ;;
+      (tar) tar cpvf "${file}.tar"     "${file}" ;;
+      (bz2) bzip "${file}" ;;
+      (gz)  gzip -c -9 -n "${file}" > "${file}.gz" ;;
+      (zip) zip -r "${file}.zip" "${file}" ;;
+      (7z)  7z a "${file}.7z" "${file}" ;;
+      (*)   echo "'${type}' is not a valid archive format" ;;
     esac
   else
-    if [[ -z $file ]]; then
+    if [[ -z ${file} ]]; then
       echo "Error: No file specified."
     else
-      echo "Error: '$file' is not a valid file."
+      echo "Error: '${file}' is not a valid file."
     fi
   fi
 }
@@ -61,7 +61,7 @@ digg() {
 }
 
 grab() {
-  sudo chown -R "${USER}" ${1:-.};
+  sudo chown -R "${USER}" "${1:-.}";
 }
 
 calc() {
@@ -80,11 +80,11 @@ ssh-send-id() {
 if hash certutil 2>/dev/null; then
   nss-manage() {
     case "$1" in
-      list)    certutil -d sql:$HOME/.pki/nssdb -L ;;
-      details) certutil -d sql:$HOME/.pki/nssdb -L -n "$2" ;;
-      add-ca)  certutil -d sql:$HOME/.pki/nssdb -A -t "$2" -n "$3" -i "$4" ;;
-      add)     pk12util -d sql:$HOME/.pki/nssdb -i "$2" ;;
-      del)     certutil -d sql:$HOME/.pki/nssdb -D -n "$2" ;;
+      list)    certutil -d sql:"${HOME}"/.pki/nssdb -L ;;
+      details) certutil -d sql:"${HOME}"/.pki/nssdb -L -n "$2" ;;
+      add-ca)  certutil -d sql:"${HOME}"/.pki/nssdb -A -t "$2" -n "$3" -i "$4" ;;
+      add)     pk12util -d sql:"${HOME}"/.pki/nssdb -i "$2" ;;
+      del)     certutil -d sql:"${HOME}"/.pki/nssdb -D -n "$2" ;;
       *)
         echo "Usage list|details|add-ca|add|del"
         echo " \"details\" requires <nickname>"
@@ -92,20 +92,6 @@ if hash certutil 2>/dev/null; then
         echo " \"add\" requires <filename>"
         echo " \"del\" requires <nickname>"
       ;;
-    esac
-  }
-fi
-
-if hash docker-machine 2>/dev/null; then
-  dma() {
-    case "$1" in
-      create)  docker-machine create ${2} --driver ${3} ;;
-      start)   docker-machine start ${2} ;;
-      stop)    docker-machine stop ${2} ;;
-      destroy) docker-machine rm ${2} ;;
-      eval)    eval "$(docker-machine env ${2})" ;;
-      ls)      docker-machine ls ;;
-      *)       echo "Usage create|start|stop|destory|eval" ;;
     esac
   }
 fi
@@ -130,7 +116,7 @@ ram() {
 }
 
 #TODO: move all OS-specific functions to one block
-if [[ "$OSTYPE" =~ ^linux ]]; then
+if [[ "${OSTYPE}" =~ ^linux ]]; then
   swapusage() {
     sum=0
     overall=0
@@ -185,12 +171,12 @@ sshk() {
 # Tmux
 tm() {
   if hash tmux 2>/dev/null >/dev/null; then
-    test -z "$TMUX" && (tmux attach || tmux new-session)
+    test -z "${TMUX}" && (tmux attach || tmux new-session)
   fi
 }
 
 # only local aliases, unsuitable for usage on remote hosts
-if [[ -z "$SSH_CLIENT" ]]; then
+if [[ -z "${SSH_CLIENT}" ]]; then
   wirelive() {
     if [[ -z "$1" ]]; then
       echo -e "Usage: $(basename $0) <host[:port]> <interface> [filters]"
@@ -198,11 +184,11 @@ if [[ -z "$SSH_CLIENT" ]]; then
     fi
     ssh_host=$(echo $1 | cut -d: -f1)
     ssh_port=$(echo $1 | cut -s -d: -f2)
-    [[ -z "$ssh_port" ]] && ssh_port=22
+    [[ -z "${ssh_port}" ]] && ssh_port=22
     [[ -z "$2" ]] && tcpdump_interface="any" || tcpdump_interface="$2"
     [[ ! -z "$3" ]] && tcpdump_filters="and \($3\)"
 
-    ssh root@${ssh_host} -p ${ssh_port} \
+    ssh root@"${ssh_host}" -p "${ssh_port}" \
         tcpdump -U -s0 "not port ${ssh_port} ${tcpdump_filters}" -i ${tcpdump_interface} -w - \
         | wireshark -k -i -
 

@@ -6,10 +6,10 @@ fi
 # detech running shell
 running_shell=$(ps -p $$ -o comm= | sed 's/^-//; s#.*/##')
 
-#main PATH
-export PATH="$HOME/.rc/.bin:$PATH"
+# initial PATH
+export PATH="${HOME}/.rc/.bin:${PATH}"
 
-if [[ -d "$HOME/.linuxbrew" ]]; then
+if [[ -d "${HOME}/.linuxbrew" ]]; then
   eval "$(~/.linuxbrew/bin/brew shellenv)"
 fi
 
