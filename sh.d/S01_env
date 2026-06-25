@@ -4,7 +4,7 @@ if [[ -x /etc/profile ]]; then
 fi
 
 # detech running shell
-running_shell=$(ps -p$$ -o cmd="",comm="",fname="" 2>/dev/null | sed 's/^-//' | grep -oE '\w+' | head -n1)
+running_shell=$(ps -p $$ -o comm= | sed 's/^-//; s#.*/##')
 
 #main PATH
 export PATH="$HOME/.rc/.bin:$PATH"
