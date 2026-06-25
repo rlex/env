@@ -1,3 +1,4 @@
+-- Kitty quake-style with dropdown window
 hs.hotkey.bind({"shift"}, "Tab", function()
   local app = hs.application.get("net.kovidgoyal.kitty-quick-access")
   if app then
