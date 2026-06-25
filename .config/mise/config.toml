@@ -53,9 +53,10 @@
 bun = "latest"
 go = {
   version = "latest",
-  postinstall = '''
+  set_gobin = "true",
+  postinstall = """
     go install golang.org/x/tools/gopls@latest
-  '''
+  """
 }
 helm = "latest"
 node = {
