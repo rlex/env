@@ -40,13 +40,7 @@ if [[ -r /usr/share/bash-completion/bash_completion ]]; then
   source /usr/share/bash-completion/bash_completion
 fi
 
-# ── 8. TTY auto-logout (tty1–6 only) ───────────────────────────
-if command -v fgconsole &>/dev/null; then
-  vt=$(fgconsole 2>/dev/null)
-  ((vt > 0 && vt <= 6)) && readonly TMOUT=300
-fi
-
-# ── 9. Prompt ──────────────────────────────────────────────────
+# ── 8. Prompt ──────────────────────────────────────────────────
 __prompt_cmd() {
   local rts=$?
   local green='\[\e[1;32m\]' red='\[\e[1;31m\]'

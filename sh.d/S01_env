@@ -41,8 +41,15 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-if [ -f "$HOME/.local/bin/mise" ]; then
-  eval "$(~/.local/bin/mise activate ${running_shell})"
+# local tty forced logout after 5 min
+if [[ -z ${DISPLAY} && -z ${WAYLAND_DISPLAY} ]]; then
+  case $(tty) in
+    /dev/tty[1-9]|/dev/ttyv[0-9]) readonly TMOUT=300;;
+  esac
+fi
+
+if [[ -f "${HOME}/.local/bin/mise" ]]; then
+  eval "$(~/.local/bin/mise activate "${running_shell}")"
 fi
 
 #kube-ps1 settings
