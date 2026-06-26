@@ -174,12 +174,18 @@ env_housekeeper() {
   echo -e "${COLOR_GREEN}Housekeeping finished${COLOR_RESET}"
 }
 
+prepare_osx() {
+  # wipe away default icons
+  defaults write com.apple.dock persistent-apps -array && killall Dock
+}
+
 # Arguments parsing
 case "${1}" in
   env) install_env ;;
   devenv) install_devenv ;;
   brew) install_homebrew ;;
-  fullenv) install_env && install_devenv && install_homebrew && install_kubectl_plugins && install_helm_plugins ;;
+  fullenv) install_env && install_devenv && install_homebrew ;;
+  prepare-osx) prepare_osx ;;
   nuke) env_nuke ;;
   maid) env_housekeeper ;;
   *)
