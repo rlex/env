@@ -9,6 +9,7 @@ COLOR_RESET="$(tput sgr0)"
 COLOR_GREEN="$(tput setaf 2)"
 COLOR_RED="$(tput setaf 1)"
 COLOR_CYAN="$(tput setaf 6)"
+COLOR_YELLOW="$(tput setaf 3)"
 
 # source config
 # shellcheck disable=SC1091
@@ -30,11 +31,11 @@ install_env() {
   cd "${HOME}/.rc" || exit
   echo -e "${COLOR_CYAN}Deploying dotfiles from $(pwd || true) to ${HOME}${COLOR_RESET}"
   mkdir -p "${HOME}/.config" "${HOME}/.local/share"
-  if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
-    dotfiles=("${genenv[@]}" "${linuxenv[@]}")
-  elif [[ "${OSTYPE}" == "darwin"* ]]; then
-    dotfiles=("${genenv[@]}" "${osxenv[@]}")
-  fi
+  case ${OSTYPE} in
+    "linux-gnu"*) dotfiles=("${genenv[@]}" "${linuxenv[@]}") ;;
+    "darwin"*) dotfiles=("${genenv[@]}" "${osxenv[@]}") ;;
+    *) dotfiles=("${genenv[@]}") && echo "${COLOR_YELLOW}No OS detected - using generic${COLOR_RESET}" ;;
+  esac
   for file in "${dotfiles[@]}"; do
   if [[ -e "${HOME}/${file}" && ! -L "${HOME}/${file}" ]]; then
       echo "${COLOR_RED}Existing item detected at ${HOME}/${file}. Aborting${COLOR_RESET}" && exit 1
