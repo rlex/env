@@ -7,6 +7,8 @@
 # colors
 COLOR_RESET="$(tput sgr0)"
 COLOR_GREEN="$(tput setaf 2)"
+COLOR_RED="$(tput setaf 1)"
+COLOR_CYAN="$(tput setaf 6)"
 
 # source config
 # shellcheck disable=SC1091
@@ -24,9 +26,9 @@ symlink() {
 
 # Symlink dotfiles and envmgr from ${HOME}/.rc to ~
 install_env() {
-  echo -e "${COLOR_GREEN}Deploying environment${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Deploying environment${COLOR_RESET}"
   cd "${HOME}/.rc" || exit
-  echo -e "${COLOR_GREEN}Deploying dotfiles from $(pwd || true) to ${HOME}${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Deploying dotfiles from $(pwd || true) to ${HOME}${COLOR_RESET}"
   mkdir -p "${HOME}/.config" "${HOME}/.local/share"
   if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
     dotfiles=("${genenv[@]}" "${linuxenv[@]}")
@@ -35,14 +37,14 @@ install_env() {
   fi
   for file in "${dotfiles[@]}"; do
   if [[ -e "${HOME}/${file}" && ! -L "${HOME}/${file}" ]]; then
-      echo "Existing item detected at ${HOME}/${file}. Aborting" && exit 1
+      echo "${COLOR_RED}Existing item detected at ${HOME}/${file}. Aborting${COLOR_RESET}" && exit 1
   fi
     symlink "${HOME}/.rc/.${file}" "${HOME}/.${file}"
   done
   symlink "${HOME}/.rc/envmgr" "${HOME}/.rc/.bin/envmgr"
   cd - >&/dev/null || exit 1
   echo -e "${COLOR_GREEN}Finished deploying dotfiles${COLOR_RESET}"
-  echo -e "${COLOR_GREEN}Installing vim plugins${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Installing vim plugins${COLOR_RESET}"
   vim +PlugInstall +qall
   echo -e "${COLOR_GREEN}Finished installing vim plugins${COLOR_RESET}"
 }
@@ -52,7 +54,7 @@ install_env() {
 # TODO: verify downloaded binary against shasum
 install_devenv() {
   # install mise
-  echo -e "${COLOR_GREEN}Installing mise${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Installing mise${COLOR_RESET}"
   # detect if it's already installed, if yes, just do self-update
   if [[ -f ${HOME}/.local/bin/mise ]]; then
     mise self-update
@@ -62,14 +64,14 @@ install_devenv() {
     case ${OSTYPE} in
         "linux-gnu"*) mise_system="linux" ;;
         "darwin"*) mise_system="macos" ;;
-        *) echo "Unable to detect supported operating system" && exit 1 ;;
+        *) echo "${COLOR_RED}Unable to detect supported operating system${COLOR_RESET}" && exit 1 ;;
     esac
     # detect arch since naming is non-standard
     case $(uname -m) in
         "x86_64"*) mise_architecture="x64" ;;
         "arm64"*) mise_architecture="arm64" ;;
         "aarch64"*) mise_architecture="arm64" ;;
-        *) echo "Unable to detect supported architecture" && exit 1 ;;
+        *) echo "${COLOR_RED}Unable to detect supported architecture${COLOR_RESET}" && exit 1 ;;
     esac
     # ensure we have directory
     mkdir -p "${HOME}/.local/bin"
@@ -78,7 +80,7 @@ install_devenv() {
       mise_version=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/jdx/mise/releases | jq -r '.[0].tag_name')
     fi
     mise_download_url=https://github.com/jdx/mise/releases/download/"${mise_version}"/mise-"${mise_version}"-"${mise_system}"-"${mise_architecture}"
-    echo -e "${COLOR_GREEN}Downloading mise from ${mise_download_url}${COLOR_RESET}"
+    echo -e "${COLOR_CYAN}Downloading mise from ${mise_download_url}${COLOR_RESET}"
     curl -L "${mise_download_url}" > "${HOME}/.local/bin/mise"
     chmod +x "${HOME}/.local/bin/mise"
     # init mise, force bash because that's what we default
@@ -93,7 +95,7 @@ install_devenv() {
 # Also installs apps from ${HOME}/.rc/Brewfile
 install_homebrew() {
   cd "${HOME}/.rc" || exit
-  echo -e "${COLOR_GREEN}Installing homebrew and favourite packages${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Installing homebrew and favourite packages${COLOR_RESET}"
   if hash brew 2>/dev/null; then
     echo "Brew is already installed!"
     else
@@ -114,64 +116,77 @@ install_homebrew() {
 # Nukes whole dotfiles setup
 # TODO: Maybe use shred instead of rm?
 env_nuke() {
-  echo "Cleaning up env"
-  echo "Removing dotfiles symlinks"
+  echo "${COLOR_CYAN}Cleaning up env${COLOR_RESET}"
+  echo "${COLOR_CYAN}Removing dotfiles symlinks${COLOR_RESET}"
   for file in "${dotfiles[@]}"; do
     rm -vf "${HOME}/.${file}"
   done
-  echo "Cleaning up devenv"
+  echo "${COLOR_CYAN}Cleaning up devenv${COLOR_RESET}"
   #for backwards compatibility
-  rm -rvf "${HOME}/.asdf"
-  rm -rvf "${HOME}/.local/bin/mise"
-  rm -rvf "${HOME}/.local/share/mise"
-  rm -rvf "${HOME}/.local/state/mise"
-  echo "Removing history"
+  rm -rf "${HOME}/.asdf"
+  rm -rf "${HOME}/.local/bin/mise"
+  rm -rf "${HOME}/.local/share/mise"
+  rm -rf "${HOME}/.local/state/mise"
+  echo "{COLOR_CYAN}Removing history${COLOR_RESET}"
   rm -vf "${HOME}/.zsh-history"
   rm -vf "${HOME}/.bash_history"
-  echo "Removing linuxbrew"
+  echo "{COLOR_CYAN}Removing linuxbrew${COLOR_RESET}"
   rm -rf "${HOME}/.linuxbrew"
-  echo "Removing dotfiles directory"
+  echo "${COLOR_CYAN}Removing dotfiles directory${COLOR_RESET}"
   rm -rf "${HOME}/.rc"
+  echo "${COLOR_GREEN}Uninstall complete${COLOR_RESET}"
 }
 
 # Checks for updates in env, homebrew, vim plugins and mac app store
 env_housekeeper() {
-  echo -e "${COLOR_GREEN}Started housekeeping${COLOR_RESET}"
-  echo -e "${COLOR_GREEN}Updating dotfiles repo${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Started housekeeping${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Updating dotfiles repo${COLOR_RESET}"
   git -C "${HOME}/.rc" pull
-  echo -e "${COLOR_GREEN}Cleaning up outdated symlinks${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Cleaning up outdated symlinks${COLOR_RESET}"
   find -L "${HOME}" -maxdepth 1 -type l -exec rm -i {} +
   if hash brew 2>/dev/null; then
-    echo -e "${COLOR_GREEN}Updating and cleaning up homebrew${COLOR_RESET}"
+    echo -e "${COLOR_CYAN}Updating and cleaning up homebrew${COLOR_RESET}"
     brew update
     brew upgrade
     brew cleanup
   fi
   # Update mise
-  echo -e "${COLOR_GREEN}Updating mise and mise plugins${COLOR_RESET}"
+  echo -e "${COLOR_CYAN}Updating mise and mise plugins${COLOR_RESET}"
   if hash mise 2>/dev/null; then
     mise self-update
     mise upgrade --bump
   fi
-  if hash kubectl-krew 2>/dev/null; then
-    kubectl krew upgrade
-  fi
-# helm doesn't have any checks for versions, so will always run. Disable for now
-#  if hash helm 2>/dev/null; then
-#    helm_installed_plugins=$(helm plugin list | tail -n +2 | awk '{print $1}')
-#    for plugin in $helm_installed_plugins; do
-#      helm plugin update $plugin
-#    done
-#  fi
   if hash mas 2>/dev/null; then
-    echo -e "${COLOR_GREEN}Updating mac app store apps${COLOR_RESET}"
+    echo -e "${COLOR_CYAN}Updating mac app store apps${COLOR_RESET}"
     mas upgrade
   fi
   if hash vim 2>/dev/null; then
-    echo -e "${COLOR_GREEN}Updating vim plugins${COLOR_RESET}"
+    echo -e "${COLOR_CYAN}Updating vim plugins${COLOR_RESET}"
     vim +PlugUpdate +PlugUpgrade +PlugClean +qall
   fi
   echo -e "${COLOR_GREEN}Housekeeping finished${COLOR_RESET}"
+}
+
+compare_brewfile() {
+  echo "${COLOR_CYAN}Checking for installed homebrew packages missing in Brewfile${COLOR_RESET}"
+  local missing_formulae missing_casks
+
+  missing_formulae=$(comm -23 <(brew list --installed-on-request | sort) \
+                                <(brew bundle --file ~/.rc/Brewfile list --formula | sort))
+  missing_casks=$(comm -23 <(brew list --cask | sort) \
+                             <(brew bundle --file ~/.rc/Brewfile list --cask | sort))
+
+  _check_brew_sync() {
+    local name="$1" list="$2"
+    if [[ -n "${list}" ]]; then
+      echo "${COLOR_RED}${name} missing: ${list//$'\n'/ }${COLOR_RESET}"
+    else
+      echo "${COLOR_GREEN}${name} synced${COLOR_RESET}"
+    fi
+  }
+
+  _check_brew_sync "Formulae" "${missing_formulae}"
+  _check_brew_sync "Casks"    "${missing_casks}"
 }
 
 prepare_osx() {
@@ -185,6 +200,7 @@ case "${1}" in
   devenv) install_devenv ;;
   brew) install_homebrew ;;
   fullenv) install_env && install_devenv && install_homebrew ;;
+  compare-brewfile) compare_brewfile ;;
   prepare-osx) prepare_osx ;;
   nuke) env_nuke ;;
   maid) env_housekeeper ;;
@@ -196,4 +212,6 @@ case "${1}" in
     echo "fullenv - env, devenv and brew combined"
     echo "nuke - remove (almost) everything installed by envmgr"
     echo "maid - upgrade stuff installed by envmgr"
+    echo "prepare-osx - prepares fresh osx by writing some defaults"
+    echo "compare-brewfile - checks if brewfile is out of sync, missing packages"
 esac
