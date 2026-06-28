@@ -59,14 +59,18 @@ PROMPT_COMMAND='__prompt_cmd'
 # Terminal title (xterm / rxvt)
 case $TERM in xterm*|rxvt*)
   __xtitle() {
-    local prefix=""
-    [[ -n "$SSH_CLIENT" || -n "$SSH_CONNECTION" || -n "$SSH_TTY" ]] && prefix="${USER}@${HOSTNAME%%.*}: "
-    printf '\e]0;%s%s\a' "$prefix" "$1"
+    local ssh="${SSH_CLIENT}${SSH_CONNECTION}${SSH_TTY}"
+    printf '\e]0;%s%s\a' "${ssh:+${USER}@${HOSTNAME%%.*}: }" "$1"
   }
-  __xtitle_prompt() { __xtitle "${PWD/#$HOME/~}"; }
+  __xtitle_prompt() {
+    local p="$PWD"
+    [[ "$p" == "$HOME" ]] && p="~"
+    [[ "$p" == "$HOME/"* ]] && p="~/${p#$HOME/}"
+    __xtitle "$p"
+  }
   __xtitle_trap() {
     local cmd="${BASH_COMMAND%% *}"
-    [[ -n "$cmd" && "$cmd" != __* ]] && __xtitle "${cmd##*/}"
+    [[ $cmd && $cmd != __* ]] && __xtitle "${cmd##*/}"
   }
   PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__xtitle_prompt"
   trap __xtitle_trap DEBUG
