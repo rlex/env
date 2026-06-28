@@ -1,9 +1,9 @@
-# --- 1. ZSH Options ---
+# --- ZSH Options ---
 unsetopt BG_NICE
 setopt NO_HUP
 setopt AUTO_CD
 
-# --- 2. History ---
+# --- History ---
 HISTFILE="$HOME/.zsh-history"
 SAVEHIST=10000
 HISTSIZE=10000
@@ -15,16 +15,11 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_verify
 
-# --- 3. Autoloads ---
+# --- Autoloads ---
 autoload -U colors; colors
 autoload -U edit-command-line
 
-# --- 5. Environment Loading ---
-for envfile in ~/.rc/sh.d/[LSZ][0-9][0-9]*[^~](N); do
-  source "$envfile"
-done
-
-# --- 6. Completion Configuration ---
+# --- Completion Configuration ---
 # Homebrew ZSH setup
 if [[ -d /usr/local/share/zsh/site-functions ]]; then
   fpath=(/usr/local/share/zsh/site-functions $fpath)
@@ -58,7 +53,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache
 
-# --- 7. Keybindings ---
+# --- Keybindings ---
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
 
@@ -66,7 +61,7 @@ bindkey '^[[B' history-beginning-search-forward
 bindkey "\e[1;3C" emacs-forward-word
 bindkey "\e[1;3D" emacs-backward-word
 
-# --- 8. Prompt Logic ---
+# --- Prompt Logic ---
 # Use complex fonts only on compatible terminal
 if [[ ${TERM} =~ ("256color") ]]; then
   prompt_symbol="❯"
@@ -92,3 +87,8 @@ function precmd() {
     PROMPT="%{$fg[green]%}%n%{$fg[cyan]%}@%M%{$fg_bold[blue]%}${ssh_symbol} ${status_color}${prompt_symbol} %{$reset_color%}"
   fi
 }
+
+# --- Environment Loading ---
+for envfile in ~/.rc/sh.d/[LSZ][0-9][0-9]*[^~](N); do
+  source "$envfile"
+done
