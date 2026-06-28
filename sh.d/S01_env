@@ -50,6 +50,7 @@ fi
 
 if [[ -f "${HOME}/.local/bin/mise" ]]; then
   eval "$(~/.local/bin/mise activate "${running_shell}")"
+  eval "$(~/.local/bin/mise completion "${running_shell}")"
 fi
 
 #kube-ps1 settings
