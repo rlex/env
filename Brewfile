@@ -8,7 +8,7 @@ if OS.mac?
   brew 'arping'
   brew 'awscli'
   brew 'bash'
-  brew 'bash-completion'
+  brew 'bash-completion@2'
   brew 'btop'
   brew 'certigo'
   brew 'container'
