@@ -1,8 +1,10 @@
 [tools]
+# --- Aqua repositories ---
 "aqua:ahmetb/kubectx" = "latest"
 "aqua:ahmetb/kubectx/kubens" = "latest"
 "aqua:kubernetes/kubernetes/kubectl" = "latest"
-"aqua:pre-commit/pre-commit" = "latest"
+# ---Github repositories ---
+"github:betterleaks/betterleaks" = "latest"
 "github:burntsushi/ripgrep" = "latest"
 "github:can1357/oh-my-pi" = "latest"
 "github:cilium/cilium-cli" = "latest"
@@ -31,12 +33,15 @@
 "github:koalaman/shellcheck" = "latest"
 "github:kubernetes-sigs/krew" = "latest"
 "github:lance0/ttl" = "latest"
+"github:modem-dev/hunk" = "latest"
 "github:mvdan/sh" = {
   version = "latest",
   bin = "shfmt"
 }
 "github:nektos/act" = "latest"
+"github:nolabs-ai/nono" = "latest"
 "github:norwoodj/helm-docs" = "latest"
+"github:ogulcancelik/herdr" = "latest"
 "github:openai/codex" = {
   version = "latest",
   bin = "codex",
@@ -48,17 +53,29 @@
   matching = "codex-*.tar.gz"
 }
 "github:opentofu/opentofu" = "latest"
+"github:orf/gping" = "latest"
+"github:pre-commit/pre-commit" = {
+  version = "latest",
+  bin = "pre-commit"
+}
 "github:quietpublish/mardi-gras" = "latest"
 "github:sinelaw/fresh" = "latest"
 "github:tombi-toml/tombi" = "latest"
 "github:velero-io/velero" = "latest"
+"github:yt-dlp/yt-dlp" = {
+  version = "latest",
+  bin = "yt-dlp"
+}
+# --- Krew repositories
 "krew:access-matrix" = "latest"
 "krew:gadget" = "latest"
 "krew:tree" = "latest"
 "krew:volsync" = "latest"
 "krew:ctx" = "latest"
 "krew:ns" = "latest"
+# --- NPM repositories ---
 "npm:@earendil-works/pi-coding-agent" = "latest"
+# --- Builtin repositories ---
 bun = "latest"
 go = {
   version = "latest",
@@ -88,6 +105,7 @@ ruby = {
 }
 rust = "latest"
 uv = "latest"
+usage = "latest"
 
 [plugins]
 krew = "https://github.com/soupglasses/mise-krew"
