@@ -114,6 +114,7 @@ krew = "https://github.com/soupglasses/mise-krew"
 minimum_release_age = "1d"
 not_found_auto_install = false
 experimental = true
+trusted_config_paths = ["~/.rc/.config/mise"]
 
 [settings.npm]
 package_manager = "bun"
