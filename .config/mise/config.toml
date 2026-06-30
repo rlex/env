@@ -4,7 +4,11 @@
 "aqua:ahmetb/kubectx/kubens" = "latest"
 "aqua:kubernetes/kubernetes/kubectl" = "latest"
 # ---Github repositories ---
-"github:betterleaks/betterleaks" = "latest"
+#"github:betterleaks/betterleaks" = "latest"
+"github:bitnami/sealed-secrets" = {
+  version = "latest",
+  matching = "kubeseal"
+}
 "github:burntsushi/ripgrep" = "latest"
 "github:can1357/oh-my-pi" = "latest"
 "github:cilium/cilium-cli" = "latest"
@@ -30,6 +34,7 @@
 "github:jdx/pitchfork" = "latest"
 "github:jesseduffield/lazygit" = "latest"
 "github:junegunn/fzf" = "latest"
+"github:jqlang/jq" = "latest"
 "github:koalaman/shellcheck" = "latest"
 "github:kubernetes-sigs/krew" = "latest"
 "github:lance0/ttl" = "latest"
@@ -58,9 +63,15 @@
   version = "latest",
   bin = "pre-commit"
 }
+"github:projectcalico/calico" = {
+  version = "latest",
+  matching = "calicoctl"
+}
 "github:quietpublish/mardi-gras" = "latest"
-"github:sinelaw/fresh" = "latest"
+#"github:sinelaw/fresh" = "latest"
+"github:sxyazi/yazi" = "latest"
 "github:tombi-toml/tombi" = "latest"
+"github:trufflesecurity/trufflehog" = "latest"
 "github:velero-io/velero" = "latest"
 "github:yt-dlp/yt-dlp" = {
   version = "latest",
@@ -73,8 +84,6 @@
 "krew:volsync" = "latest"
 "krew:ctx" = "latest"
 "krew:ns" = "latest"
-# --- NPM repositories ---
-"npm:@earendil-works/pi-coding-agent" = "latest"
 # --- Builtin repositories ---
 bun = "latest"
 go = {
