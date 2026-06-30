@@ -48,7 +48,6 @@ if OS.mac?
   brew 'mtr'
   brew 'mutt'
   brew 'nmap'
-  brew 'nono'
   brew 'openssh'
   brew 'pigz'
   brew 'privoxy'
@@ -121,8 +120,3 @@ if OS.mac?
   mas 'Windows App', id: 1295203466
   mas 'Wireguard', id: 1451685025
 end
-
-# Installs on both linux & osx
-# kubernetes stuff
-brew 'calicoctl'
-brew 'kubeseal'
