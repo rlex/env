@@ -166,6 +166,10 @@ env_housekeeper() {
     vim +PlugUpdate +PlugUpgrade +PlugClean +qall
   fi
   echo -e "${COLOR_GREEN}Housekeeping finished${COLOR_RESET}"
+  if hash softwareupdate 2>/dev/null; then
+    echo -e "${COLOR_CYAN}Updating OS X softare${COLOR_RESET}"
+    softwareupdate -i -a
+  fi
 }
 
 compare_brewfile() {
