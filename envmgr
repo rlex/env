@@ -197,6 +197,10 @@ compare_brewfile() {
 prepare_osx() {
   # wipe away default icons
   defaults write com.apple.dock persistent-apps -array && killall Dock
+  # install xcode command line tools
+  xcode-select --install
+  # install rosetta
+  softwareupdate --install-rosetta --agree-to-license
 }
 
 # Arguments parsing
