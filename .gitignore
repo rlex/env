@@ -19,6 +19,12 @@
 
 ### MISE ###
 .config/mise/conf.d/l*
+.config/mise/mise.local.toml
+
+### HERDR ###
+.config/herdr/herdr*
+.config/herdr/session.json
+.config/herdr/plugins*
 
 ### Envmgr ###
 .bin/envmgr
