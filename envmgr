@@ -148,7 +148,7 @@ env_housekeeper() {
   if hash brew 2>/dev/null; then
     echo -e "${COLOR_CYAN}Updating and cleaning up homebrew${COLOR_RESET}"
     brew update
-    brew upgrade
+    brew upgrade -y
     brew cleanup
   fi
   # Update mise
