@@ -8,8 +8,8 @@
 # create ~/.mutt/pwd file with set imap_pass = "pass" and set smtp_pass = "pass"
 # gpg -r id -e ~/.mutt/pwd
 # mv ~/.mutt/pwd.gpg ~/.mutt/pwd
-# add that line to .localprofile - source "gpg -d ~/.mutt/pwd |"
-# replace "source "gpg -d ~/.mutt/.localprofile |"" with "source ~/.mutt/.localprofile"
+# add that line to .localprofile - source "gpg -dq ~/.mutt/pwd |"
+# replace "source "gpg -dq ~/.mutt/.localprofile |"" with "source ~/.mutt/.localprofile"
 
 # Setup GPG if needed
 #for classic GPG encryption
@@ -28,7 +28,7 @@
 #set trash = "imaps://imap.gmail.com/[Gmail]/Trash"
 #set smtp_url = "smtp://user@example.org@smtp.gmail.com:587/"
 #set smtp_pass = "password"
-## end 
+## end
 
 ## IMAP example (fastmail)
 #set from = "user@example.com"

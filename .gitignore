@@ -13,6 +13,7 @@
 .mutt/certificates
 .mutt/*.gpg
 .mutt/cache
+.mutt/pwd
 
 ### MC ###
 .config/mc/panels.ini

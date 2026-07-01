@@ -68,4 +68,7 @@ source `case $TERM in\
         esac`
 
 #load profile
-source "gpg -d ~/.mutt/.localprofile |"
+#plaintext
+source ~/.mutt/.localprofile
+#encrypted
+#source "gpg -dq ~/.mutt/.localprofile |"
