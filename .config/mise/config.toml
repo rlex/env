@@ -46,6 +46,7 @@
   bin = "shfmt"
 }
 "github:nektos/act" = "latest"
+"github:neovim/neovim" = "latest"
 "github:nolabs-ai/nono" = "latest"
 "github:norwoodj/helm-docs" = "latest"
 "github:ogulcancelik/herdr" = "latest"
