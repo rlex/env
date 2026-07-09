@@ -4,6 +4,7 @@
 "aqua:ahmetb/kubectx/kubens" = "latest"
 "aqua:kubernetes/kubernetes/kubectl" = "latest"
 # ---Github repositories ---
+"github:anomalyco/opencode" = "latest"
 "github:betterleaks/betterleaks" = "latest"
 "github:bitnami/sealed-secrets" = {
   version = "latest",
@@ -72,6 +73,7 @@
 }
 "github:quietpublish/mardi-gras" = "latest"
 "github:sharkdp/bat" = "latest"
+"github:sharkdp/fd" = "latest"
 "github:sinelaw/fresh" = "latest"
 "github:sxyazi/yazi" = "latest"
 "github:tombi-toml/tombi" = "latest"
