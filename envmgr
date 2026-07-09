@@ -4,6 +4,9 @@
 # Also upgrades, cleanups homebrew and similar stuff in single command
 # Actually absurdly ugly, but hey, it works! Somehow.
 
+# Trap ctrl-c
+trap 'exit 130' INT
+
 # colors
 COLOR_RESET="$(tput sgr0)"
 COLOR_GREEN="$(tput setaf 2)"
