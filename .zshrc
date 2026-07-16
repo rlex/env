@@ -63,7 +63,7 @@ bindkey "\e[1;3D" emacs-backward-word
 
 # --- Prompt Logic ---
 # Use complex fonts only on compatible terminal
-if [[ ${TERM} =~ ("256color") ]]; then
+if [[ ${TERM} =~ ("256color|xterm-kitty") ]]; then
   prompt_symbol="❯"
   ssh_symbol=" ⇣⇡"
 else
