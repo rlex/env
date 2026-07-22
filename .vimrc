@@ -1,6 +1,5 @@
 "{{{ Generic params
 set encoding=utf8                   " normal encoding
-set termencoding=utf-8              " terminal encoding
 set nocompatible                    " no vi manner
 set ruler                           " cursor position always enabled
 set showcmd                         " show commands
@@ -29,8 +28,6 @@ set foldmethod=marker               " With {{{,}}} markers
 set viminfo=\'100,\"500,:100"       " read/write a .viminfo file --"Limit regs to 500 lines
 set showmatch                       " show matching brackets and etc
 set wildmenu                        " Filesystem via :e
-set fileencodings=utf-8,cp1251      " Well, sometimes i edit files from win.
-set cryptmethod=blowfish
 set number
 set shortmess=I
 " Tabulation params
@@ -196,7 +193,9 @@ call SMap("<F3>", ":make<cr>")
 call SMap("<F5>", ":TaskList<cr>")
 
 " F8 - toggle pasting mode
-set pastetoggle=<F8>
+if !has('nvim')
+  set pastetoggle=<F8>
+endif
 
 " F9 - TagList
 call SMap("<F9>", ":TlistToggle<cr>")
@@ -360,33 +359,34 @@ let g:SrcExpl_updateTagsKey = "<F12>" "Set F12 key for updating the tags file ar
 " }}}
 
 " {{{ cscope
-"ie both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-set cscopetag
+if !has('nvim')
+  "ie both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+  set cscopetag
 
-" check cscope for definition of a symbol before checking ctags: set to 1
-" if you want the reverse search order.
-set csto=1
+  " check cscope for definition of a symbol before checking ctags: set to 1
+  " if you want the reverse search order.
+  set csto=1
 
-" add any cscope database in current directory
-if filereadable("cscope.out")
-  cs add cscope.out
-" else add the database pointed to by environment variable
-elseif $CSCOPE_DB != ""
-  cs add $CSCOPE_DB
+  " add any cscope database in current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+  " else add the database pointed to by environment variable
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+
+  " show msg when any other cscope db added
+  set cscopeverbose
+  autocmd FileType python set omnifunc=pythoncomplete#Complete
+  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+  autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+  autocmd FileType c set omnifunc=ccomplete#Complete
+  autocmd FileType rb,rake,ruby,eruby set omnifunc=rubycomplete#Complete
+  autocmd FileType rb,rake,ruby set noexpandtab
 endif
-
-" show msg when any other cscope db added
-set cscopeverbose
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType rb,rake,ruby,eruby set omnifunc=rubycomplete#Complete
-autocmd FileType rb,rake,ruby set noexpandtab
-
 " }}}
 
 " {{{ Various fixes
