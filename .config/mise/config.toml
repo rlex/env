@@ -19,6 +19,8 @@
 "github:carapace-sh/carapace-bin" = "latest"
 "github:charmbracelet/glow" = "latest"
 "github:cilium/cilium-cli" = "latest"
+# not sure about that one
+"github:colbymchenry/codegraph" = "latest"
 "github:dandavison/delta" = "latest"
 "github:databus23/helm-diff" = {
   version = "latest",
@@ -27,6 +29,7 @@
   rename_exe = "helm-diff"
 }
 "github:derailed/k9s" = "latest"
+"github:deusdata/codebase-memory-mcp" = "latest"
 "github:dicklesworthstone/destructive_command_guard" = "latest"
 "github:docker/docker-language-server" = "latest"
 "github:entireio/cli" = "latest"
@@ -45,6 +48,7 @@
 "github:jesseduffield/lazygit" = "latest"
 "github:junegunn/fzf" = "latest"
 "github:jqlang/jq" = "latest"
+"github:kenn-io/agentsview" = "latest"
 "github:kenn-io/kata" = "latest"
 "github:kenn-io/roborev" = "latest"
 "github:koalaman/shellcheck" = "latest"
