@@ -65,6 +65,7 @@
   version = "latest",
   bin = "shfmt"
 }
+"github:nao1215/gup" = "latest"
 "github:natesales/q" = "latest"
 "github:nektos/act" = "latest"
 "github:neovim/neovim" = "latest"
