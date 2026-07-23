@@ -1,8 +1,5 @@
 # Installs on OSX only
 if OS.mac?
-  tap 'mas-cli/tap', trusted: {
-    formula: 'mas-cli'
-  }
   # Brews
   brew 'ack'
   brew 'arping'
@@ -44,6 +41,7 @@ if OS.mac?
   brew 'jq'
   brew 'lzo'
   brew 'm-cli'
+  brew 'mas'
   brew 'moreutils'
   brew 'mtr'
   brew 'mutt'

@@ -146,6 +146,9 @@ env_nuke() {
 
 # Checks for updates in env, homebrew, vim plugins and mac app store
 env_housekeeper() {
+if hash topgrade 2>/dev/null; then
+  topgrade
+else
   echo -e "${COLOR_CYAN}Started housekeeping${COLOR_RESET}"
   echo -e "${COLOR_CYAN}Updating dotfiles repo${COLOR_RESET}"
   git -C "${HOME}/.rc" pull
@@ -176,6 +179,7 @@ env_housekeeper() {
     echo -e "${COLOR_CYAN}Updating OS X softare${COLOR_RESET}"
     softwareupdate -i -a
   fi
+fi
 }
 
 compare_brewfile() {
