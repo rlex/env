@@ -60,6 +60,10 @@ bindkey '^[[B' history-beginning-search-forward
 # Kitty fix for option + left-right
 bindkey "\e[1;3C" emacs-forward-word
 bindkey "\e[1;3D" emacs-backward-word
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+bindkey "^[^H" backward-kill-word
+bindkey "^[^?" backward-kill-word
 
 # --- Prompt Logic ---
 # Use complex fonts only on compatible terminal
