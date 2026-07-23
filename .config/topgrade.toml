@@ -1,13 +1,16 @@
 [misc]
 pre_sudo = false
 disable = [
-  "rustup",
-  "vim",
-  "containers",
-  "uv",
+  # not needed
   "bun",
   "bun_packages",
-  "node"
+  "containers",
+  "node",
+  # vim already handles it
+  "nvim",
+  # mise managed
+  "rustup",
+  "uv",
 ]
 last = ["system"]
 assume_yes = true
@@ -16,3 +19,6 @@ show_skipped = false
 cleanup = true
 notify_end = "always"
 no_self_update = true
+
+[vim]
+force_plug_update = true
