@@ -20,6 +20,7 @@
 "github:cilium/cilium-cli" = "latest"
 # not sure about that one
 "github:colbymchenry/codegraph" = "latest"
+"github:cli/cli" = "latest"
 "github:dandavison/delta" = "latest"
 "github:databus23/helm-diff" = {
   version = "latest",
@@ -40,7 +41,9 @@
 "github:firecow/gitlab-ci-local" = "latest"
 "github:gastownhall/beads" = "latest"
 "github:getzola/zola" = "latest"
+"gitlab:gitlab-org/cli" = "latest"
 "github:google/osv-scanner" = "latest"
+"github:grafana/k6" = "latest"
 #"github:go-delve/delve" = "latest"
 "github:helmfile/helmfile" = "latest"
 "github:hmans/beans" = "latest"
