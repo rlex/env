@@ -32,6 +32,11 @@
 "github:deusdata/codebase-memory-mcp" = "latest"
 "github:dicklesworthstone/destructive_command_guard" = "latest"
 "github:docker/docker-language-server" = "latest"
+"github:editorconfig-checker/editorconfig-checker" = {
+  version = "latest",
+  bin = "ec",
+  strip_components = 1
+}
 "github:entireio/cli" = "latest"
 "github:firecow/gitlab-ci-local" = "latest"
 "github:gastownhall/beads" = "latest"
@@ -96,6 +101,7 @@
 "github:starship/starship" = "latest"
 "github:sxyazi/yazi" = "latest"
 "github:tombi-toml/tombi" = "latest"
+"github:topgrade-rs/topgrade" = "latest"
 "github:trufflesecurity/trufflehog" = "latest"
 "github:velero-io/velero" = "latest"
 "github:vmware-tanzu/sonobuoy" = "latest"

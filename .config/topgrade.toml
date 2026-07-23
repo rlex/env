@@ -1,0 +1,18 @@
+[misc]
+pre_sudo = false
+disable = [
+  "rustup",
+  "vim",
+  "containers",
+  "uv",
+  "bun",
+  "bun_packages",
+  "node"
+]
+last = ["system"]
+assume_yes = true
+ask_retry = false
+show_skipped = false
+cleanup = true
+notify_end = "always"
+no_self_update = true
