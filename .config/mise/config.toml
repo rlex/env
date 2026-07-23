@@ -16,7 +16,6 @@
 "github:burntsushi/ripgrep" = "latest"
 "github:byron/dua-cli" = "latest"
 "github:can1357/oh-my-pi" = "latest"
-"github:carapace-sh/carapace-bin" = "latest"
 "github:charmbracelet/glow" = "latest"
 "github:cilium/cilium-cli" = "latest"
 # not sure about that one
