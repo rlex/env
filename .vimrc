@@ -68,30 +68,30 @@ match ErrorMsg '\s\+$'
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-Plug 'Shougo/neocomplete'
-Plug 'chrisbra/SudoEdit.vim'
-Plug 'evidex/vim-puppet'
-Plug 'garbas/vim-snipmate'
-Plug 'godlygeek/tabular'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'honza/vim-snippets'
-Plug 'ghewgill/vim-scmdiff'
-Plug 'zainin/vim-mikrotik'
-Plug 'vim-airline/vim-airline'
-Plug 'bling/vim-bufferline'
-Plug 'darfink/vim-plist'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-eunuch'
-Plug 'kien/ctrlp.vim'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'tomtom/tlib_vim'
+Plug 'ap/vim-buftabline'
+Plug 'chr4/nginx.vim'
+Plug 'chrisbra/SudoEdit.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'darfink/vim-plist'
+Plug 'dense-analysis/ale'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'wincent/terminus'
+Plug 'ghewgill/vim-scmdiff'
+Plug 'godlygeek/tabular'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/vim-vsnip'
 Plug 'jontrainor/TaskList.vim'
-Plug 'sjl/gundo.vim'
+Plug 'mbbill/undotree'
+Plug 'rafamadriz/friendly-snippets'
+Plug 'scrooloose/nerdtree'
+Plug 'Shougo/ddc.vim'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-denops/denops.vim'
+Plug 'wincent/terminus'
+Plug 'zainin/vim-mikrotik'
 
 call plug#end()
 
@@ -338,54 +338,6 @@ if $TERM =~ "xterm" || $TERM =~ "rxvt" || $TERM =~ "screen" || &term =~ "builtin
 else
   let g:airline_theme='base16'
   let g:airline_powerline_fonts = 0
-endif
-" }}}
-
-" {{{ srcexpl
-let g:SrcExpl_winHeight = 8 " Set Source explorer height
-let g:SrcExpl_refreshTime = 100 " 100 ms to refresh
-let g:SrcExpl_jumpKey = "<ENTER>" " Set Enter key to jump into the exact definition context
-let g:SrcExpl_gobackKey = "<SPACE>" "Set Space key for back from the definition contex
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_",
-        \ "Source_Explorer"
-    \ ]
-let g:SrcExpl_searchLocalDef = 0 " Disable local def searching
-let g:SrcExpl_isUpdateTags = 1  " Update ctags automatically
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." " Use ctags with args
-let g:SrcExpl_updateTagsKey = "<F12>" "Set F12 key for updating the tags file artificially
-
-" }}}
-
-" {{{ cscope
-if !has('nvim')
-  "ie both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-  set cscopetag
-
-  " check cscope for definition of a symbol before checking ctags: set to 1
-  " if you want the reverse search order.
-  set csto=1
-
-  " add any cscope database in current directory
-  if filereadable("cscope.out")
-    cs add cscope.out
-  " else add the database pointed to by environment variable
-  elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-  endif
-
-  " show msg when any other cscope db added
-  set cscopeverbose
-  autocmd FileType python set omnifunc=pythoncomplete#Complete
-  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-  autocmd FileType c set omnifunc=ccomplete#Complete
-  autocmd FileType rb,rake,ruby,eruby set omnifunc=rubycomplete#Complete
-  autocmd FileType rb,rake,ruby set noexpandtab
 endif
 " }}}
 
