@@ -40,10 +40,13 @@ install_env() {
     *) dotfiles=("${genenv[@]}") && echo "${COLOR_YELLOW}No OS detected - using generic${COLOR_RESET}" ;;
   esac
   for file in "${dotfiles[@]}"; do
-  if [[ -e "${HOME}/${file}" && ! -L "${HOME}/${file}" ]]; then
-      echo "${COLOR_RED}Existing item detected at ${HOME}/${file}. Aborting${COLOR_RESET}" && exit 1
-  fi
-    symlink "${HOME}/.rc/.${file}" "${HOME}/.${file}"
+   local src="${HOME}/.rc/.${file}"
+   local dst="${HOME}/.${file}"
+   if [[ ( -e "${dst}" || -L "${dst}" ) && ! -L "${dst}" ]]; then
+     echo "${COLOR_RED}Existing item detected at ${dst}. Aborting${COLOR_RESET}"
+     exit 1
+   fi
+   symlink "${src}" "${dst}"
   done
   symlink "${HOME}/.rc/envmgr" "${HOME}/.rc/.bin/envmgr"
   cd - >&/dev/null || exit 1
