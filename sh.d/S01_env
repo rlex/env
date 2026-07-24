@@ -53,6 +53,13 @@ if [[ -f "${HOME}/.local/bin/mise" ]]; then
   eval "$(~/.local/bin/mise completion "${running_shell}")"
 fi
 
+if [[ ${OSTYPE} == darwin* ]]; then
+  export XDG_CONFIG_HOME="${HOME}/.config"
+  export XDG_CACHE_HOME="${HOME}/.local/cache"
+  export XDG_DATA_HOME="${HOME}/.local/share"
+  export XDG_STATE_HOME="${HOME}/.local/state"
+fi
+
 #kube-ps1 settings
 KUBE_PS1_SYMBOL_ENABLE=false
 KUBE_PS1_NS_ENABLE=false
