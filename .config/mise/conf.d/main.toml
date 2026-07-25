@@ -4,6 +4,7 @@
 "aqua:ahmetb/kubectx/kubens" = "latest"
 "aqua:kubernetes/kubernetes/kubectl" = "latest"
 "aqua:SonarSource/sonarqube-cli" = "latest"
+"aqua:aws/aws-cli" = "latest"
 # ---Github repositories ---
 "github:aquasecurity/tfsec" = "latest"
 "github:aquasecurity/trivy" = "latest"
@@ -33,10 +34,15 @@
 "github:entireio/cli" = "latest"
 "github:firecow/gitlab-ci-local" = "latest"
 "gitlab:gitlab-org/cli" = "latest"
+"github:google/magika" = {
+  version = "latest",
+  version_prefix = "cli/"
+}
 "github:google/osv-scanner" = "latest"
 "github:grafana/k6" = "latest"
 #"github:go-delve/delve" = "latest"
 "github:helmfile/helmfile" = "latest"
+"github:hetznercloud/cli" = "latest"
 "github:istio/istio" = {
   version = "latest",
   matching = "istioctl"
@@ -70,6 +76,7 @@
   },
   matching = "codex-*.tar.gz"
 }
+"github:opengrep/opengrep" = "latest"
 "github:opentofu/opentofu" = "latest"
 "github:orf/gping" = "latest"
 "github:pre-commit/pre-commit" = {
@@ -82,6 +89,8 @@
 }
 "github:quietpublish/mardi-gras" = "latest"
 "github:rhysd/actionlint" = "latest"
+"github:rvben/rumdl" = "latest"
+"github:scaleway/scaleway-cli" = "latest"
 "github:sharkdp/bat" = "latest"
 "github:sharkdp/fd" = "latest"
 "github:tombi-toml/tombi" = "latest"
