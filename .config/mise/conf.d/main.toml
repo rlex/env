@@ -31,7 +31,6 @@
   bin = "ec",
   strip_components = 1
 }
-"github:entireio/cli" = "latest"
 "github:firecow/gitlab-ci-local" = "latest"
 "gitlab:gitlab-org/cli" = "latest"
 "github:google/magika" = {
@@ -47,6 +46,7 @@
   version = "latest",
   matching = "istioctl"
 }
+"github:j178/prek" = "latest"
 "github:jdx/pitchfork" = "latest"
 "github:jdx/usage" = "latest"
 "github:jesseduffield/lazygit" = "latest"
@@ -79,10 +79,6 @@
 "github:opengrep/opengrep" = "latest"
 "github:opentofu/opentofu" = "latest"
 "github:orf/gping" = "latest"
-"github:pre-commit/pre-commit" = {
-  version = "latest",
-  bin = "pre-commit"
-}
 "github:projectcalico/calico" = {
   version = "latest",
   matching = "calicoctl"
