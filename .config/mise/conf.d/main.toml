@@ -18,12 +18,6 @@
 "github:can1357/oh-my-pi" = "latest"
 "github:cilium/cilium-cli" = "latest"
 "github:cli/cli" = "latest"
-"github:databus23/helm-diff" = {
-  version = "latest",
-  bin = "diff",
-  bin_path = "diff/bin",
-  rename_exe = "helm-diff"
-}
 "github:derailed/k9s" = "latest"
 "github:docker/docker-language-server" = "latest"
 "github:editorconfig-checker/editorconfig-checker" = {
@@ -115,7 +109,13 @@ go = {
     go install golang.org/x/tools/gopls@latest
   """
 }
-helm = "latest"
+helm = {
+  version = "latest",
+  postinstall = """
+    helm plugin install https://github.com/databus23/helm-diff --verify=false
+    helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false
+  """
+}
 node = {
   version = "latest",
   postinstall = '''
