@@ -100,6 +100,20 @@
 "krew:volsync" = "latest"
 "krew:ctx" = "latest"
 "krew:ns" = "latest"
+# --- Python ---
+"pipx:basedpyright" = "latest"
+"pipx:black" = "latest"
+"pipx:litecli" = "latest"
+"pipx:mycli" = "latest"
+"pipx:pgcli" = "latest"
+"pipx:ptpython" = "latest"
+"pipx:pylint" = "latest"
+"pipx:yapf" = "latest"
+# --- Bun stuff ---
+"npm:ansible-language-server" = "latest"
+"npm:bash-language-server" = "latest"
+"npm:gts" = "latest"
+"npm:typescript-language-server" = "latest"
 # --- Builtin repositories ---
 bun = "latest"
 deno = "latest"
@@ -117,17 +131,7 @@ helm = {
     helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false
   """
 }
-node = {
-  version = "latest",
-  postinstall = '''
-    bun install -g gts typescript-language-server bashls
-  '''
-}
-python = {
-  version = "latest",
-  postinstall = '''
-    pip install ptpython yapf pylint mycli pgcli litecli basedpyright pipx black
-  '''
-}
+node = "latest"
+python = "latest"
 rust = "latest"
 uv = "latest"
