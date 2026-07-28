@@ -6,8 +6,8 @@ disable = [
   "bun_packages",
   "containers",
   "node",
-  # vim already handles it
-  "nvim",
+  # manually managed
+  "vim",
   # mise managed
   "rustup",
   "uv",
@@ -19,6 +19,3 @@ show_skipped = false
 cleanup = true
 notify_end = "always"
 no_self_update = true
-
-[vim]
-force_plug_update = true
