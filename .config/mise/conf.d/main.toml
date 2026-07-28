@@ -84,6 +84,7 @@
 "github:sharkdp/bat" = "latest"
 "github:sharkdp/fd" = "latest"
 "github:tombi-toml/tombi" = "latest"
+"github:tree-sitter/tree-sitter" = "latest"
 "github:topgrade-rs/topgrade" = "latest"
 "github:trufflesecurity/trufflehog" = "latest"
 "github:velero-io/velero" = "latest"
