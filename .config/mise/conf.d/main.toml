@@ -4,7 +4,10 @@
 "aqua:ahmetb/kubectx/kubens" = "latest"
 "aqua:kubernetes/kubernetes/kubectl" = "latest"
 "aqua:SonarSource/sonarqube-cli" = "latest"
-"aqua:aws/aws-cli" = "latest"
+"aqua:aws/aws-cli" = {
+  version = "latest",
+  symlink_bins = true
+}
 # ---Github repositories ---
 "github:aquasecurity/tfsec" = "latest"
 "github:aquasecurity/trivy" = "latest"
