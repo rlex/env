@@ -7,7 +7,7 @@ fi
 running_shell=$(ps -p $$ -o comm= | sed 's/^-//; s#.*/##')
 
 # initial PATH
-export PATH="${HOME}/.rc/.bin:${PATH}"
+export PATH="${HOME}/.rc/.bin:${HOME}/.local/bin:${PATH}"
 
 if [[ -d "${HOME}/.linuxbrew" ]]; then
   eval "$(~/.linuxbrew/bin/brew shellenv)"
