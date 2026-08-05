@@ -36,8 +36,9 @@
 }
 "github:google/osv-scanner" = "latest"
 "github:grafana/k6" = "latest"
-#"github:go-delve/delve" = "latest"
+"github:go-delve/delve" = "1.26.3"
 "github:helmfile/helmfile" = "latest"
+"github:herdrdev/herdr" = "latest"
 "github:vectorize-io/hindsight" = "latest"
 "github:hetznercloud/cli" = "latest"
 "github:istio/istio" = {
@@ -63,7 +64,6 @@
 "github:neovim/neovim" = "latest"
 "github:nolabs-ai/nono" = "latest"
 "github:norwoodj/helm-docs" = "latest"
-"github:ogulcancelik/herdr" = "latest"
 "github:openai/codex" = {
   version = "latest",
   bin = "codex",
