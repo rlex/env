@@ -87,6 +87,7 @@
 "github:scaleway/scaleway-cli" = "latest"
 "github:sharkdp/bat" = "latest"
 "github:sharkdp/fd" = "latest"
+"github:smol-machines/smolvm" = "latest"
 "github:tombi-toml/tombi" = "latest"
 "github:tree-sitter/tree-sitter" = "latest"
 "github:topgrade-rs/topgrade" = "latest"
