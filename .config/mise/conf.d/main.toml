@@ -81,8 +81,8 @@
   version = "latest",
   matching = "calicoctl"
 }
-"github:quietpublish/mardi-gras" = "latest"
 "github:rhysd/actionlint" = "latest"
+"github:rtk-ai/rtk" = "latest"
 "github:rvben/rumdl" = "latest"
 "github:scaleway/scaleway-cli" = "latest"
 "github:sharkdp/bat" = "latest"
