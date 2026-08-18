@@ -51,9 +51,11 @@ install_env() {
   symlink "${HOME}/.rc/envmgr" "${HOME}/.rc/.bin/envmgr"
   cd - >&/dev/null || exit 1
   echo -e "${COLOR_GREEN}Finished deploying dotfiles${COLOR_RESET}"
-  echo -e "${COLOR_CYAN}Installing vim plugins${COLOR_RESET}"
-  vim +PlugInstall +qall
-  echo -e "${COLOR_GREEN}Finished installing vim plugins${COLOR_RESET}"
+  if hash vim 2>/dev/null; then
+    echo -e "${COLOR_CYAN}Installing vim plugins${COLOR_RESET}"
+    vim +PlugInstall +qall
+    echo -e "${COLOR_GREEN}Finished installing vim plugins${COLOR_RESET}"
+  fi
 }
 
 # Install mise and tools (python, node, ruby, golang)
