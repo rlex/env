@@ -81,7 +81,9 @@
   version = "latest",
   matching = "calicoctl"
 }
+"github:rancher/k3k" = "latest"
 "github:rhysd/actionlint" = "latest"
+"github:rust-lang/rust-analyzer" = "latest"
 "github:rtk-ai/rtk" = "latest"
 "github:rvben/rumdl" = "latest"
 "github:scaleway/scaleway-cli" = "latest"
