@@ -1,12 +1,6 @@
 ### VIM ###
-.vim/swap/undodir/*
-.vim/swap/*
-.vim/backup/*
-.vim/.netrwhist
-.vim/bundle/vundle/.netrwhist
-.vim/bundle/*
-.vim/plugged/*
-.vim/autoload/plug.vim.old
+.config/vim/plugged/
+.config/vim/autoload/plug.vim.old
 
 ### MUTT ###
 .config/mutt/localprofile

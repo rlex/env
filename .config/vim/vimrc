@@ -10,9 +10,6 @@ set scrolljump=7                    " Jump with scroll
 set scrolloff=7                     " Scroll when near screen edge
 set novisualbell                    " Disable bell
 set t_vb=                           " Really disable
-set undodir=~/.vim/tmp/undo//       " Undo directory, gitignored
-set backupdir=~/.vim/tmp/backup//   " Backup directory, gitignored
-set directory=~/.vim/tmp/swap//     " Swap directory, gitignored
 set hidden                          " Enable unsaved buffer
 set ch=1                            " Command line - one line high
 set mousehide                       " Hide mouse cursor
@@ -38,13 +35,64 @@ set sw=4
 set sts=4
 set nolist
 set expandtab
-" Persistent undo. Only in vim >= 7.3
-if exists('+undofile')
-    set undodir=~/.vim/swap
+" XDG Base Directory fallbacks
+if empty($XDG_CONFIG_HOME)
+  let $XDG_CONFIG_HOME = $HOME . '/.config'
+endif
+
+if empty($XDG_DATA_HOME)
+  let $XDG_DATA_HOME = $HOME . '/.local/share'
+endif
+
+if empty($XDG_STATE_HOME)
+  let $XDG_STATE_HOME = $HOME . '/.local/state'
+endif
+
+if !has('nvim')
+  " Replace ~/.vim for configuration, plugins, syntax files, etc.
+  set runtimepath^=$XDG_CONFIG_HOME/vim
+  set runtimepath+=$XDG_DATA_HOME/vim
+  set runtimepath+=$XDG_CONFIG_HOME/vim/after
+
+  " Locations searched for packages
+  set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+  set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
+
+  " XDG state directories
+  let s:vim_state = $XDG_STATE_HOME . '/vim'
+
+  let s:vim_undo   = s:vim_state . '/undo'
+  let s:vim_backup = s:vim_state . '/backup'
+  let s:vim_swap   = s:vim_state . '/swap'
+  let s:vim_view   = s:vim_state . '/view'
+
+  " Create directories before using them
+  call mkdir(s:vim_undo,   'p', 0700)
+  call mkdir(s:vim_backup, 'p', 0700)
+  call mkdir(s:vim_swap,   'p', 0700)
+  call mkdir(s:vim_view,   'p', 0700)
+
+  " Backup, swap, undo, and view files
+  " The trailing // preserves the original file's full path in the name.
+  execute 'set backupdir=' . escape(s:vim_backup, ' ')
+  execute 'set directory=' . escape(s:vim_swap, ' ')
+  execute 'set undodir=' . escape(s:vim_undo, ' ')
+  execute 'set viewdir=' . escape(s:vim_view, ' ')
+
+  " Persistent undo; available since Vim 7.3
+  if exists('+undofile')
     set undofile
     set undolevels=1000
     set undoreload=10000
+  endif
+
+  " Vim state file
+  set viminfofile=$XDG_STATE_HOME/vim/viminfo
 endif
+
+" Optional cleanup of script-local variables
+unlet s:vim_state s:vim_undo s:vim_backup s:vim_swap s:vim_view
+
 " Turn on syntax highlighting
 syntax on
 " Status line settings
