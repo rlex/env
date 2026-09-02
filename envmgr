@@ -56,6 +56,13 @@ install_env() {
     vim +PlugInstall +qall
     echo -e "${COLOR_GREEN}Finished installing vim plugins${COLOR_RESET}"
   fi
+  for file in "${outdatedenv[@]}"; do
+    local dst="${HOME}/.${file}"
+    if [[ -L "${dst}" ]]; then
+      echo "${COLOR_GREEN}Removing outdated symlink ${dst}${COLOR_RESET}"
+      rm "${dst}"
+    fi
+  done
 }
 
 # Install mise and tools (python, node, ruby, golang)
