@@ -32,6 +32,11 @@ export PAGER="less"
 export GREP_COLOR="1;32"
 export LESSCHARSET="UTF-8"
 
+#Hardwire overrides
+export ACKRC="${XDG_CONFIG_HOME:-$HOME/.config}/ack/ackrc"
+export SCREENRC="${XDG_CONFIG_HOME:-$HOME/.config}/screen/screenrc"
+export MAILCAPS="${XDG_CONFIG_HOME:-$HOME/.config}/mailcap/mailcap"
+
 #'less' colors for colored manpages
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
@@ -53,9 +58,11 @@ if [[ -f "${HOME}/.local/bin/mise" ]]; then
   eval "$(~/.local/bin/mise completion "${running_shell}")"
 fi
 
+# OSX doesn't support XDG natively, but majority of apps will happily follow
+# Except rust apps using dirs crate, of course, because it's rust
 if [[ ${OSTYPE} == darwin* ]]; then
   export XDG_CONFIG_HOME="${HOME}/.config"
-  export XDG_CACHE_HOME="${HOME}/.local/cache"
+  export XDG_CACHE_HOME="${HOME}/.cache"
   export XDG_DATA_HOME="${HOME}/.local/share"
   export XDG_STATE_HOME="${HOME}/.local/state"
 fi

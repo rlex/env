@@ -1,3 +1,4 @@
+#:tombi schema.strict = false
 [settings]
 minimum_release_age = "1d"
 not_found_auto_install = false

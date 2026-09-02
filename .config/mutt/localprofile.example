@@ -1,21 +1,21 @@
-## Save this as ~/.mutt/.localprofile - this file will be sourced upon load
+## Save this as ~/.config/mutt/localprofile - this file will be sourced upon load
 ## It must contain machine-specific and private data, see below for example
 ## Can (and should!) be encrypted with GPG:
-# gpg -r your_gpg_id -e ~/.mutt/.localprofile
-# mv ~/.mutt/.localprofile.gpg ~/.mutt/.localprofile
+# gpg -r your_gpg_id -e ~/.config/mutt/localprofile
+# mv ~/.config/mutt/localprofile.gpg ~/.config/mutt/localprofile
 
 # If you don't like full profile encrypton, at least encrypt your passwords:
 # create ~/.mutt/pwd file with set imap_pass = "pass" and set smtp_pass = "pass"
 # gpg -r id -e ~/.mutt/pwd
 # mv ~/.mutt/pwd.gpg ~/.mutt/pwd
 # add that line to .localprofile - source "gpg -dq ~/.mutt/pwd |"
-# replace "source "gpg -dq ~/.mutt/.localprofile |"" with "source ~/.mutt/.localprofile"
+# replace "source "gpg -dq ~/.config/mutt/localprofile |"" with "source ~/.config/mutt/localprofile"
 
 # Setup GPG if needed
 #for classic GPG encryption
-#source ~/.mutt/.gpgrc
+#source ~/.config/mutt/gpgrc
 #if your mutt supports gpgme (you can check with "mutt -v | grep gpgme")
-#source ~/.mutt/.gpgme
+#source ~/.config/mutt/gpgme
 
 ## IMAP example (gmail)
 #set from = "user@example.org"
@@ -57,8 +57,8 @@
 ## end
 
 ##caching settings, you can redirect it to /dev/null for example
-#set header_cache = "~/.mutt/.cache"
-#set message_cachedir = "~/.mutt/.cache"
+#set header_cache = "~/.config/mutt/cache"
+#set message_cachedir = "~/.config/mutt/cache"
 
 ##GPG default key
 #set pgp_sign_as=0x0000000000000000

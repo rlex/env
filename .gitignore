@@ -9,11 +9,9 @@
 .vim/autoload/plug.vim.old
 
 ### MUTT ###
-.mutt/.localprofile
-.mutt/certificates
-.mutt/*.gpg
-.mutt/cache
-.mutt/pwd
+.config/mutt/localprofile
+.config/mutt/*.gpg
+.config/mutt/pwd
 
 ### MC ###
 .config/mc/panels.ini

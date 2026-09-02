@@ -1,5 +1,5 @@
 set abort_nosubject=no
-set alias_file = ~/.mutt/.aliases
+set alias_file = ~/.config/mutt/aliases
 set attach_format = "%u%D%I %t[%1.2n] %.40d %> [ %.10m/%.14M, %s ] "
 set charset="utf-8"
 set check_new
@@ -33,9 +33,9 @@ set timeout=15
 set use_envelope_from
 
 #cache settings
-set header_cache = "~/.mutt/cache/headers"
-set message_cachedir = "~/.mutt/cache/bodies"
-set certificate_file = "~/.mutt/cache/certificates"
+set header_cache = "~/.local/cache/mutt/headers"
+set message_cachedir = "~/.local/cache/mutt/bodies"
+set certificate_file = "~/.local/cache/mutt/certificates"
 
 unset maildir_header_cache_verify
 unset arrow_cursor
@@ -63,12 +63,12 @@ alternative_order text/plain text/html text/enriched
 auto_view text/html text/enriched application/x-gunzip application/postscript image/gif application/x-tar-gz application/pdf image/jpeg image/jpg
 
 source `case $TERM in\
-          (xterm-256color|xterm|rxvt|rxvt-unicode) echo '~/.mutt/.mutt_color_256'; break;;\
-          *) echo '~/.mutt/.mutt_color'; break;;\
+          (xterm-256color|xterm|rxvt|rxvt-unicode|xterm-kitty) echo '~/.config/mutt/mutt_color_xoria256'; break;;\
+          *) echo '~/.config/mutt/mutt_color_256'; break;;\
         esac`
 
 #load profile
 #plaintext
-source ~/.mutt/.localprofile
+source ~/.config/mutt/localprofile
 #encrypted
-#source "gpg -dq ~/.mutt/.localprofile |"
+#source "gpg -dq ~/.config/mutt/localprofile |"

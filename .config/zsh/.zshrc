@@ -4,7 +4,7 @@ setopt NO_HUP
 setopt AUTO_CD
 
 # --- History ---
-HISTFILE="$HOME/.zsh-history"
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
 SAVEHIST=10000
 HISTSIZE=10000
 # share_history implies append_history and inc_append_history
@@ -29,7 +29,7 @@ if [[ -d /opt/homebrew/share/zsh-completions ]]; then
 fi
 
 # Re-run compinit to pick up the new fpath changes
-autoload -U compinit; compinit -i
+autoload -U compinit; compinit -d "${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh/zcompdump"
 
 # 1. Matcher/Fuzzy Logic
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive
