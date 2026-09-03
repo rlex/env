@@ -45,7 +45,6 @@ export LESSCHARSET="UTF-8"
 export ACKRC="${XDG_CONFIG_HOME:-$HOME/.config}/ack/ackrc"
 export SCREENRC="${XDG_CONFIG_HOME:-$HOME/.config}/screen/screenrc"
 export MAILCAPS="${XDG_CONFIG_HOME:-$HOME/.config}/mailcap/mailcap"
-export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
 
 #'less' colors for colored manpages
 export LESS_TERMCAP_mb=$'\E[01;31m'
