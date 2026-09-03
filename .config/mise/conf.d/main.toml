@@ -59,6 +59,7 @@
   version = "latest",
   bin = "shfmt"
 }
+"github:nao1215/gup" = "latest"
 "github:natesales/q" = "latest"
 "github:nektos/act" = "latest"
 "github:neovim/neovim" = "latest"
@@ -120,7 +121,7 @@
 "pipx:ruff" = "latest"
 "pipx:yamllint" = "latest"
 "pipx:yapf" = "latest"
-# --- Bun stuff ---
+# --- Node stuff ---
 "npm:ansible-language-server" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:gts" = "latest"
