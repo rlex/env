@@ -36,7 +36,7 @@
 }
 "github:google/osv-scanner" = "latest"
 "github:grafana/k6" = "latest"
-"github:go-delve/delve" = "1.26.3"
+"github:go-delve/delve" = "latest"
 "github:helmfile/helmfile" = "latest"
 "github:herdrdev/herdr" = "latest"
 "github:vectorize-io/hindsight" = "latest"
