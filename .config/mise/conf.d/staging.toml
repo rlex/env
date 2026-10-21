@@ -2,7 +2,6 @@
 # Main config only keeps stuff i actually use
 [tools]
 # ---Github repositories ---
-"github:anomalyco/opencode" = "latest"
 "github:charmbracelet/glow" = "latest"
 "github:dandavison/delta" = "latest"
 "github:deusdata/codebase-memory-mcp" = "latest"
