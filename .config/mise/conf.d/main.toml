@@ -138,10 +138,10 @@ go = {
 }
 helm = {
   version = "latest",
-  postinstall = """
-    helm plugin install https://github.com/databus23/helm-diff --verify=false
-    helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false
-  """
+#  postinstall = """
+#    helm plugin install https://github.com/databus23/helm-diff --verify=false
+#    helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false
+#  """
 }
 node = "latest"
 python = {
